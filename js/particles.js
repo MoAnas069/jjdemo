@@ -274,6 +274,11 @@ export class GlitterSystem {
     this.edgeParticles = [];
     this.edgePointsData = [];
 
+    // Lock the logo font size on first init so it stays consistent
+    this._logoFontSize = null;
+    // Track width for smart resize (ignore height-only changes on mobile)
+    this._lastWidth = window.innerWidth;
+
     // Offscreen canvas for glow compositing
     this._offscreen = document.createElement('canvas');
     this._offCtx = this._offscreen.getContext('2d');
@@ -301,6 +306,12 @@ export class GlitterSystem {
     this.cy = h / 2;
   }
 
+  _computeFontSize() {
+    return this.isMobile
+      ? Math.min(this.w * 1.4, this.h * 1.1)
+      : Math.min(this.w * 0.35, this.h * 0.55);
+  }
+
   _init() {
     // ─── Layer 1: Background Atmosphere ───
     const atmCount = this.isMobile ? 400 : 900;
@@ -309,12 +320,16 @@ export class GlitterSystem {
     }
 
     // ─── Sample logo text ───
+    // Lock font size on first init so scatter→reform cycle stays consistent
+    if (!this._logoFontSize) {
+      this._logoFontSize = this._computeFontSize();
+    }
     const surfaceCount = this.isMobile ? 12000 : 28000;
     const { points, edgePoints } = sampleLogoPoints(
       this.initialText,
       { width: this.w * this.dpr, height: this.h * this.dpr },
       surfaceCount,
-      this.isMobile ? Math.min(this.w * 1.4, this.h * 1.1) : Math.min(this.w * 0.35, this.h * 0.55)
+      this._logoFontSize
     );
 
     this.edgePointsData = edgePoints.map(p => ({
@@ -352,7 +367,7 @@ export class GlitterSystem {
       text,
       { width: this.w * this.dpr, height: this.h * this.dpr },
       surfaceCount,
-      this.isMobile ? Math.min(this.w * 1.4, this.h * 1.1) : Math.min(this.w * 0.35, this.h * 0.55)
+      this._logoFontSize
     );
 
     this.edgePointsData = edgePoints.map(p => ({
@@ -395,8 +410,15 @@ export class GlitterSystem {
 
   _bind() {
     window.addEventListener('resize', () => {
+      const newWidth = window.innerWidth;
+      // On mobile, ignore height-only changes entirely (address bar hide/show)
+      if (this.isMobile && newWidth === this._lastWidth) {
+        return;
+      }
+      this._lastWidth = newWidth;
       this._resize();
-      // Rebuild particles on resize
+      // Width actually changed — recompute font size and rebuild
+      this._logoFontSize = this._computeFontSize();
       this.atmosphereParticles = [];
       this.surfaceParticles = [];
       this.edgeParticles = [];
