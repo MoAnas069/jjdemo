@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
    THE J — LUXURY DESIGN SYSTEM
-   Joel Joy Real Estate · Houston, Texas
+   JR Group Real Estate · Houston, Texas
    ═══════════════════════════════════════════════════════════════ */
 
 /* ─── TOKENS ───────────────────────────────────────────────── */
@@ -94,11 +94,13 @@ button, input, select, textarea {
 }
 .nav__logo {
   font-family: var(--ff-display);
-  font-size: 1.5rem;
+  font-size: 1.95rem;
   font-weight: 600;
   letter-spacing: -0.01em;
   white-space: nowrap;
   transition: opacity .3s;
+  display: flex;
+  align-items: center;
 }
 .nav__logo:hover { opacity: 0.85; }
 .nav__logo-j {
@@ -252,6 +254,7 @@ button, input, select, textarea {
 }
 .btn--gold-luxe:hover::after { opacity: 1; }
 
+/* Consultation CTA — animated border + glow + shimmer */
 .btn--outline-luxe {
   display: inline-flex;
   align-items: center;
@@ -262,18 +265,115 @@ button, input, select, textarea {
   text-transform: uppercase;
   padding: 1rem 2.5rem;
   border-radius: 2px;
-  border: 1px solid rgba(212,175,55,.4);
   color: var(--gold);
   background: transparent;
-  transition: all .35s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   min-width: 220px;
+  position: relative;
+  z-index: 1;
+  border: none;
+  /* Pulsing glow */
+  animation: cta-pulse 2.5s ease-in-out infinite;
+  transition: all .35s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+/* Rotating border — conic gradient on a pseudo-element */
+.btn--outline-luxe::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 4px;
+  padding: 2px;
+  background: conic-gradient(
+    from var(--border-angle, 0deg),
+    transparent 0%,
+    rgba(212,175,55,.1) 10%,
+    var(--gold) 20%,
+    rgba(240,225,170,.9) 25%,
+    var(--gold) 30%,
+    rgba(212,175,55,.1) 40%,
+    transparent 50%
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: rotate-border 3s linear infinite;
+  z-index: -1;
+}
+
+/* Shimmer sweep across text */
+.btn--outline-luxe::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 2px;
+  background: linear-gradient(
+    110deg,
+    transparent 20%,
+    rgba(212,175,55,.08) 40%,
+    rgba(240,225,170,.15) 50%,
+    rgba(212,175,55,.08) 60%,
+    transparent 80%
+  );
+  background-size: 250% 100%;
+  animation: shimmer-sweep 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
 .btn--outline-luxe:hover {
-  border-color: var(--gold);
-  background: rgba(212,175,55,.08);
-  box-shadow: 0 0 30px rgba(212,175,55,.12);
-  transform: translateY(-1px);
+  color: var(--bg);
+  background: var(--gold);
+  box-shadow:
+    0 0 30px rgba(212,175,55,.3),
+    0 0 60px rgba(212,175,55,.15),
+    0 0 100px rgba(212,175,55,.08);
+  transform: translateY(-2px) scale(1.02);
+}
+.btn--outline-luxe:hover::before {
+  opacity: 0;
+}
+.btn--outline-luxe:hover::after {
+  background: linear-gradient(
+    110deg,
+    transparent 20%,
+    rgba(255,255,255,.15) 45%,
+    rgba(255,255,255,.25) 50%,
+    rgba(255,255,255,.15) 55%,
+    transparent 80%
+  );
+  background-size: 250% 100%;
+}
+
+/* ─── CTA KEYFRAMES ──────────────────────────────────────── */
+@keyframes rotate-border {
+  0%   { --border-angle: 0deg; }
+  100% { --border-angle: 360deg; }
+}
+@keyframes cta-pulse {
+  0%, 100% {
+    box-shadow:
+      0 0 8px rgba(212,175,55,.08),
+      0 0 20px rgba(212,175,55,.04);
+  }
+  50% {
+    box-shadow:
+      0 0 20px rgba(212,175,55,.2),
+      0 0 50px rgba(212,175,55,.1),
+      0 0 80px rgba(212,175,55,.05);
+  }
+}
+@keyframes shimmer-sweep {
+  0%   { background-position: 150% center; }
+  100% { background-position: -50% center; }
+}
+
+/* Register custom property for conic-gradient animation */
+@property --border-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
 }
 
 /* ─── PAGE HERO (inner pages) ──────────────────────────────── */
@@ -437,7 +537,7 @@ button, input, select, textarea {
 }
 .explore-panel:hover .explore-panel__content p { color: var(--white); }
 
-/* ─── TESTIMONIALS ────────────────────────────────────────── */
+/* ─── TESTIMONIALS SLIDER ─────────────────────────────────── */
 .section--testimonials {
   padding: var(--section-py) 2rem;
 }
@@ -445,22 +545,39 @@ button, input, select, textarea {
   max-width: var(--content-mx);
   margin: 0 auto 3.5rem;
 }
-.testimonials-grid {
+
+/* Slider container */
+.testimonials-slider {
   max-width: var(--content-mx);
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.8rem;
+  position: relative;
 }
+
+/* Track wrapper — hides overflow */
+.slider-track-wrapper {
+  overflow: hidden;
+  border-radius: var(--radius);
+}
+
+/* Track — holds all cards in a row */
+.slider-track {
+  display: flex;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+/* Each card takes full width of the wrapper */
 .testimonial-card {
+  min-width: 100%;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 2.5rem 2rem;
-  transition: border-color .3s, box-shadow .4s, transform .4s;
+  padding: 3rem 2.8rem;
   display: flex;
   flex-direction: column;
   position: relative;
+  box-sizing: border-box;
+  transition: border-color .3s, box-shadow .4s;
 }
 .testimonial-card::before {
   content: '"';
@@ -468,29 +585,24 @@ button, input, select, textarea {
   top: 1.2rem;
   right: 1.5rem;
   font-family: var(--ff-display);
-  font-size: 4rem;
+  font-size: 5rem;
   color: var(--gold);
   opacity: 0.06;
   line-height: 1;
   pointer-events: none;
 }
-.testimonial-card:hover {
-  border-color: var(--gold-dim);
-  box-shadow: 0 8px 40px rgba(212,175,55,.1), inset 0 1px 0 rgba(212,175,55,.06);
-  transform: translateY(-4px);
-}
 .testimonial-card__stars {
   color: var(--gold);
-  font-size: 1rem;
+  font-size: 1.1rem;
   letter-spacing: 0.15em;
   margin-bottom: 1.5rem;
 }
 .testimonial-card__quote {
   font-family: var(--ff-display);
-  font-size: 1.05rem;
+  font-size: 1.15rem;
   font-weight: 400;
   font-style: italic;
-  line-height: 1.65;
+  line-height: 1.75;
   color: var(--white-dim);
   margin-bottom: 2rem;
   flex-grow: 1;
@@ -504,13 +616,56 @@ button, input, select, textarea {
 }
 .testimonial-card__name {
   font-weight: 600;
-  font-size: 0.92rem;
+  font-size: 0.95rem;
   color: var(--white);
 }
 .testimonial-card__detail {
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   color: var(--gold);
   letter-spacing: 0.04em;
+}
+
+/* Dot indicators */
+.slider-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+.slider-dot {
+  width: 28px;
+  height: 3px;
+  border-radius: 2px;
+  border: none;
+  background: rgba(212,175,55,.15);
+  cursor: pointer;
+  transition: all 0.4s ease;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+}
+.slider-dot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  border-radius: 2px;
+}
+.slider-dot:hover {
+  background: rgba(212,175,55,.3);
+}
+.slider-dot.active {
+  width: 48px;
+  background: rgba(212,175,55,.15);
+}
+.slider-dot.active::after {
+  animation: dot-progress 5s linear forwards;
+}
+@keyframes dot-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
 }
 
 /* ─── CONTENT BLOCKS ──────────────────────────────────────── */
@@ -986,7 +1141,7 @@ button, input, select, textarea {
 }
 .footer__logo {
   font-family: var(--ff-display);
-  font-size: 1.6rem;
+  font-size: 2.08rem;
   font-weight: 600;
 }
 .footer__brand p {
@@ -1055,7 +1210,6 @@ button, input, select, textarea {
   .editorial-layout { grid-template-columns: 1fr; gap: 2.5rem; }
   .editorial-portrait img { aspect-ratio: 16/10; }
   .contact-layout { grid-template-columns: 1fr; gap: 2.5rem; }
-  .testimonials-grid { grid-template-columns: 1fr; gap: 1.5rem; }
 }
 
 /* ─── MINI GLITTER SECTION (inner page decoration) ────────── */
@@ -1127,11 +1281,22 @@ button, input, select, textarea {
   }
 
   /* ── Nav ── */
-  .nav__inner { padding: 0.8rem 1.2rem; }
+  .nav__inner {
+    padding: 0.8rem 1.2rem;
+    position: relative;
+    justify-content: center;
+  }
   .nav__logo { font-size: 1.2rem; }
   .nav__links { display: none; }
   .nav__cta:not(.mobile-open) { display: none; }
-  .nav__burger { display: flex; z-index: 1100; }
+  .nav__burger {
+    display: flex;
+    z-index: 1100;
+    position: absolute;
+    right: 1.2rem;
+    top: 50%;
+    transform: translateY(-50%);
+  }
 
   .nav.menu-open {
     height: 100vh;
@@ -1290,10 +1455,6 @@ button, input, select, textarea {
   /* ── Testimonials ── */
   .section--testimonials { padding: var(--section-py) 1.2rem; }
   .testimonials-header { margin-bottom: 2rem; }
-  .testimonials-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
   .testimonial-card { padding: 1.8rem 1.5rem; }
   .testimonial-card__quote { font-size: 0.95rem; }
 
@@ -1393,7 +1554,7 @@ button, input, select, textarea {
   /* ── Footer ── */
   .footer__inner { padding: 2.5rem 1.5rem 1.5rem; }
   .footer__brand { margin-bottom: 2rem; }
-  .footer__logo { font-size: 1.3rem; }
+  .footer__logo { font-size: 1.69rem; }
   .footer__links {
     grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;

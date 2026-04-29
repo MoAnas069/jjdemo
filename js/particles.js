@@ -70,8 +70,8 @@ class AtmosphereParticle {
   constructor(w, h) {
     this.x = Math.random() * w;
     this.y = Math.random() * h;
-    this.size = 0.15 + Math.random() * 0.35;
-    this.baseAlpha = 0.02 + Math.random() * 0.06;
+    this.size = 0.4 + Math.random() * 0.8;
+    this.baseAlpha = 0.04 + Math.random() * 0.1;
     this.alpha = this.baseAlpha;
     this.vx = (Math.random() - 0.5) * 0.08;
     this.vy = -0.02 - Math.random() * 0.06;
@@ -88,7 +88,7 @@ class AtmosphereParticle {
     if (this.y < -5) { this.y = this.h + 5; this.x = Math.random() * this.w; }
     if (this.x < -5) this.x = this.w + 5;
     if (this.x > this.w + 5) this.x = -5;
-    this.alpha = this.baseAlpha + Math.sin(t * this.shimmerSpeed + this.shimmerOffset) * 0.02;
+    this.alpha = this.baseAlpha + Math.sin(t * this.shimmerSpeed + this.shimmerOffset) * 0.04;
   }
 
   draw(ctx) {
@@ -110,8 +110,8 @@ class SurfaceParticle {
     this.y = y + (Math.random() - 0.5) * 600;
     this.vx = 0;
     this.vy = 0;
-    this.size = 0.6 + Math.random() * 1.2;
-    this.baseAlpha = 0.55 + Math.random() * 0.35;
+    this.size = 1.2 + Math.random() * 2.4;
+    this.baseAlpha = 0.5 + Math.random() * 0.35;
     this.alpha = 0;
 
     // Multi-frequency shimmer for metallic effect
@@ -119,7 +119,7 @@ class SurfaceParticle {
     this.shimSpeed2 = 2.0 + Math.random() * 3.5;
     this.shimOff1 = Math.random() * Math.PI * 2;
     this.shimOff2 = Math.random() * Math.PI * 2;
-    this.shimInt = 0.12 + Math.random() * 0.25;
+    this.shimInt = 0.1 + Math.random() * 0.2;
 
     // Micro-drift (doesn't leave letter shape)
     this.driftAngle = Math.random() * Math.PI * 2;
@@ -143,10 +143,10 @@ class SurfaceParticle {
     this.alpha = this.baseAlpha + (s1 + s2) * this.shimInt;
 
     // Breathing glow
-    this.alpha += breathe * 0.08;
+    this.alpha += breathe * 0.06;
 
     if (this.isHighlight && s1 > 0.5) {
-      this.alpha = Math.min(1, this.alpha + 0.35);
+      this.alpha = Math.min(1, this.alpha + 0.3);
     }
     this.alpha = Math.max(0, Math.min(1, this.alpha));
 
@@ -188,7 +188,7 @@ class SurfaceParticle {
 
     // Highlight particles get a soft glow
     if (this.isHighlight && this.alpha > 0.5) {
-      ctx.globalAlpha = this.alpha * 0.3;
+      ctx.globalAlpha = this.alpha * 0.25;
       const s2 = this.size * 2.2;
       ctx.fillRect(this.x - s2 * 0.5, this.y - s2 * 0.5, s2, s2);
     }
@@ -202,7 +202,7 @@ class EdgeParticle {
     this.edgePoints = edgePoints;
     this.progress = Math.random();
     this.speed = 0.0002 + Math.random() * 0.0005;
-    this.size = 0.25 + Math.random() * 0.4;
+    this.size = 0.5 + Math.random() * 0.8;
     this.baseAlpha = 0;
     this.alpha = 0;
     this.color = goldColor(Math.floor(Math.random() * 3)); // brighter golds
@@ -232,7 +232,7 @@ class EdgeParticle {
     // Life cycle — fade in, sustain, fade out
     this.lifePhase += this.lifeSpeed * 0.016;
     const lifeCurve = Math.sin(this.progress * Math.PI); // 0→1→0 over edge path
-    this.alpha = lifeCurve * 0.4;
+    this.alpha = lifeCurve * 0.5;
 
     // Position along edge path
     const idx = Math.floor(this.progress * this.edgePoints.length);
@@ -303,18 +303,18 @@ export class GlitterSystem {
 
   _init() {
     // ─── Layer 1: Background Atmosphere ───
-    const atmCount = this.isMobile ? 80 : 220;
+    const atmCount = this.isMobile ? 400 : 900;
     for (let i = 0; i < atmCount; i++) {
       this.atmosphereParticles.push(new AtmosphereParticle(this.w, this.h));
     }
 
     // ─── Sample logo text ───
-    const surfaceCount = this.isMobile ? 4000 : 8000;
+    const surfaceCount = this.isMobile ? 12000 : 28000;
     const { points, edgePoints } = sampleLogoPoints(
       this.initialText,
       { width: this.w * this.dpr, height: this.h * this.dpr },
       surfaceCount,
-      this.isMobile ? Math.min(this.w * 0.75, this.h * 0.60) : Math.min(this.w * 0.35, this.h * 0.55)
+      this.isMobile ? Math.min(this.w * 1.4, this.h * 1.1) : Math.min(this.w * 0.35, this.h * 0.55)
     );
 
     this.edgePointsData = edgePoints.map(p => ({
@@ -330,7 +330,7 @@ export class GlitterSystem {
     }
 
     // ─── Layer 3: Edge Accent Particles ───
-    const edgeCount = this.isMobile ? 6 : 15;
+    const edgeCount = this.isMobile ? 25 : 50;
     for (let i = 0; i < edgeCount; i++) {
       this.edgeParticles.push(new EdgeParticle(this.edgePointsData));
     }
@@ -347,12 +347,12 @@ export class GlitterSystem {
 
   morphToText(text) {
     this.initialText = text;
-    const surfaceCount = this.isMobile ? 4000 : 8000;
+    const surfaceCount = this.isMobile ? 12000 : 28000;
     const { points, edgePoints } = sampleLogoPoints(
       text,
       { width: this.w * this.dpr, height: this.h * this.dpr },
       surfaceCount,
-      this.isMobile ? Math.min(this.w * 0.75, this.h * 0.60) : Math.min(this.w * 0.35, this.h * 0.55)
+      this.isMobile ? Math.min(this.w * 1.4, this.h * 1.1) : Math.min(this.w * 0.35, this.h * 0.55)
     );
 
     this.edgePointsData = edgePoints.map(p => ({
@@ -364,8 +364,8 @@ export class GlitterSystem {
       if (i < points.length) {
         p.homeX = points[i].x / this.dpr;
         p.homeY = points[i].y / this.dpr;
-        p.baseAlpha = 0.55 + Math.random() * 0.35;
-        p.size = 0.6 + Math.random() * 1.2;
+        p.baseAlpha = 0.5 + Math.random() * 0.35;
+        p.size = 1.2 + Math.random() * 2.4;
         p.scattered = false;
       } else {
         p.homeX = this.cx + (Math.random() - 0.5) * this.w * 0.85;
@@ -468,7 +468,7 @@ export class GlitterSystem {
     if (!this.isMobile) {
       mc.save();
       mc.filter = 'blur(2px)';
-      mc.globalAlpha = 0.35 + breathe * 0.04;
+      mc.globalAlpha = 0.4 + breathe * 0.05;
       mc.drawImage(this._offscreen, 0, 0, this.w, this.h);
       mc.restore();
     }
