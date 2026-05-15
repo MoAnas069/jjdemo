@@ -313,18 +313,14 @@ export class GlitterSystem {
   }
 
   _init() {
-    // ─── Layer 1: Background Atmosphere ───
-    const atmCount = this.isMobile ? 400 : 900;
-    for (let i = 0; i < atmCount; i++) {
-      this.atmosphereParticles.push(new AtmosphereParticle(this.w, this.h));
-    }
+    // ─── Layer 1: Background Atmosphere (Removed) ───
 
     // ─── Sample logo text ───
     // Lock font size on first init so scatter→reform cycle stays consistent
     if (!this._logoFontSize) {
       this._logoFontSize = this._computeFontSize();
     }
-    const surfaceCount = this.isMobile ? 12000 : 28000;
+    const surfaceCount = this.isMobile ? 5000 : 11800;
     const { points, edgePoints } = sampleLogoPoints(
       this.initialText,
       { width: this.w * this.dpr, height: this.h * this.dpr },
@@ -337,10 +333,11 @@ export class GlitterSystem {
       y: p.y / this.dpr
     }));
 
-    // ─── Layer 2: Logo Surface Particles ───
-    for (let i = 0; i < points.length; i++) {
+    // ─── Layer 2: Logo Surface Particles (Constant Count) ───
+    for (let i = 0; i < surfaceCount; i++) {
+      const pt = points[i % points.length];
       this.surfaceParticles.push(
-        new SurfaceParticle(points[i].x / this.dpr, points[i].y / this.dpr)
+        new SurfaceParticle(pt.x / this.dpr, pt.y / this.dpr)
       );
     }
 
@@ -362,7 +359,7 @@ export class GlitterSystem {
 
   morphToText(text) {
     this.initialText = text;
-    const surfaceCount = this.isMobile ? 12000 : 28000;
+    const surfaceCount = this.surfaceParticles.length;
     const { points, edgePoints } = sampleLogoPoints(
       text,
       { width: this.w * this.dpr, height: this.h * this.dpr },
@@ -376,18 +373,12 @@ export class GlitterSystem {
     }));
 
     this.surfaceParticles.forEach((p, i) => {
-      if (i < points.length) {
-        p.homeX = points[i].x / this.dpr;
-        p.homeY = points[i].y / this.dpr;
-        p.baseAlpha = 0.5 + Math.random() * 0.35;
-        p.size = 1.2 + Math.random() * 2.4;
-        p.scattered = false;
-      } else {
-        p.homeX = this.cx + (Math.random() - 0.5) * this.w * 0.85;
-        p.homeY = this.cy + (Math.random() - 0.5) * this.h * 0.85;
-        p.baseAlpha = 0.04 + Math.random() * 0.08;
-        p.size = 0.2 + Math.random() * 0.4;
-      }
+      const pt = points[i % points.length];
+      p.homeX = pt.x / this.dpr;
+      p.homeY = pt.y / this.dpr;
+      p.baseAlpha = 0.5 + Math.random() * 0.35;
+      p.size = 1.2 + Math.random() * 2.4;
+      p.scattered = false;
     });
 
     this.edgeParticles.forEach(ep => {
@@ -464,11 +455,7 @@ export class GlitterSystem {
     // Breathing glow — extremely subtle sinusoidal brightness variation
     const breathe = Math.sin(t * 0.3) * 0.5 + Math.sin(t * 0.17) * 0.3;
 
-    // ─── Layer 1: Background Atmosphere ───
-    for (const p of this.atmosphereParticles) {
-      p.update(t);
-      p.draw(oc);
-    }
+    // ─── Layer 1: Background Atmosphere (Removed) ───
 
     // ─── Layer 2: Logo Surface Particles ───
     for (const p of this.surfaceParticles) {
