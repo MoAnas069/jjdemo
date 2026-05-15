@@ -1978,7 +1978,7 @@ textarea {
   }
   
   .section.hero-scrolly {
-    min-height: 600vh;
+    min-height: 1000vh;
   }
 
   .hero__content {
@@ -1991,7 +1991,7 @@ textarea {
   }
 
   .hero__slogan span {
-    font-size: clamp(1.8rem, 8vw, 2.8rem);
+    font-size: clamp(2.5rem, 10vw, 3.5rem);
     white-space: normal;
     display: inline-block;
     max-width: 90vw;
@@ -2385,7 +2385,7 @@ textarea {
   }
 
   .hero__slogan span {
-    font-size: clamp(1.6rem, 7.5vw, 2rem);
+    font-size: clamp(2.2rem, 12vw, 3rem);
   }
 
   .hero__slogan {

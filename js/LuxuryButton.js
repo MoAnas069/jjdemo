@@ -7,66 +7,11 @@
  * House silhouette points (normalized 0-1 coordinate space)
  * Modern luxury architectural outline — abstract, elegant
  */
-const HOUSE_POINTS = (() => {
-  const pts = [];
-  // Main roof peak
-  const roofPeak = { x: 0.5, y: 0.18 };
-  const roofLeft = { x: 0.15, y: 0.42 };
-  const roofRight = { x: 0.85, y: 0.42 };
-  // Body
-  const bodyBL = { x: 0.18, y: 0.82 };
-  const bodyBR = { x: 0.82, y: 0.82 };
-  // Secondary roof (modern wing)
-  const wingRoofLeft = { x: 0.58, y: 0.35 };
-  const wingRoofRight = { x: 0.92, y: 0.48 };
-  const wingBR = { x: 0.88, y: 0.82 };
-
-  // Distribute points along roof lines
-  const lerp = (a, b, t) => ({ x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t });
-  const density = 14;
-
-  // Left roof slope
-  for (let i = 0; i <= density; i++) pts.push(lerp(roofLeft, roofPeak, i / density));
-  // Right roof slope
-  for (let i = 0; i <= density; i++) pts.push(lerp(roofPeak, roofRight, i / density));
-  // Left wall
-  for (let i = 0; i <= 10; i++) pts.push(lerp(roofLeft, bodyBL, i / 10));
-  // Bottom
-  for (let i = 0; i <= 12; i++) pts.push(lerp(bodyBL, bodyBR, i / 12));
-  // Right wall
-  for (let i = 0; i <= 10; i++) pts.push(lerp(roofRight, bodyBR, i / 10));
-  // Wing roof
-  for (let i = 0; i <= 8; i++) pts.push(lerp(wingRoofLeft, wingRoofRight, i / 8));
-  // Wing wall
-  for (let i = 0; i <= 6; i++) pts.push(lerp(wingRoofRight, wingBR, i / 6));
-  // Door outline (centered bottom)
-  const doorL = { x: 0.42, y: 0.82 };
-  const doorR = { x: 0.58, y: 0.82 };
-  const doorTL = { x: 0.42, y: 0.58 };
-  const doorTR = { x: 0.58, y: 0.58 };
-  for (let i = 0; i <= 6; i++) pts.push(lerp(doorL, doorTL, i / 6));
-  for (let i = 0; i <= 6; i++) pts.push(lerp(doorTL, doorTR, i / 6));
-  for (let i = 0; i <= 6; i++) pts.push(lerp(doorTR, doorR, i / 6));
-  // Window (left side)
-  const winL = { x: 0.24, y: 0.5 };
-  const winR = { x: 0.36, y: 0.5 };
-  const winBL = { x: 0.24, y: 0.65 };
-  const winBR = { x: 0.36, y: 0.65 };
-  for (let i = 0; i <= 4; i++) pts.push(lerp(winL, winR, i / 4));
-  for (let i = 0; i <= 4; i++) pts.push(lerp(winR, winBR, i / 4));
-  for (let i = 0; i <= 4; i++) pts.push(lerp(winBR, winBL, i / 4));
-  for (let i = 0; i <= 4; i++) pts.push(lerp(winBL, winL, i / 4));
-
-  return pts;
-})();
-
 class Particle {
   constructor(canvasW, canvasH) {
     this.reset(canvasW, canvasH);
     this.targetX = this.x;
     this.targetY = this.y;
-    this.formProgress = 0; // 0 = ambient, 1 = formed
-    this.assignedPoint = null;
   }
 
   reset(w, h) {
@@ -93,27 +38,6 @@ class Particle {
     if (this.x > w + 5) this.x = -5;
     if (this.y < -5) this.y = h + 5;
     if (this.y > h + 5) this.y = -5;
-  }
-
-  updateForming(time, w, h, progress) {
-    if (!this.assignedPoint) return;
-
-    const tx = this.assignedPoint.x * w * 0.7 + w * 0.15;
-    const ty = this.assignedPoint.y * h * 0.7 + h * 0.15;
-
-    // Ease toward target
-    const ease = 0.03 + progress * 0.06;
-    this.x += (tx - this.x) * ease;
-    this.y += (ty - this.y) * ease;
-
-    // Add subtle jitter when formed to keep alive
-    if (progress > 0.7) {
-      this.x += Math.sin(time * 2 + this.phase) * 0.3 * (1 - progress * 0.5);
-      this.y += Math.cos(time * 1.8 + this.phase) * 0.2 * (1 - progress * 0.5);
-    }
-
-    this.alpha = this.baseAlpha + progress * 0.4;
-    this.size = (0.5 + Math.random() * 1.2) * (1 + progress * 0.3);
   }
 }
 
@@ -170,12 +94,6 @@ export function initLuxuryButton(btn) {
     if (particles.length === 0) {
       for (let i = 0; i < PARTICLE_COUNT; i++) {
         const p = new Particle(w, h);
-        // Assign house silhouette points
-        if (i < HOUSE_POINTS.length) {
-          p.assignedPoint = HOUSE_POINTS[i];
-        } else {
-          p.assignedPoint = HOUSE_POINTS[i % HOUSE_POINTS.length];
-        }
         particles.push(p);
       }
     }
