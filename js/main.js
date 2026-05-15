@@ -2,45 +2,16 @@
    HOMEPAGE MAIN — Prism Hero + UI Systems
    ═══════════════════════════════════════════════════════════════ */
 
-import { createMagicRings } from './MagicRings.js';
 import { initLuxuryButton } from './LuxuryButton.js';
 import { initNavigation, initRevealAnimations, initSmoothScroll } from './nav.js';
+import { initHeroScroll } from './hero-scroll.js';
 
 document.fonts.ready.then(() => {
-  // Initialize MagicRings WebGL effect in the hero section
-  const container = document.getElementById('hero-light-rays');
-  if (container) {
-    container.style.pointerEvents = 'auto';
-
-    createMagicRings(container, {
-      color: '#EAB308',
-      colorTwo: '#4e3d06',
-      ringCount: 6,
-      speed: 1,
-      attenuation: 10,
-      lineThickness: 2,
-      baseRadius: 0.35,
-      radiusStep: 0.1,
-      scaleRate: 0.1,
-      opacity: 1,
-      blur: 0,
-      noiseAmount: 0.1,
-      rotation: 0,
-      ringGap: 1.5,
-      fadeIn: 0.7,
-      fadeOut: 0.5,
-      followMouse: false,
-      mouseInfluence: 0.15,
-      hoverScale: 1.05,
-      parallax: 0.05,
-      clickBurst: false,
-    });
-  }
-
   initNavigation();
   initRevealAnimations();
   initSmoothScroll();
   initTestimonialsSlider();
+  initHeroScroll();
 
   // Initialize luxury particle button on "Buy Your Home" CTA
   const buyBtn = document.getElementById('cta-buy');
