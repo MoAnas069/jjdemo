@@ -330,14 +330,15 @@ textarea {
 }
 
 .hero__slogan span {
-  font-family: 'Bodoni Moda', var(--ff-display), serif;
-  font-size: clamp(3.2rem, 8vw, 4.5rem);
-  font-weight: 700;
-  font-style: italic;
+  font-family: var(--ff-body);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 600;
+  font-style: normal;
   color: var(--white);
-  letter-spacing: 0.02em;
+  letter-spacing: -0.01em;
   line-height: 1.2;
   text-shadow: 0 4px 25px rgba(0, 0, 0, 0.9), 0 2px 10px rgba(0, 0, 0, 0.6);
+  white-space: nowrap;
 }
 
 /* Hero CTA buttons (NEW) */
@@ -1974,7 +1975,10 @@ textarea {
   /* ── Hero (homepage) ── */
   .section--hero {
     padding-bottom: 6vh;
-    min-height: 100svh;
+  }
+  
+  .section.hero-scrolly {
+    min-height: 600vh;
   }
 
   .hero__content {
@@ -1987,7 +1991,10 @@ textarea {
   }
 
   .hero__slogan span {
-    font-size: clamp(1rem, 4.5vw, 1.4rem);
+    font-size: clamp(1.8rem, 8vw, 2.8rem);
+    white-space: normal;
+    display: inline-block;
+    max-width: 90vw;
   }
 
   .hero__buttons-row-new {
@@ -2378,7 +2385,7 @@ textarea {
   }
 
   .hero__slogan span {
-    font-size: clamp(0.9rem, 4vw, 1.1rem);
+    font-size: clamp(1.6rem, 7.5vw, 2rem);
   }
 
   .hero__slogan {

@@ -246,21 +246,7 @@ export function initLuxuryButton(btn) {
     for (let i = 0; i < particles.length; i++) {
       const p = particles[i];
 
-      if (formProgress < 0.05) {
-        p.updateAmbient(time, w, h);
-      } else {
-        // Blend between ambient and forming
-        const ambientX = p.x, ambientY = p.y;
-        p.updateAmbient(time, w, h);
-        const driftX = p.x, driftY = p.y;
-        p.x = ambientX;
-        p.y = ambientY;
-
-        p.updateForming(time, w, h, formProgress);
-        // Blend
-        p.x = driftX * (1 - formProgress) + p.x * formProgress;
-        p.y = driftY * (1 - formProgress) + p.y * formProgress;
-      }
+      p.updateAmbient(time, w, h);
 
       // Gold color with varying warmth
       const warmth = 0.7 + Math.sin(time + p.phase) * 0.3;
@@ -268,17 +254,17 @@ export function initLuxuryButton(btn) {
       const g = Math.floor(175 + warmth * 20);
       const b = Math.floor(55 + warmth * 15);
 
-      // Glow layer (subtle bloom)
-      if (formProgress > 0.3 && p.size > 0.8) {
+      // Glow layer (subtle bloom) on hover
+      if (hoverProgress > 0.1 && p.size > 0.8) {
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size * 3, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${p.alpha * 0.08 * formProgress})`;
+        ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${p.alpha * 0.15 * hoverProgress})`;
         ctx.fill();
       }
 
       // Core particle
       ctx.beginPath();
-      ctx.arc(p.x, p.y, p.size * (1 + formProgress * 0.3), 0, Math.PI * 2);
+      ctx.arc(p.x, p.y, p.size * (1 + hoverProgress * 0.2), 0, Math.PI * 2);
       ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${p.alpha})`;
       ctx.fill();
     }
