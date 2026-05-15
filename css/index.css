@@ -97,6 +97,8 @@ textarea {
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
+  opacity: 0;
+  animation: hero-rays-reveal 2s ease-out 1.5s forwards;
 }
 
 /* ─── NAVIGATION ──────────────────────────────────────────── */
@@ -253,6 +255,8 @@ textarea {
   padding: 0 2.5rem;
   position: relative;
   z-index: 2;
+  opacity: 0;
+  animation: hero-content-reveal 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) 2.5s forwards;
 }
 
 .hero__bg-logo {
@@ -262,10 +266,26 @@ textarea {
   transform: translate(-50%, -50%);
   width: 60vmin;
   max-width: 600px;
-  opacity: 0.5;
+  opacity: 0;
   z-index: 1;
   pointer-events: none;
   object-fit: contain;
+  animation: hero-logo-reveal 2.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes hero-logo-reveal {
+  0% { opacity: 0; transform: translate(-50%, -45%) scale(0.95); }
+  100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+}
+
+@keyframes hero-rays-reveal {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes hero-content-reveal {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
 
 /* Hero slogan — gold stroke outline */
