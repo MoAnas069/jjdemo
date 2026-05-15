@@ -29,7 +29,7 @@ export function initHeroScroll() {
   function getImagePath(index) {
     const folder = isMobile ? 'joeljoyphone' : 'joeljoydesktop';
     const paddedIndex = index.toString().padStart(4, '0');
-    return `/${folder}/frame_${paddedIndex}.jpg`;
+    return `/${folder}/frame_${paddedIndex}.webp`;
   }
 
   function loadImages() {
