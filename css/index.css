@@ -181,20 +181,23 @@ textarea {
 
 .nav__cta {
   font-size: 0.72rem;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--gold);
-  border: 1px solid var(--gold-dim);
-  padding: 0.6rem 1.3rem;
-  border-radius: 2px;
-  transition: background .3s, box-shadow .3s;
+  color: var(--bg);
+  background: linear-gradient(135deg, rgba(240, 225, 170, 1) 0%, var(--gold) 100%);
+  border: none;
+  padding: 0.6rem 1.4rem;
+  border-radius: 50px;
+  transition: all .3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   white-space: nowrap;
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
 }
 
 .nav__cta:hover {
-  background: var(--gold-glow);
-  box-shadow: 0 0 20px var(--gold-glow);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(212, 175, 55, 0.5);
+  background: linear-gradient(135deg, rgba(255, 240, 180, 1) 0%, var(--gold) 100%);
 }
 
 .nav__burger {
@@ -259,7 +262,7 @@ textarea {
   transform: translate(-50%, -50%);
   width: 60vmin;
   max-width: 600px;
-  opacity: 0.6;
+  opacity: 0.5;
   z-index: 1;
   pointer-events: none;
   object-fit: contain;
@@ -292,43 +295,99 @@ textarea {
   line-height: 1.2;
 }
 
-/* Hero CTA buttons */
-.hero__buttons {
+/* Hero CTA buttons (NEW) */
+.hero__buttons-new {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  position: relative;
+  z-index: 5;
 }
 
-.hero__buttons-row {
+.hero__buttons-row-new {
   display: flex;
   gap: 1rem;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
-.btn--gold-luxe {
+/* Primary Glowing Button */
+.btn--primary-glow {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.82rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 1.25rem 3.5rem;
+  border-radius: 50px;
+  color: var(--bg);
+  background: linear-gradient(135deg, rgba(240, 225, 170, 1) 0%, var(--gold) 100%);
+  box-shadow: 0 0 25px rgba(212, 175, 55, 0.4), inset 0 0 10px rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  min-width: 280px;
+  position: relative;
+  z-index: 1;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  overflow: hidden;
+}
+
+.btn--primary-glow::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 50%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+  transform: skewX(-20deg);
+  animation: shine 4s infinite;
+}
+
+.btn--primary-glow:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 10px 40px rgba(212, 175, 55, 0.6), inset 0 0 15px rgba(255, 255, 255, 0.5);
+}
+
+@keyframes shine {
+  0% { left: -100%; }
+  20% { left: 200%; }
+  100% { left: 200%; }
+}
+
+/* Dark Glass Buttons */
+.btn--glass-dark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   padding: 1rem 2.5rem;
-  border-radius: 4px;
-  background: rgba(15, 12, 8, 0.65);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  color: var(--gold);
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  transition: box-shadow 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-    border-color 0.5s ease;
+  border-radius: 50px;
+  color: var(--white);
+  background: rgba(15, 12, 8, 0.4);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  transition: all 0.4s ease;
   cursor: pointer;
   min-width: 180px;
   position: relative;
   overflow: hidden;
   z-index: 1;
   will-change: transform;
+}
+
+.btn--glass-dark:hover {
+  background: rgba(212, 175, 55, 0.15);
+  border-color: var(--gold);
+  color: var(--gold);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(212, 175, 55, 0.15);
 }
 
 /* Canvas layer for particles */
@@ -1859,10 +1918,11 @@ textarea {
     justify-content: center;
     padding: 1rem;
     font-size: 0.78rem;
-    background: var(--gold);
+    background: linear-gradient(135deg, rgba(240, 225, 170, 1) 0%, var(--gold) 100%);
     color: var(--bg);
-    border-color: var(--gold);
-    border-radius: 4px;
+    border: none;
+    border-radius: 50px;
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
     animation: menuFadeIn .4s ease-out .3s both;
   }
 
@@ -1885,14 +1945,14 @@ textarea {
     font-size: clamp(1rem, 4.5vw, 1.4rem);
   }
 
-  .hero__buttons-row {
+  .hero__buttons-row-new {
     flex-direction: column;
     gap: 0.7rem;
     width: 100%;
   }
 
-  .hero__buttons-row .btn--gold-luxe,
-  .btn--outline-luxe {
+  .btn--primary-glow,
+  .hero__buttons-row-new .btn--glass-dark {
     width: 100%;
     padding: 0.9rem 1.5rem;
     font-size: 0.75rem;
