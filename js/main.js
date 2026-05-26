@@ -4,14 +4,14 @@
 
 import { initLuxuryButton } from './LuxuryButton.js';
 import { initNavigation, initRevealAnimations, initSmoothScroll } from './nav.js';
-import { initHeroLogoShatter } from './hero-logo-shatter.js';
+import { initHeroVideo } from './hero-video.js';
 
 document.fonts.ready.then(() => {
   initNavigation();
   initRevealAnimations();
   initSmoothScroll();
   initTestimonialsSlider();
-  initHeroLogoShatter();
+  initHeroVideo();
 
   // Initialize luxury particle button on "Buy Your Home" CTA
   const buyBtn = document.getElementById('cta-buy');

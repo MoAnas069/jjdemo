@@ -234,6 +234,41 @@ textarea {
   padding-bottom: 10vh;
   position: relative;
   overflow: hidden;
+  background: #000;
+}
+
+/* Cinematic video background */
+.hero__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  z-index: 0;
+  will-change: filter;
+  /* ZERO CSS filters — preserve original footage exactly */
+}
+
+.hero__video--settled {
+  filter: blur(6px);
+  transition: filter 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Subtle gradient to ensure text legibility over video */
+.section--hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.65) 0%,
+    rgba(0, 0, 0, 0.25) 35%,
+    rgba(0, 0, 0, 0.05) 60%,
+    transparent 100%
+  );
+  z-index: 1;
+  pointer-events: none;
 }
 
 .hero__content {
@@ -242,34 +277,9 @@ textarea {
   padding: 0 2.5rem;
   position: relative;
   z-index: 2;
+  /* JS controls visibility via inline styles for choreographed entrance */
   opacity: 0;
-  animation: hero-content-reveal 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) 2.5s forwards;
-}
-
-.hero__bg-logo {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 60vmin;
-  max-width: 600px;
-  opacity: 0;
-  z-index: 1;
-  pointer-events: none;
-  object-fit: contain;
-  animation: hero-logo-reveal 2.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-}
-
-@keyframes hero-logo-reveal {
-  0% { opacity: 0; transform: translate(-50%, -45%) scale(0.95); }
-  100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-}
-
-
-
-@keyframes hero-content-reveal {
-  0% { opacity: 0; transform: translateY(30px); }
-  100% { opacity: 1; transform: translateY(0); }
+  transform: translateY(28px);
 }
 
 /* Hero slogan — gold stroke outline */
@@ -317,6 +327,48 @@ textarea {
   gap: 1rem;
   justify-content: center;
   flex-wrap: wrap;
+}
+
+/* ─── DESKTOP ONLY OVERRIDES ─── */
+@media (min-width: 769px) {
+  .section--hero {
+    justify-content: center; /* Center-aligned for desktop view */
+    padding-bottom: 0;
+  }
+
+  .hero__content {
+    max-width: 1000px; /* Slightly wider layout */
+  }
+
+  .hero__slogan {
+    padding: 1.25rem 4.5rem; /* Enlarged slogan box a bit */
+    margin-bottom: 4rem; /* Enlarged slogan margin a bit */
+  }
+
+  .hero__slogan span {
+    font-size: clamp(2.5rem, 6.25vw, 4.375rem); /* Enlarged slogan text a bit */
+  }
+
+  .hero__buttons-new {
+    gap: 1.7rem; /* Enlarged gap a bit */
+    margin-top: 1.7rem; /* Enlarged margin a bit */
+  }
+
+  .hero__buttons-row-new {
+    gap: 1.25rem; /* Enlarged row gap a bit */
+  }
+
+  .hero__buttons-new .btn--primary-glow {
+    font-size: 1.05rem; /* Enlarged font a bit */
+    padding: 1.4rem 4rem; /* Enlarged padding a bit */
+    min-width: 300px; /* Enlarged width a bit */
+  }
+
+  .hero__buttons-new .btn--glass-dark {
+    font-size: 0.85rem; /* Enlarged font a bit */
+    padding: 1.15rem 2.8rem; /* Enlarged padding a bit */
+    min-width: 190px; /* Enlarged width a bit */
+  }
 }
 
 /* Primary Glowing Button */
@@ -1936,6 +1988,12 @@ textarea {
   .section--hero {
     min-height: 100svh;
     padding-bottom: 6vh;
+  }
+
+  .hero__video {
+    object-position: center top;
+    transform: scale(1.12);
+    transform-origin: top center;
   }
 
   .hero__content {
