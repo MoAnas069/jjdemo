@@ -74,7 +74,25 @@
             <label for="message">Message</label>
             <textarea id="message" name="message" rows="5" placeholder="Tell us about your goals..."></textarea>
           </div>
-          <button type="submit" class="btn btn--gold btn--full">Send Message</button>
+          <div class="form-group form-group--consent">
+            <label class="consent-checkbox-label">
+              <div class="checkbox-wrapper">
+                <input type="checkbox" id="consent-checkbox" name="consent" required />
+                <span class="custom-checkbox">
+                  <svg class="checkmark-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </span>
+              </div>
+              <span class="consent-text">
+                I agree to the <a href="#" class="consent-link">Terms of Service</a> and <a href="#" class="consent-link">Privacy Policy</a>, and consent to receive communications regarding my real estate goals.
+              </span>
+            </label>
+            <div id="consent-helper-text" class="consent-helper-text">Please agree to the terms before continuing.</div>
+          </div>
+          <div class="submit-wrap" id="submit-wrap">
+            <button type="submit" class="btn btn--gold btn--full" id="contact-submit" disabled>Send Message</button>
+          </div>
         </form>
       </div>
       <div class="contact-info reveal">
@@ -120,14 +138,56 @@
     initNavigation();
     initRevealAnimations();
 
+    const form = document.getElementById('contact-form');
+    const checkbox = document.getElementById('consent-checkbox');
+    const submitBtn = document.getElementById('contact-submit');
+    const submitWrap = document.getElementById('submit-wrap');
+    const helperText = document.getElementById('consent-helper-text');
+
+    // Toggle button state on checkbox change
+    checkbox.addEventListener('change', () => {
+      if (checkbox.checked) {
+        submitBtn.removeAttribute('disabled');
+        helperText.classList.remove('active');
+      } else {
+        submitBtn.setAttribute('disabled', 'true');
+      }
+    });
+
+    // Capture clicks on submit wrap to show helper text when disabled
+    submitWrap.addEventListener('click', (e) => {
+      if (submitBtn.hasAttribute('disabled')) {
+        e.preventDefault();
+        e.stopPropagation();
+        helperText.classList.add('active');
+        // Automatically hide error message after 3.5s
+        setTimeout(() => {
+          helperText.classList.remove('active');
+        }, 3500);
+      }
+    });
+
     // Form submission
-    document.getElementById('contact-form').addEventListener('submit', e => {
+    form.addEventListener('submit', e => {
       e.preventDefault();
+      
+      // Secondary safety check
+      if (!checkbox.checked) {
+        helperText.classList.add('active');
+        return;
+      }
+
       const btn = e.target.querySelector('button[type="submit"]');
       btn.textContent = 'Message Sent ✓';
       btn.style.background = '#2ecc71';
       btn.style.borderColor = '#2ecc71';
-      setTimeout(() => { btn.textContent = 'Send Message'; btn.style.background = ''; btn.style.borderColor = ''; }, 3000);
+      setTimeout(() => { 
+        btn.textContent = 'Send Message'; 
+        btn.style.background = ''; 
+        btn.style.borderColor = ''; 
+        form.reset();
+        submitBtn.setAttribute('disabled', 'true');
+      }, 3000);
     });
   </script>
 </body>
