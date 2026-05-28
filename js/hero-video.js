@@ -16,14 +16,14 @@ export function initHeroVideo() {
   const mp4Source = document.createElement('source');
 
   if (isMobile) {
-    webmSource.src = '/joelmob.webm';
+    webmSource.src = '/joelphone_clean.webm';
     webmSource.type = 'video/webm';
-    mp4Source.src = '/joelmob.mp4';
+    mp4Source.src = '/joelphone_clean.mp4';
     mp4Source.type = 'video/mp4';
   } else {
-    webmSource.src = '/hero-bg.webm';
+    webmSource.src = '/joeldesk_clean.webm';
     webmSource.type = 'video/webm';
-    mp4Source.src = '/Luxury_mansion_drone_reveal_202605270041.mp4';
+    mp4Source.src = '/joeldesk_clean.mp4';
     mp4Source.type = 'video/mp4';
   }
 
@@ -33,7 +33,7 @@ export function initHeroVideo() {
 
   const nav = document.getElementById('main-nav');
   const content = document.querySelector('.hero__content');
-  const slogan = document.querySelector('.hero__slogan');
+  const slogan = document.querySelector('.hero__slogan-container');
   const primaryCta = document.getElementById('cta-consultation');
   const secondaryRow = document.querySelector('.hero__buttons-row-new');
 
