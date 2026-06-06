@@ -1622,6 +1622,22 @@ textarea {
   text-shadow: 0 0 10px rgba(212, 175, 55, 0.25);
 }
 
+.consent-links-red {
+  color: #e74c3c;
+  display: block;
+  margin-top: 0.35rem;
+}
+
+.consent-link--red {
+  color: #e74c3c !important;
+  border-bottom: none !important;
+}
+
+.consent-link--red:hover {
+  color: #ff5e57 !important;
+  text-shadow: 0 0 8px rgba(231, 76, 60, 0.2) !important;
+}
+
 /* Helper Text Styling */
 .consent-helper-text {
   position: absolute;
