@@ -7,7 +7,7 @@ export function initNavigation() {
   const nav = document.getElementById('main-nav');
   const burger = document.getElementById('nav-burger');
   const links = document.getElementById('nav-links');
-  const cta = document.querySelector('.nav__cta');
+  const cta = document.querySelector('.run-light');
 
   if (!nav) return;
 

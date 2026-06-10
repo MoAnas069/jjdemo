@@ -26,13 +26,13 @@
         <li><a href="/blog.html">Blog</a></li>
         <li><a href="/contact.html">Contact</a></li>
       </ul>
-      <a href="/contact.html" class="nav__cta">Free Home Valuation</a>
+      <a class="run-light" href="/contact.html" aria-label="Free home valuation"><span class="face">Free home valuation</span></a>
       <button class="nav__burger" id="nav-burger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
     </div>
   </nav>
 
   <!-- PAGE HERO -->
-  <section class="section section--page-hero">
+  <section class="section section--page-hero" style="background-image: url('/images/1.webp');">
     <div class="page-hero__content reveal">
       <span class="stage-label">Your Journey Home</span>
       <h1 class="page-hero__title">Buy With JR Group</h1>
@@ -41,59 +41,100 @@
 
   <!-- INTRO -->
   <section class="section section--content-block">
-    <div class="content-block reveal">
-      <h2 class="stage-headline">Finding your home<br/><em>should feel extraordinary.</em></h2>
-      <p class="stage-body">
-        JR Group's proven 6-step buyer system is designed to eliminate stress and maximize results.
-        From the initial home search to the moment you receive your keys, every step is guided
-        by expertise, strategy, and genuine care for your goals.
+    <div class="content-split reveal">
+      <div class="content-block" style="padding: 0; margin: 0;">
+        <h2 class="stage-headline">Finding your home<br/><em>should feel extraordinary.</em></h2>
+        <p class="stage-body">
+          JR Group's proven 6-step buyer system is designed to eliminate stress and maximize results.
+          From the initial home search to the moment you receive your keys, every step is guided
+          by expertise, strategy, and genuine care for your goals.
+        </p>
+      </div>
+      <div class="content-split__img-wrapper">
+        <img class="content-split__img" src="/images/buy_intro.png" alt="Extraordinary Living" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS HEADER -->
+  <section class="section section--process-header" style="padding-bottom: 0;">
+    <div class="content-block reveal" style="text-align: center;">
+      <span class="stage-label">The Blueprint</span>
+      <h2 class="stage-headline">Our 6-Step Buyer System</h2>
+      <p class="stage-body" style="margin: 1.4rem auto 0 auto; max-width: 720px; text-align: center;">
+        A meticulous, strategic approach to acquiring luxury real estate, designed to protect your capital and secure your dream home.
       </p>
     </div>
   </section>
 
   <!-- PROCESS STEPS — 6-STEP BUYER SYSTEM -->
   <section class="section section--process">
-    <div class="process-steps-vertical">
-      <div class="process-card reveal" id="buy-step-1">
-        <span class="process-card__number">01</span>
-        <div class="process-card__body">
-          <h3>Home Search Assistance</h3>
-          <p>JR Group begins by understanding your lifestyle, priorities, and goals. We then curate a personalized selection of homes that match your criteria — including access to off-market properties through our extensive nationwide network that other agents simply can't reach.</p>
+    
+    <!-- Row 1: Image Left, Steps 1 & 2 Right -->
+    <div class="process-split-row reveal">
+      <div class="process-split-row__img-wrapper">
+        <img class="process-split-row__img" src="/images/buy_search.png" alt="Home Search and Curation" loading="lazy" />
+      </div>
+      <div class="process-split-row__content">
+        <div class="process-card" id="buy-step-1">
+          <span class="process-card__number">01</span>
+          <div class="process-card__body">
+            <h3>Home Search Assistance</h3>
+            <p>JR Group begins by understanding your lifestyle, priorities, and goals. We then curate a personalized selection of homes that match your criteria — including access to off-market properties through our extensive network that other agents simply can't reach.</p>
+          </div>
+        </div>
+        <div class="process-card" id="buy-step-2">
+          <span class="process-card__number">02</span>
+          <div class="process-card__body">
+            <h3>Automated Search Reports</h3>
+            <p>Once your criteria are defined, JR Group sets up automated listing alerts that deliver new properties directly to your inbox the moment they hit the market. This gives you a critical first-mover advantage in today's competitive real estate landscape.</p>
+          </div>
         </div>
       </div>
-      <div class="process-card reveal" id="buy-step-2">
-        <span class="process-card__number">02</span>
-        <div class="process-card__body">
-          <h3>Automated Search Reports</h3>
-          <p>Once your criteria are defined, JR Group sets up automated listing alerts that deliver new properties directly to your inbox the moment they hit the market. This gives you a critical first-mover advantage in today's competitive real estate landscape.</p>
+    </div>
+
+    <!-- Row 2: Steps 3 & 4 Left, Image Right -->
+    <div class="process-split-row reveal">
+      <div class="process-split-row__content">
+        <div class="process-card" id="buy-step-3">
+          <span class="process-card__number">03</span>
+          <div class="process-card__body">
+            <h3>Financing Assistance</h3>
+            <p>JR Group connects you with trusted lending partners and helps you navigate pre-approval, loan options, and down payment strategies. Our relationships with top lenders often result in more favorable terms and faster closings for our clients.</p>
+          </div>
+        </div>
+        <div class="process-card" id="buy-step-4">
+          <span class="process-card__number">04</span>
+          <div class="process-card__body">
+            <h3>Price Negotiations</h3>
+            <p>When you find the right home, JR Group's strong negotiation skills become your greatest asset. We analyze comparable sales, market conditions, and seller motivation to craft offers that protect your investment while remaining competitive in the market.</p>
+          </div>
         </div>
       </div>
-      <div class="process-card reveal" id="buy-step-3">
-        <span class="process-card__number">03</span>
-        <div class="process-card__body">
-          <h3>Financing Assistance</h3>
-          <p>JR Group connects you with trusted lending partners and helps you navigate pre-approval, loan options, and down payment strategies. Our relationships with top lenders often result in more favorable terms and faster closings for our clients.</p>
-        </div>
+      <div class="process-split-row__img-wrapper">
+        <img class="process-split-row__img" src="/images/buy_negotiate.png" alt="Financing and Negotiation" loading="lazy" />
       </div>
-      <div class="process-card reveal" id="buy-step-4">
-        <span class="process-card__number">04</span>
-        <div class="process-card__body">
-          <h3>Price Negotiations</h3>
-          <p>When you find the right home, JR Group's strong negotiation skills become your greatest asset. We analyze comparable sales, market conditions, and seller motivation to craft offers that protect your investment while remaining competitive in the market.</p>
-        </div>
+    </div>
+
+    <!-- Row 3: Image Left, Steps 5 & 6 Right -->
+    <div class="process-split-row reveal">
+      <div class="process-split-row__img-wrapper">
+        <img class="process-split-row__img" src="/images/buy_closing.png" alt="Inspection and Closing" loading="lazy" />
       </div>
-      <div class="process-card reveal" id="buy-step-5">
-        <span class="process-card__number">05</span>
-        <div class="process-card__body">
-          <h3>Inspections & Repair Negotiations</h3>
-          <p>JR Group coordinates thorough home inspections and reviews every finding with you. If issues are discovered, we negotiate repair credits or seller-funded fixes to ensure you're never paying for problems that should be the seller's responsibility.</p>
+      <div class="process-split-row__content">
+        <div class="process-card" id="buy-step-5">
+          <span class="process-card__number">05</span>
+          <div class="process-card__body">
+            <h3>Inspections & Repair Negotiations</h3>
+            <p>JR Group coordinates thorough home inspections and reviews every finding with you. If issues are discovered, we negotiate repair credits or seller-funded fixes to ensure you're never paying for problems that should be the seller's responsibility.</p>
+          </div>
         </div>
-      </div>
-      <div class="process-card reveal" id="buy-step-6">
-        <span class="process-card__number">06</span>
-        <div class="process-card__body">
-          <h3>Contract to Closing</h3>
-          <p>From the signed contract to the final walkthrough, JR Group manages every detail — title coordination, appraisal logistics, document reviews, and closing preparations. On closing day, all you need to do is sign and celebrate your new home.</p>
+        <div class="process-card" id="buy-step-6">
+          <span class="process-card__number">06</span>
+          <div class="process-card__body">
+            <h3>Contract to Closing</h3>
+            <p>From the signed contract to the final walkthrough, JR Group manages every detail — title coordination, appraisal logistics, document reviews, and closing preparations. On closing day, all you need to do is sign and celebrate your new home.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -112,13 +153,13 @@
 
   <footer class="footer">
     <div class="footer__inner">
-      <div class="footer__brand"><span class="footer__logo"><img src="/jr-mark.webp" alt="JR" class="footer__logo-mark" /><span class="footer__logo-text">Group</span></span><p>JR Group | SaveLine Group · Nationwide</p></div>
+      <div class="footer__brand"><span class="footer__logo"><img src="/jr-mark.webp" alt="JR" class="footer__logo-mark" /><span class="footer__logo-text">Group</span></span><p>JR Group</p></div>
       <div class="footer__links">
         <div class="footer__col"><h4>Properties</h4><a href="/listings.html">Featured Listings</a><a href="/communities.html">Communities</a></div>
         <div class="footer__col"><h4>Services</h4><a href="/buy.html">Buy</a><a href="/sell.html">Sell</a><a href="/contact.html">Home Valuation</a></div>
         <div class="footer__col"><h4>Connect</h4><a href="tel:+17135551234">(713) 555-1234</a><a href="mailto:info@jrgroup.com">info@jrgroup.com</a></div>
       </div>
-      <div class="footer__bottom"><p>&copy; 2026 JR Group | SaveLine Group.</p><p>Licensed in Texas · Equal Housing Opportunity</p></div>
+      <div class="footer__bottom"><p>&copy; 2026 JR Group.</p><p>Licensed in Texas · Equal Housing Opportunity</p></div>
     </div>
   </footer>
 

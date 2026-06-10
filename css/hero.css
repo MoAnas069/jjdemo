@@ -1,0 +1,546 @@
+/* ═══════════════════════════════════════════════════════════════
+   THE J — LUXURY REAL ESTATE HERO SHOWCASE STYLES
+   JR Group Real Estate · Houston, Texas
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── DESIGN TOKENS ────────────────────────────────────────── */
+:root {
+  --bg-ink: #14110F;
+  --color-bone: #F5F1EA;
+  --color-brass: #B08D57;
+  --color-light-brass: #cbb892;
+  --color-muted: #a8a299;
+  --color-border: #544f47;
+  
+  --ff-display: "Playfair Display", Georgia, serif;
+  --ff-sans: "Manrope", sans-serif;
+  
+  --padding-desktop: 4.5rem;
+  --padding-mobile: 1.5rem;
+}
+
+/* ─── RESET & DEFAULTS ─────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  background-color: var(--bg-ink);
+  color: var(--color-bone);
+  font-family: var(--ff-sans);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── HERO CONTAINER ────────────────────────────────────────── */
+.hero-container {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--bg-ink);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+/* Optional background media wrapper setup (currently flat bg is active) */
+.hero-media-wrapper {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hero-media-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-media-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(20, 17, 15, 0.8) 0%,
+    rgba(20, 17, 15, 0.45) 50%,
+    rgba(20, 17, 15, 0.35) 100%
+  );
+}
+
+/* ─── NAVIGATION ────────────────────────────────────────────── */
+.top-nav {
+  position: relative;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2.2rem var(--padding-desktop);
+  width: 100%;
+}
+
+.nav-logo {
+  font-family: var(--ff-display);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--color-bone);
+  letter-spacing: -0.01em;
+  user-select: none;
+}
+
+.logo-dot {
+  color: var(--color-brass);
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 2.5rem;
+}
+
+.nav-link {
+  font-family: var(--ff-sans);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #bdb8af;
+  text-decoration: none;
+  transition: color 0.35s ease;
+}
+
+.nav-link:hover {
+  color: var(--color-bone);
+}
+
+.nav-link:focus-visible {
+  outline: 1px solid var(--color-brass);
+  outline-offset: 4px;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+@property --rl { syntax:'<angle>'; inherits:false; initial-value:0deg; }
+
+.run-light {
+  position: relative;
+  display: inline-block;
+  background: #14110F;
+  border: 1px solid rgba(176,141,87,.25);   /* faint always-on frame */
+  overflow: visible;
+  cursor: pointer;
+  transition: background .4s ease;
+  text-decoration: none;
+}
+
+.run-light .face {
+  position: relative;
+  z-index: 3;
+  display: block;
+  padding: 11px 22px;
+  font-family: "Manrope", sans-serif;
+  font-size: 11px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #F5F1EA;
+}
+
+.run-light::before, .run-light::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: conic-gradient(from var(--rl),
+    #ffffff 0deg, #f4e3bd 5deg, #c79a5a 24deg,
+    rgba(199,154,90,0) 66deg, transparent 360deg);   /* comet: hot head -> brass tail */
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;                              /* show only the border ring */
+  animation: rl-spin 3.6s linear infinite;
+  pointer-events: none;
+}
+
+.run-light::before { padding: 1.5px; z-index: 2; }                       /* crisp ring */
+.run-light::after { padding: 3px; filter: blur(5px); opacity: .6; z-index: 1; }  /* glow halo */
+
+@keyframes rl-spin { to { --rl: 360deg; } }
+
+.run-light:hover {
+  background: #1c1813;
+}
+
+.run-light:focus-visible {
+  outline: 1px solid #B08D57;
+  outline-offset: 3px;
+}
+
+/* Mobile Hamburger */
+.mobile-menu-btn {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 22px;
+  height: 15px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 1100;
+}
+
+.mobile-menu-btn .bar {
+  width: 100%;
+  height: 1.5px;
+  background-color: var(--color-bone);
+  transition: transform 0.35s cubic-bezier(0.76, 0, 0.24, 1), opacity 0.3s ease;
+  transform-origin: center;
+}
+
+.mobile-menu-btn:focus-visible {
+  outline: 1px solid var(--color-brass);
+  outline-offset: 4px;
+}
+
+/* ─── HERO CONTENT ──────────────────────────────────────────── */
+.hero-content-wrapper {
+  position: relative;
+  z-index: 2;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--padding-desktop);
+  margin-top: -3vh; /* Slight optical adjustment upwards */
+}
+
+.hero-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 800px;
+}
+
+.hero-headline {
+  font-family: var(--ff-display);
+  font-size: clamp(3.2rem, 7.5vw, 5.6rem);
+  font-weight: 600;
+  line-height: 1.05;
+  color: var(--color-bone);
+  max-width: 600px;
+  margin-bottom: 1.6rem;
+  letter-spacing: -0.01em;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.85), 0 4px 30px rgba(0, 0, 0, 0.5);
+}
+
+.hero-headline em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--color-light-brass);
+}
+
+.desktop-br {
+  display: block;
+}
+
+.hero-subhead {
+  font-family: var(--ff-sans);
+  font-size: 22px;
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--color-muted);
+  max-width: 540px;
+  margin-bottom: 2.8rem;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.9), 0 2px 20px rgba(0, 0, 0, 0.6);
+}
+
+.hero-buttons-new {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  position: relative;
+  z-index: 5;
+}
+
+.btn--primary-glow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 1.25rem 3.5rem;
+  border-radius: 50px;
+  color: var(--bg-ink);
+  background: linear-gradient(135deg, rgba(240, 225, 170, 1) 0%, var(--color-brass) 100%);
+  box-shadow: 0 0 25px rgba(212, 175, 55, 0.4), inset 0 0 10px rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  min-width: 280px;
+  position: relative;
+  z-index: 1;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  overflow: hidden;
+  text-decoration: none;
+}
+
+.btn--primary-glow:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 10px 40px rgba(212, 175, 55, 0.6), inset 0 0 15px rgba(255, 255, 255, 0.5);
+}
+
+.hero-button-row {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+/* ─── VIEWFINDER FRAME BUTTONS ───────────────────────────────── */
+.btn-frame {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 11px;
+  padding: 1.25rem 3.5rem;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  font-family: "Manrope", sans-serif;
+  font-size: 0.95rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: #F5F1EA;
+  text-decoration: none;
+  transition: color .4s ease;
+  min-width: 280px;
+}
+
+.btn-frame svg {
+  width: 18px;
+  height: 18px;
+  color: #B08D57;
+}
+
+.btn-frame .c {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  transition: all .4s cubic-bezier(.76, 0, .24, 1);
+}
+
+.btn-frame .c1 { top: 0; left: 0; border-top: 1px solid #B08D57; border-left: 1px solid #B08D57; }
+.btn-frame .c2 { top: 0; right: 0; border-top: 1px solid #B08D57; border-right: 1px solid #B08D57; }
+.btn-frame .c3 { bottom: 0; left: 0; border-bottom: 1px solid #B08D57; border-left: 1px solid #B08D57; }
+.btn-frame .c4 { bottom: 0; right: 0; border-bottom: 1px solid #B08D57; border-right: 1px solid #B08D57; }
+
+.btn-frame:hover {
+  color: #cbb892;
+}
+
+.btn-frame:hover .c1 { top: -5px; left: -5px; }
+.btn-frame:hover .c2 { top: -5px; right: -5px; }
+.btn-frame:hover .c3 { bottom: -5px; left: -5px; }
+.btn-frame:hover .c4 { bottom: -5px; right: -5px; }
+
+.btn-frame:focus-visible {
+  outline: 1.5px solid var(--color-brass);
+  outline-offset: 8px;
+}
+
+/* Primary Viewfinder Frame Button (Solid brass variant) */
+.btn-frame--primary {
+  background: #B08D57;
+  color: #14110F;
+  font-weight: 700;
+  border: 1px solid #B08D57;
+  box-shadow: 0 4px 20px rgba(176, 141, 87, 0.25);
+  transition: background 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.btn-frame--primary svg {
+  color: #14110F;
+  transition: color 0.4s ease;
+}
+
+.btn-frame--primary .c {
+  border-color: #B08D57;
+}
+
+.btn-frame--primary:hover {
+  background: #cbb892;
+  color: #14110F;
+  border-color: #cbb892;
+  box-shadow: 0 8px 30px rgba(176, 141, 87, 0.45);
+}
+
+.btn-frame--primary:hover svg {
+  color: #14110F;
+}
+
+/* ─── SCROLL CUE ────────────────────────────────────────────── */
+.scroll-cue {
+  position: absolute;
+  bottom: 2.5rem;
+  right: var(--padding-desktop);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.scroll-label {
+  font-family: var(--ff-sans);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  color: var(--color-brass);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+.scroll-line {
+  width: 1px;
+  height: 60px;
+  background: linear-gradient(to bottom, var(--color-brass), transparent);
+}
+
+/* ─── RESPONSIVE (Mobile < 640px) ────────────────────────────── */
+@media (max-width: 639px) {
+  :root {
+    --padding-desktop: var(--padding-mobile);
+  }
+  
+  .desktop-br {
+    display: none;
+  }
+  
+  .top-nav {
+    padding: 1.8rem var(--padding-mobile);
+  }
+  
+  /* Collapsed Mobile Menu Drawer */
+  .mobile-menu-btn {
+    display: flex;
+  }
+  
+  .nav-menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 100%;
+    height: 100vh;
+    background-color: var(--bg-ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: right 0.45s cubic-bezier(0.76, 0, 0.24, 1);
+    z-index: 1000;
+  }
+  
+  .nav-menu.is-active {
+    right: 0;
+  }
+  
+  .nav-links {
+    flex-direction: column;
+    align-items: center;
+    gap: 2.2rem;
+  }
+  
+  .nav-link {
+    font-size: 16px;
+    letter-spacing: 0.18em;
+  }
+  
+  /* Active Menu Button Transitions */
+  .mobile-menu-btn.is-active .bar-top {
+    transform: translateY(6px) rotate(45deg);
+  }
+  
+  .mobile-menu-btn.is-active .bar-mid {
+    opacity: 0;
+  }
+  
+  .mobile-menu-btn.is-active .bar-bot {
+    transform: translateY(-7.5px) rotate(-45deg);
+  }
+  
+  /* Layout shifts */
+  .hero-content-wrapper {
+    padding: 0 var(--padding-mobile);
+    align-items: center;
+  }
+  
+  .hero-body {
+    width: 100%;
+  }
+  
+  .hero-headline {
+    margin-bottom: 1.4rem;
+  }
+  
+  .hero-subhead {
+    font-size: 15px;
+    margin-bottom: 2.2rem;
+  }
+  
+  .hero-button-row {
+    flex-direction: column;
+    width: 100%;
+    gap: 1.2rem;
+  }
+  
+  .btn-frame {
+    width: 100%;
+    justify-content: center;
+    padding: 16px 20px;
+  }
+  
+  .scroll-cue {
+    display: none; /* Hide scroll cue on mobile to free up space */
+  }
+}
+
+/* ─── ACCESSIBILITY / MOTION REDUCTION ───────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-delay: -1ms !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    background-attachment: scroll !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+  }
+  
+  .btn-frame .c,
+  .btn-frame {
+    transition: none !important;
+  }
+  
+  .btn-frame:hover .c1 { top: 0 !important; left: 0 !important; }
+  .btn-frame:hover .c2 { top: 0 !important; right: 0 !important; }
+  .btn-frame:hover .c3 { bottom: 0 !important; left: 0 !important; }
+  .btn-frame:hover .c4 { bottom: 0 !important; right: 0 !important; }
+  
+  .nav-menu {
+    transition: none !important;
+  }
+  
+  .mobile-menu-btn .bar {
+    transition: none !important;
+  }
+}

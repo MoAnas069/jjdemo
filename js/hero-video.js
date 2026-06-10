@@ -35,7 +35,7 @@ export function initHeroVideo() {
   const content = document.querySelector('.hero__content');
   const slogan = document.querySelector('.hero__slogan-container');
   const primaryCta = document.getElementById('cta-consultation');
-  const secondaryRow = document.querySelector('.hero__buttons-row-new');
+  const secondaryRow = document.querySelector('.hero__button-row');
 
   // ── Hide UI initially ──────────────────────────────────────
   if (nav) {
@@ -75,7 +75,7 @@ export function initHeroVideo() {
     }
   }, { once: true });
 
-  // ── Settle sequence: blur + staggered UI reveal (simultaneous) ─
+  // ── Settle sequence: slideshow activation + staggered UI reveal (simultaneous) ─
   function beginSettleSequence() {
     if (sequenceComplete) return;
     sequenceComplete = true;
@@ -83,8 +83,13 @@ export function initHeroVideo() {
     const LUXURY_EASE = 'cubic-bezier(0.22, 1, 0.36, 1)';
     const DURATION = '1.6s';
 
-    // Apply subtle premium blur to frozen final frame — starts WITH the UI entrance
+    // Fade out video and start slideshow — starts WITH the UI entrance
     video.classList.add('hero__video--settled');
+    const slideshow = document.getElementById('hero-slideshow');
+    if (slideshow) {
+      slideshow.classList.add('active');
+      startSlideshow(slideshow);
+    }
 
     // Nav entrance — immediate (same moment as blur)
     if (nav) {
@@ -139,12 +144,10 @@ export function initHeroVideo() {
     }
   }
 
-  // ── Fallback: if video fails to load, reveal UI immediately ─
+  // ── Fallback: if video fails to load, trigger settle sequence ─
   video.addEventListener('error', () => {
     if (!sequenceComplete) {
-      sequenceComplete = true;
-      if (nav) { nav.style.transition = 'opacity 0.8s ease'; nav.style.opacity = '1'; nav.style.transform = 'translateY(0)'; }
-      if (content) { content.style.transition = 'opacity 0.8s ease'; content.style.opacity = '1'; content.style.transform = 'translateY(0)'; }
+      beginSettleSequence();
     }
   });
 
@@ -155,4 +158,21 @@ export function initHeroVideo() {
       beginSettleSequence();
     }
   }, 12000);
+}
+
+// ── Slideshow Logic: Ken Burns Autoplay Controller ─────────────────
+function startSlideshow(slideshow) {
+  const slides = slideshow.querySelectorAll('.hero__slide');
+  if (!slides.length) return;
+
+  let currentSlide = 0;
+  // Activate first slide immediately
+  slides[currentSlide].classList.add('active');
+
+  // Cycle slides every 5.5s with smooth Ken Burns transition
+  setInterval(() => {
+    slides[currentSlide].classList.remove('active');
+    currentSlide = (currentSlide + 1) % slides.length;
+    slides[currentSlide].classList.add('active');
+  }, 5500);
 }

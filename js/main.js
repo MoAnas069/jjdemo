@@ -2,7 +2,6 @@
    HOMEPAGE MAIN — Prism Hero + UI Systems
    ═══════════════════════════════════════════════════════════════ */
 
-import { initLuxuryButton } from './LuxuryButton.js';
 import { initNavigation, initRevealAnimations, initSmoothScroll } from './nav.js';
 import { initHeroVideo } from './hero-video.js';
 
@@ -12,10 +11,6 @@ document.fonts.ready.then(() => {
   initSmoothScroll();
   initTestimonialsSlider();
   initHeroVideo();
-
-  // Initialize luxury particle button on "Buy Your Home" CTA
-  const buyBtn = document.getElementById('cta-buy');
-  if (buyBtn) initLuxuryButton(buyBtn);
 });
 
 /* ═══════════════════════════════════════════════════════════════

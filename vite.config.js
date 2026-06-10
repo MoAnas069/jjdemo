@@ -13,6 +13,7 @@ export default defineConfig({
         listings: resolve(__dirname, 'listings.html'),
         blog: resolve(__dirname, 'blog.html'),
         contact: resolve(__dirname, 'contact.html'),
+        hero: resolve(__dirname, 'hero.html'),
       },
     },
   },
