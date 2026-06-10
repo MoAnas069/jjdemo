@@ -3804,35 +3804,70 @@ textarea {
 
   .sticky-process-container {
     grid-template-columns: 1fr;
-    gap: 3rem;
+    gap: 2rem;
     padding: 0 1.5rem;
   }
 
   .sticky-process-visual {
-    position: relative;
-    top: 0;
-    height: 300px;
-    max-height: 300px;
+    position: sticky;
+    top: 68px; /* Stick directly under mobile header */
+    height: 200px;
+    max-height: 200px;
     width: 100%;
-    margin-bottom: 1rem;
-    order: -1; /* Stack above steps */
+    z-index: 100;
+    margin-bottom: 1.5rem;
+    background: var(--bg-ink);
+    padding: 8px 0;
+    order: -1;
+  }
+
+  /* Fade mask below the sticky visual container */
+  .sticky-process-visual::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 0;
+    right: 0;
+    height: 15px;
+    background: linear-gradient(to bottom, var(--bg-ink), transparent);
+    pointer-events: none;
   }
 
   .sticky-process-steps {
-    gap: 2rem;
-    padding-bottom: 0;
+    gap: 1.8rem;
+    padding-bottom: 15vh; /* scroll padding to allow last item trigger */
   }
 
   .process-card-sticky {
-    opacity: 1; /* always show active on mobile */
-    transform: none !important;
+    opacity: 0.45; /* start muted on mobile and highlight dynamically on scroll */
+    transform: scale(0.98);
+    transition: opacity 0.4s ease, transform 0.4s ease, border-color 0.4s ease;
     flex-direction: column;
     gap: 0.8rem;
     padding: 1.6rem;
   }
 
+  .process-card-sticky.active {
+    opacity: 1;
+    transform: scale(1) !important;
+    border-color: rgba(212, 175, 55, 0.35);
+    border-left-color: var(--color-brass);
+    background: var(--bg-card-hover);
+  }
+
   .process-card-sticky .process-card-number {
     font-size: 2.5rem;
+  }
+
+  /* Prevent text linebreaks from squeezing headlines on mobile */
+  .desktop-br {
+    display: none;
+  }
+
+  /* Resolve wobbly horizontal scroll bug by removing min-width constraint on mobile */
+  .trust-stat {
+    min-width: unset !important;
+    padding: 1.6rem 1.2rem;
   }
 }
 

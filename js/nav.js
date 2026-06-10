@@ -136,9 +136,21 @@ export function initGoldDust() {
 
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
+  let lastWidth = window.innerWidth;
+  let lastHeight = window.innerHeight;
+
   function resize() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    const widthDiff = Math.abs(window.innerWidth - lastWidth);
+    const heightDiff = Math.abs(window.innerHeight - lastHeight);
+    
+    // Only resize canvas if width changes or if height changes significantly (e.g. device rotation)
+    // This avoids visual stutters when scrolling on mobile due to the address bar showing/hiding.
+    if (widthDiff > 0 || heightDiff > 100) {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      lastWidth = window.innerWidth;
+      lastHeight = window.innerHeight;
+    }
   }
 
   window.addEventListener('resize', resize);
