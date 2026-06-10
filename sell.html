@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sell With JR Group | THE J — Luxury Real Estate</title>
-  <meta name="description" content="JR Group's proven 6-step seller system — from CMA report to closing. Strategic pricing, premium marketing, and expert negotiation in Houston." />
+  <meta name="description" content="JR Group's proven 6-step seller system — from CMA report to closing. Strategic pricing, premium marketing, and expert negotiation in Texas." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;0,6..96,700;0,6..96,800;0,6..96,900;1,6..96,400;1,6..96,500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
@@ -31,6 +31,12 @@
     </div>
   </nav>
 
+  <!-- AMBIENT BACKGROUND -->
+  <div class="ambient-bg" aria-hidden="true">
+    <canvas id="ambient-canvas" class="ambient-canvas"></canvas>
+    <div class="ambient-grain"></div>
+  </div>
+
   <section class="section section--page-hero" style="background-image: url('/images/4.webp');">
     <div class="page-hero__content reveal">
       <span class="stage-label">Unlock Your Value</span>
@@ -48,8 +54,11 @@
           system ensures your property reaches the right buyers at the right price, every time.
         </p>
       </div>
-      <div class="content-split__img-wrapper">
-        <img class="content-split__img" src="/images/sell_intro.webp" alt="Premium Strategy" loading="lazy" />
+      <div class="luxury-image-container">
+        <div class="luxury-image-frame"></div>
+        <div class="luxury-image-wrapper">
+          <img src="/images/sell_intro.webp" alt="Premium Strategy" loading="lazy" />
+        </div>
       </div>
     </div>
   </section>
@@ -66,75 +75,72 @@
   </section>
 
   <!-- PROCESS STEPS — 6-STEP SELLER SYSTEM -->
-  <section class="section section--process">
-    
-    <!-- Row 1: Steps 1 & 2 Left, Image Right -->
-    <div class="process-split-row reveal">
-      <div class="process-split-row__content">
-        <div class="process-card">
-          <span class="process-card__number">01</span>
-          <div class="process-card__body">
+  <section class="section section--process-sticky">
+    <div class="sticky-process-container">
+      
+      <!-- Left: Sticky Visual Block -->
+      <div class="sticky-process-visual reveal">
+        <div class="luxury-image-container">
+          <div class="luxury-image-frame"></div>
+          <div class="luxury-image-wrapper">
+            <img id="sticky-process-img" src="/images/sell_valuation.webp" alt="Complete Market Analysis" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Scrollable Steps Content -->
+      <div class="sticky-process-steps">
+        
+        <div class="process-card-sticky reveal active" data-step="1" data-image="/images/sell_valuation.webp">
+          <span class="process-card-number">01</span>
+          <div class="process-card-body">
             <h3>Complete Market Analysis</h3>
             <p>We do this and find the accurate valuation for your home by examining recent comparable sales, active listings, and market trends in your specific neighborhood. This data-driven approach establishes the foundation for strategic pricing.</p>
           </div>
         </div>
-        <div class="process-card">
-          <span class="process-card__number">02</span>
-          <div class="process-card__body">
+
+        <div class="process-card-sticky reveal" data-step="2" data-image="/images/sell_intro.webp">
+          <span class="process-card-number">02</span>
+          <div class="process-card-body">
             <h3>Home Evaluation</h3>
             <p>A comprehensive in-person evaluation of your property's unique features, condition, and presentation opportunities. JR Group identifies exactly what makes your home stand out and recommends strategic improvements that maximize perceived value without overspending.</p>
           </div>
         </div>
-      </div>
-      <div class="process-split-row__img-wrapper">
-        <img class="process-split-row__img" src="/images/sell_valuation.webp" alt="Property Evaluation" loading="lazy" />
-      </div>
-    </div>
 
-    <!-- Row 2: Image Left, Steps 3 & 4 Right -->
-    <div class="process-split-row reveal">
-      <div class="process-split-row__img-wrapper">
-        <img class="process-split-row__img" src="/images/sell_marketing.webp" alt="Premium Marketing" loading="lazy" />
-      </div>
-      <div class="process-split-row__content">
-        <div class="process-card">
-          <span class="process-card__number">03</span>
-          <div class="process-card__body">
+        <div class="process-card-sticky reveal" data-step="3" data-image="/images/sell_marketing.webp">
+          <span class="process-card-number">03</span>
+          <div class="process-card-body">
             <h3>Marketing Plan</h3>
             <p>JR Group develops a bespoke marketing campaign tailored to your property — professional photography, cinematic video tours, targeted digital advertising, and exposure across premium listing platforms. Your home is positioned as a luxury experience, not just a listing.</p>
           </div>
         </div>
-        <div class="process-card">
-          <span class="process-card__number">04</span>
-          <div class="process-card__body">
+
+        <div class="process-card-sticky reveal" data-step="4" data-image="/images/buy_negotiate.webp">
+          <span class="process-card-number">04</span>
+          <div class="process-card-body">
             <h3>Price Negotiations</h3>
             <p>When offers arrive, JR Group evaluates every term — not just price. Contingencies, timelines, financing strength, and seller protections are all analyzed. Our expert negotiation ensures you receive the strongest possible deal with terms that work in your favor.</p>
           </div>
         </div>
-      </div>
-    </div>
 
-    <!-- Row 3: Steps 5 & 6 Left, Image Right -->
-    <div class="process-split-row reveal">
-      <div class="process-split-row__content">
-        <div class="process-card">
-          <span class="process-card__number">05</span>
-          <div class="process-card__body">
+        <div class="process-card-sticky reveal" data-step="5" data-image="/images/property2.webp">
+          <span class="process-card-number">05</span>
+          <div class="process-card-body">
             <h3>Inspections & Repairs</h3>
             <p>JR Group manages the inspection process strategically — reviewing findings with you, advising on which repair requests are reasonable, and negotiating credits or fixes that protect your bottom line without derailing the transaction.</p>
           </div>
         </div>
-        <div class="process-card">
-          <span class="process-card__number">06</span>
-          <div class="process-card__body">
+
+        <div class="process-card-sticky reveal" data-step="6" data-image="/images/sell_closing.webp">
+          <span class="process-card-number">06</span>
+          <div class="process-card-body">
             <h3>Contract to Closing</h3>
             <p>From accepted offer to closing day, JR Group coordinates every detail — title work, appraisal management, document reviews, and timeline management. We keep you informed at every stage so there are no surprises at the closing table.</p>
           </div>
         </div>
+
       </div>
-      <div class="process-split-row__img-wrapper">
-        <img class="process-split-row__img" src="/images/sell_closing.webp" alt="Successful Closing" loading="lazy" />
-      </div>
+
     </div>
   </section>
 
@@ -161,9 +167,11 @@
   </footer>
 
   <script type="module">
-    import { initNavigation, initRevealAnimations } from '/js/nav.js';
+    import { initNavigation, initRevealAnimations, initGoldDust, initStickyProcess } from '/js/nav.js';
     initNavigation();
     initRevealAnimations();
+    initGoldDust();
+    initStickyProcess();
   </script>
 </body>
 </html>

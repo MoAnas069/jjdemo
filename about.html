@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>About Joel Joy | THE J — Luxury Real Estate Houston</title>
-  <meta name="description" content="Meet Joel Joy — Houston's trusted real estate advisor with decades of market expertise. Joel Joy | JR Group delivers transparency, strong negotiation, and 5-star client service." />
+  <title>About Joel Joy | THE J — Texas Luxury Real Estate</title>
+  <meta name="description" content="Meet Joel Joy — Texas' premier luxury real estate advisor with decades of market expertise. Joel Joy | JR Group delivers transparency, strong negotiation, and 5-star client service." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;0,6..96,700;0,6..96,800;0,6..96,900;1,6..96,400;1,6..96,500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
@@ -31,6 +31,12 @@
     </div>
   </nav>
 
+  <!-- AMBIENT BACKGROUND -->
+  <div class="ambient-bg" aria-hidden="true">
+    <canvas id="ambient-canvas" class="ambient-canvas"></canvas>
+    <div class="ambient-grain"></div>
+  </div>
+
   <!-- PAGE HERO -->
   <section class="section section--page-hero">
     <div class="page-hero__content reveal">
@@ -51,9 +57,10 @@
         </h2>
         <p>
           Joel Joy is more than a real estate agent — he's a trusted advisor who has spent decades
-          navigating the Houston real estate market. With a deep understanding of the greater Houston
-          area — from the energy corridor to the medical center suburbs — Joel brings insider
-          knowledge that gives his clients a decisive edge in every transaction.
+          navigating the Texas luxury real estate market. With a deep understanding of the state's
+          most prestigious areas — from the exclusive neighborhoods of Houston and the high-end
+          enclaves of Austin, to the vibrant districts of Dallas-Fort Worth and San Antonio — Joel
+          brings insider knowledge that gives his clients a decisive edge in every transaction.
         </p>
         <p>
           What sets Joel apart is his commitment to transparency and directness. He doesn't sugarcoat
@@ -81,7 +88,7 @@
         That's why he prioritizes clear communication, honest market analysis, and strategies
         built around your unique goals — not his commission. His clients consistently describe
         working with Joel as refreshingly straightforward. No games, no pressure — just expert
-        guidance from someone who has earned a 5-star reputation across the Houston market.
+        guidance from someone who has earned a 5-star reputation across the Texas luxury real estate market.
       </p>
     </div>
   </section>
@@ -90,13 +97,14 @@
   <section class="section section--content-block">
     <div class="content-block reveal">
       <span class="stage-label">Expertise</span>
-      <h2 class="stage-headline">Decades of experience.<br/><em>Houston market mastery.</em></h2>
+      <h2 class="stage-headline">Decades of experience.<br/><em>Texas market mastery.</em></h2>
       <p class="stage-body">
-        Joel's market knowledge runs deep. From Katy's master-planned communities to Sugar
-        Land's luxury estates, from Cypress's family neighborhoods to Fulshear's emerging
-        luxury market — Joel has helped hundreds of families find their perfect Houston home.
-        His understanding of pricing trends, neighborhood trajectories, and investment potential
-        gives clients a competitive advantage that few agents can match.
+        Joel's market knowledge runs deep. From the sprawling estates of Houston and the premier
+        communities of Sugar Land, to the historic charm of Richmond, the dynamic neighborhoods
+        of Austin, and the exclusive enclaves of Dallas — Joel has helped hundreds of clients find
+        their perfect luxury properties. His understanding of pricing trends, neighborhood trajectories,
+        and investment potential across Texas gives clients a competitive advantage that few agents
+        can match.
       </p>
     </div>
     <div class="stats-row reveal">
@@ -114,7 +122,7 @@
       </div>
       <div class="trust-stat">
         <span class="trust-stat__number" data-count="15" data-suffix="+">0</span>
-        <span class="trust-stat__label">Years in Houston</span>
+        <span class="trust-stat__label">Years in Texas</span>
       </div>
     </div>
   </section>
@@ -146,9 +154,10 @@
   </footer>
 
   <script type="module">
-    import { initNavigation, initRevealAnimations, initCountUp } from '/js/nav.js';
+    import { initNavigation, initRevealAnimations, initCountUp, initGoldDust } from '/js/nav.js';
     initNavigation();
     initRevealAnimations();
+    initGoldDust();
     initCountUp();
   </script>
 </body>

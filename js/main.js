@@ -2,7 +2,7 @@
    HOMEPAGE MAIN — Prism Hero + UI Systems
    ═══════════════════════════════════════════════════════════════ */
 
-import { initNavigation, initRevealAnimations, initSmoothScroll } from './nav.js';
+import { initNavigation, initRevealAnimations, initSmoothScroll, initGoldDust } from './nav.js';
 import { initHeroVideo } from './hero-video.js';
 
 document.fonts.ready.then(() => {
@@ -11,6 +11,7 @@ document.fonts.ready.then(() => {
   initSmoothScroll();
   initTestimonialsSlider();
   initHeroVideo();
+  initGoldDust();
 });
 
 /* ═══════════════════════════════════════════════════════════════

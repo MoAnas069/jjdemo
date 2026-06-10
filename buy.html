@@ -31,6 +31,12 @@
     </div>
   </nav>
 
+  <!-- AMBIENT BACKGROUND -->
+  <div class="ambient-bg" aria-hidden="true">
+    <canvas id="ambient-canvas" class="ambient-canvas"></canvas>
+    <div class="ambient-grain"></div>
+  </div>
+
   <!-- PAGE HERO -->
   <section class="section section--page-hero" style="background-image: url('/images/1.webp');">
     <div class="page-hero__content reveal">
@@ -50,8 +56,11 @@
           by expertise, strategy, and genuine care for your goals.
         </p>
       </div>
-      <div class="content-split__img-wrapper">
-        <img class="content-split__img" src="/images/buy_intro.webp" alt="Extraordinary Living" loading="lazy" />
+      <div class="luxury-image-container">
+        <div class="luxury-image-frame"></div>
+        <div class="luxury-image-wrapper">
+          <img src="/images/buy_intro.webp" alt="Extraordinary Living" loading="lazy" />
+        </div>
       </div>
     </div>
   </section>
@@ -68,75 +77,72 @@
   </section>
 
   <!-- PROCESS STEPS — 6-STEP BUYER SYSTEM -->
-  <section class="section section--process">
-    
-    <!-- Row 1: Image Left, Steps 1 & 2 Right -->
-    <div class="process-split-row reveal">
-      <div class="process-split-row__img-wrapper">
-        <img class="process-split-row__img" src="/images/buy_search.webp" alt="Home Search and Curation" loading="lazy" />
+  <section class="section section--process-sticky">
+    <div class="sticky-process-container">
+      
+      <!-- Left: Sticky Visual Block -->
+      <div class="sticky-process-visual reveal">
+        <div class="luxury-image-container">
+          <div class="luxury-image-frame"></div>
+          <div class="luxury-image-wrapper">
+            <img id="sticky-process-img" src="/images/buy_search.webp" alt="Home Search Assistance" />
+          </div>
+        </div>
       </div>
-      <div class="process-split-row__content">
-        <div class="process-card" id="buy-step-1">
-          <span class="process-card__number">01</span>
-          <div class="process-card__body">
+
+      <!-- Right: Scrollable Steps Content -->
+      <div class="sticky-process-steps">
+        
+        <div class="process-card-sticky reveal active" data-step="1" data-image="/images/buy_search.webp">
+          <span class="process-card-number">01</span>
+          <div class="process-card-body">
             <h3>Home Search Assistance</h3>
             <p>JR Group begins by understanding your lifestyle, priorities, and goals. We then curate a personalized selection of homes that match your criteria — including access to off-market properties through our extensive network that other agents simply can't reach.</p>
           </div>
         </div>
-        <div class="process-card" id="buy-step-2">
-          <span class="process-card__number">02</span>
-          <div class="process-card__body">
+
+        <div class="process-card-sticky reveal" data-step="2" data-image="/images/buy_intro.webp">
+          <span class="process-card-number">02</span>
+          <div class="process-card-body">
             <h3>Automated Search Reports</h3>
             <p>Once your criteria are defined, JR Group sets up automated listing alerts that deliver new properties directly to your inbox the moment they hit the market. This gives you a critical first-mover advantage in today's competitive real estate landscape.</p>
           </div>
         </div>
-      </div>
-    </div>
 
-    <!-- Row 2: Steps 3 & 4 Left, Image Right -->
-    <div class="process-split-row reveal">
-      <div class="process-split-row__content">
-        <div class="process-card" id="buy-step-3">
-          <span class="process-card__number">03</span>
-          <div class="process-card__body">
+        <div class="process-card-sticky reveal" data-step="3" data-image="/images/buy_negotiate.webp">
+          <span class="process-card-number">03</span>
+          <div class="process-card-body">
             <h3>Financing Assistance</h3>
             <p>JR Group connects you with trusted lending partners and helps you navigate pre-approval, loan options, and down payment strategies. Our relationships with top lenders often result in more favorable terms and faster closings for our clients.</p>
           </div>
         </div>
-        <div class="process-card" id="buy-step-4">
-          <span class="process-card__number">04</span>
-          <div class="process-card__body">
+
+        <div class="process-card-sticky reveal" data-step="4" data-image="/images/property1.webp">
+          <span class="process-card-number">04</span>
+          <div class="process-card-body">
             <h3>Price Negotiations</h3>
             <p>When you find the right home, JR Group's strong negotiation skills become your greatest asset. We analyze comparable sales, market conditions, and seller motivation to craft offers that protect your investment while remaining competitive in the market.</p>
           </div>
         </div>
-      </div>
-      <div class="process-split-row__img-wrapper">
-        <img class="process-split-row__img" src="/images/buy_negotiate.webp" alt="Financing and Negotiation" loading="lazy" />
-      </div>
-    </div>
 
-    <!-- Row 3: Image Left, Steps 5 & 6 Right -->
-    <div class="process-split-row reveal">
-      <div class="process-split-row__img-wrapper">
-        <img class="process-split-row__img" src="/images/buy_closing.webp" alt="Inspection and Closing" loading="lazy" />
-      </div>
-      <div class="process-split-row__content">
-        <div class="process-card" id="buy-step-5">
-          <span class="process-card__number">05</span>
-          <div class="process-card__body">
+        <div class="process-card-sticky reveal" data-step="5" data-image="/images/buy_closing.webp">
+          <span class="process-card-number">05</span>
+          <div class="process-card-body">
             <h3>Inspections & Repair Negotiations</h3>
             <p>JR Group coordinates thorough home inspections and reviews every finding with you. If issues are discovered, we negotiate repair credits or seller-funded fixes to ensure you're never paying for problems that should be the seller's responsibility.</p>
           </div>
         </div>
-        <div class="process-card" id="buy-step-6">
-          <span class="process-card__number">06</span>
-          <div class="process-card__body">
+
+        <div class="process-card-sticky reveal" data-step="6" data-image="/images/2.webp">
+          <span class="process-card-number">06</span>
+          <div class="process-card-body">
             <h3>Contract to Closing</h3>
             <p>From the signed contract to the final walkthrough, JR Group manages every detail — title coordination, appraisal logistics, document reviews, and closing preparations. On closing day, all you need to do is sign and celebrate your new home.</p>
           </div>
         </div>
+
       </div>
+
     </div>
   </section>
 
@@ -164,9 +170,11 @@
   </footer>
 
   <script type="module">
-    import { initNavigation, initRevealAnimations } from '/js/nav.js';
+    import { initNavigation, initRevealAnimations, initGoldDust, initStickyProcess } from '/js/nav.js';
     initNavigation();
     initRevealAnimations();
+    initGoldDust();
+    initStickyProcess();
   </script>
 </body>
 </html>

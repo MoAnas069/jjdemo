@@ -114,3 +114,165 @@ function animateCount(el) {
 
   requestAnimationFrame(tick);
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   INTERACTIVE GOLD DUST PARTICLES (A3)
+   ═══════════════════════════════════════════════════════════════ */
+export function initGoldDust() {
+  const canvas = document.getElementById('ambient-canvas');
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+  let animationFrameId = null;
+  let particles = [];
+  const maxParticles = 60; 
+  
+  const mouse = { x: null, y: null, radius: 150 };
+  let isMenuOpen = false;
+
+  document.addEventListener('menu-toggle', (e) => {
+    isMenuOpen = e.detail.open;
+  });
+
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+
+  window.addEventListener('resize', resize);
+  resize();
+
+  window.addEventListener('mousemove', (e) => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+  });
+
+  window.addEventListener('mouseleave', () => {
+    mouse.x = null;
+    mouse.y = null;
+  });
+
+  class Particle {
+    constructor() {
+      this.reset(true);
+    }
+
+    reset(init = false) {
+      this.x = Math.random() * canvas.width;
+      this.y = init ? Math.random() * canvas.height : canvas.height + 20;
+      this.size = Math.random() * 2 + 0.5;
+      this.speedY = Math.random() * 0.4 + 0.1;
+      this.speedX = Math.random() * 0.2 - 0.1;
+      this.alpha = Math.random() * 0.4 + 0.15;
+      this.maxAlpha = this.alpha;
+      this.fadeSpeed = Math.random() * 0.005 + 0.002;
+      this.wobble = Math.random() * Math.PI * 2;
+      this.wobbleSpeed = Math.random() * 0.02 + 0.005;
+    }
+
+    update() {
+      this.y -= this.speedY;
+      this.wobble += this.wobbleSpeed;
+      this.x += this.speedX + Math.sin(this.wobble) * 0.15;
+
+      if (mouse.x !== null && mouse.y !== null) {
+        const dx = this.x - mouse.x;
+        const dy = this.y - mouse.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        
+        if (dist < mouse.radius) {
+          const force = (mouse.radius - dist) / mouse.radius;
+          const angle = Math.atan2(dy, dx);
+          
+          this.x += Math.cos(angle) * force * 1.5;
+          this.y += Math.sin(angle) * force * 1.5;
+        }
+      }
+
+      if (this.y < -20 || this.x < -20 || this.x > canvas.width + 20) {
+        this.reset();
+      }
+    }
+
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(176, 141, 87, ${this.alpha})`;
+      ctx.fill();
+    }
+  }
+
+  function initParticles() {
+    particles = [];
+    for (let i = 0; i < maxParticles; i++) {
+      particles.push(new Particle());
+    }
+  }
+  initParticles();
+
+  function animate() {
+    if (isMenuOpen || prefersReducedMotion.matches) {
+      animationFrameId = requestAnimationFrame(animate);
+      return;
+    }
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    for (let i = 0; i < particles.length; i++) {
+      particles[i].update();
+      particles[i].draw();
+    }
+
+    animationFrameId = requestAnimationFrame(animate);
+  }
+
+  animate();
+  
+  prefersReducedMotion.addEventListener('change', () => {
+    if (prefersReducedMotion.matches) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   STICKY SCROLL OBSERVER (A2)
+   ═══════════════════════════════════════════════════════════════ */
+export function initStickyProcess() {
+  const stickyImg = document.getElementById('sticky-process-img');
+  const cards = document.querySelectorAll('.process-card-sticky');
+  
+  if (!stickyImg || !cards.length) return;
+
+  const options = {
+    root: null,
+    rootMargin: '-35% 0px -45% 0px',
+    threshold: 0.1
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const newImgSrc = entry.target.dataset.image;
+        if (newImgSrc && stickyImg.src !== window.location.origin + newImgSrc) {
+          stickyImg.style.opacity = '0';
+          stickyImg.style.transform = 'scale(0.96)';
+          
+          setTimeout(() => {
+            stickyImg.src = newImgSrc;
+            stickyImg.alt = entry.target.querySelector('h3')?.textContent || 'Process Step';
+            stickyImg.style.opacity = '1';
+            stickyImg.style.transform = 'scale(1)';
+          }, 350);
+        }
+        
+        cards.forEach(c => c.classList.remove('active'));
+        entry.target.classList.add('active');
+      }
+    });
+  }, options);
+
+  cards.forEach(card => observer.observe(card));
+}

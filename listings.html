@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Featured Listings | THE J — Luxury Real Estate</title>
-  <meta name="description" content="Browse JR Group's featured luxury home listings across the United States. Exceptional properties at every price point." />
+  <title>Featured Listings | THE J — Texas Luxury Real Estate</title>
+  <meta name="description" content="Browse JR Group's featured luxury home listings across Texas and premier markets. Exceptional properties at every price point." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;0,6..96,700;0,6..96,800;0,6..96,900;1,6..96,400;1,6..96,500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
@@ -29,6 +29,12 @@
       <button class="nav__burger" id="nav-burger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
     </div>
   </nav>
+
+  <!-- AMBIENT BACKGROUND -->
+  <div class="ambient-bg" aria-hidden="true">
+    <canvas id="ambient-canvas" class="ambient-canvas"></canvas>
+    <div class="ambient-grain"></div>
+  </div>
 
   <section class="section section--page-hero">
     <div class="page-hero__content reveal">
@@ -56,12 +62,12 @@
       </article>
       <article class="listing-card reveal" id="listing-2">
         <div class="listing-card__image">
-          <img src="/images/property2.webp" alt="Downtown Penthouse with Skyline Views" loading="lazy" />
+          <img src="/images/property2.webp" alt="Austin Downtown Penthouse with Skyline Views" loading="lazy" />
           <div class="listing-card__overlay"><span class="listing-card__tag">New</span></div>
         </div>
         <div class="listing-card__info">
           <h3 class="listing-card__price">$2,890,000</h3>
-          <p class="listing-card__address">1200 Main St, Penthouse 4501, Houston</p>
+          <p class="listing-card__address">301 West Ave, Penthouse 4501, Austin</p>
           <div class="listing-card__details">
             <span><strong>3</strong> Beds</span>
             <span><strong>4</strong> Baths</span>
@@ -71,12 +77,12 @@
       </article>
       <article class="listing-card reveal" id="listing-3">
         <div class="listing-card__image">
-          <img src="/images/property3.webp" alt="Mediterranean Estate in Memorial" loading="lazy" />
+          <img src="/images/property3.webp" alt="Mediterranean Estate in Highland Park" loading="lazy" />
           <div class="listing-card__overlay"><span class="listing-card__tag">Exclusive</span></div>
         </div>
         <div class="listing-card__info">
           <h3 class="listing-card__price">$3,750,000</h3>
-          <p class="listing-card__address">9401 Memorial Drive, Houston</p>
+          <p class="listing-card__address">4320 Beverly Drive, Dallas</p>
           <div class="listing-card__details">
             <span><strong>6</strong> Beds</span>
             <span><strong>7</strong> Baths</span>
@@ -155,9 +161,10 @@
   </footer>
 
   <script type="module">
-    import { initNavigation, initRevealAnimations } from '/js/nav.js';
+    import { initNavigation, initRevealAnimations, initGoldDust } from '/js/nav.js';
     initNavigation();
     initRevealAnimations();
+    initGoldDust();
   </script>
 </body>
 </html>

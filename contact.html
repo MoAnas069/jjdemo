@@ -30,6 +30,12 @@
     </div>
   </nav>
 
+  <!-- AMBIENT BACKGROUND -->
+  <div class="ambient-bg" aria-hidden="true">
+    <canvas id="ambient-canvas" class="ambient-canvas"></canvas>
+    <div class="ambient-grain"></div>
+  </div>
+
   <section class="section section--page-hero">
     <div class="page-hero__content reveal">
       <span class="stage-label">Let's Connect</span>
@@ -137,9 +143,10 @@
   </footer>
 
   <script type="module">
-    import { initNavigation, initRevealAnimations } from '/js/nav.js';
+    import { initNavigation, initRevealAnimations, initGoldDust } from '/js/nav.js';
     initNavigation();
     initRevealAnimations();
+    initGoldDust();
 
     const form = document.getElementById('contact-form');
     const checkbox = document.getElementById('consent-checkbox');

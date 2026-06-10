@@ -504,7 +504,8 @@ html, body {
   }
   
   .btn-frame,
-  .btn-frame--primary {
+  .btn-frame--primary,
+  .btn-action {
     width: 100%;
     justify-content: center;
     padding: 16px 20px;
