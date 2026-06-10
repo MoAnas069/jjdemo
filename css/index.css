@@ -2344,17 +2344,20 @@ textarea {
     margin-bottom: 0.8rem;
   }
 
-  .hero__buttons-row-new {
+  .hero__buttons-row-new,
+  .hero__button-row {
     flex-direction: column;
     gap: 0.7rem;
     width: 100%;
   }
 
   .btn--primary-glow,
-  .hero__buttons-row-new .btn--glass-dark {
+  .hero__buttons-row-new .btn--glass-dark,
+  .btn-frame,
+  .btn-frame--primary {
     width: 100%;
     padding: 0.9rem 1.5rem;
-    font-size: 0.75rem;
+    font-size: 0.78rem;
     min-width: unset;
   }
 
@@ -2972,14 +2975,29 @@ textarea {
   .process-split-row {
     grid-template-columns: 1fr;
     gap: 2.5rem;
+    padding: 0 1.5rem;
   }
   
-  .process-split-row:nth-child(even) .process-split-row__img-wrapper {
+  .process-split-row {
+    margin-bottom: 4rem;
+  }
+  
+  .process-split-row__img-wrapper {
     order: -1; /* Keep images above text on mobile for consistency */
   }
   
   .content-split__img-wrapper,
   .process-split-row__img-wrapper {
     height: 300px;
+  }
+
+  .process-split-row .process-card {
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 1.3rem 1.4rem;
+  }
+
+  .process-split-row .process-card__number {
+    font-size: 2.2rem;
   }
 }

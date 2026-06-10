@@ -503,10 +503,13 @@ html, body {
     gap: 1.2rem;
   }
   
-  .btn-frame {
+  .btn-frame,
+  .btn-frame--primary {
     width: 100%;
     justify-content: center;
     padding: 16px 20px;
+    font-size: 0.8rem;
+    min-width: unset;
   }
   
   .scroll-cue {
