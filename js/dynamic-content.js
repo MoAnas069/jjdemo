@@ -253,6 +253,16 @@ document.head.appendChild(styleEl);
 
 // Fetch site copy
 export async function fetchSiteContent() {
+  const cached = sessionStorage.getItem('siteContent');
+  if (cached) {
+    try {
+      siteContent = JSON.parse(cached);
+      return;
+    } catch (e) {
+      console.error('Error parsing cached site content:', e);
+    }
+  }
+
   const { data, error } = await supabase.from('site_content').select('*');
   if (error) {
     console.error('Error loading site content:', error);
@@ -261,6 +271,11 @@ export async function fetchSiteContent() {
   data.forEach(row => {
     siteContent[row.key] = row.value;
   });
+  try {
+    sessionStorage.setItem('siteContent', JSON.stringify(siteContent));
+  } catch (e) {
+    console.error('Error saving to sessionStorage:', e);
+  }
 }
 
 // Apply site copy to data-sc templates
@@ -360,20 +375,30 @@ function initTestimonialsSlider() {
 
 // Load dynamic data on Homepage
 export async function loadHomepage() {
-  await fetchSiteContent();
+  const [contentRes, listingsRes, testimonialsRes] = await Promise.all([
+    fetchSiteContent(),
+    supabase
+      .from('listings')
+      .select('*')
+      .eq('status', 'sold')
+      .order('created_at', { ascending: false })
+      .limit(6),
+    supabase
+      .from('content_blocks')
+      .select('*')
+      .eq('section', 'testimonials')
+      .eq('status', 'published')
+      .order('position')
+  ]);
+
   applySiteContent();
 
   // Load Sold Listings
   const listingsGrid = document.querySelector('.sold-portfolio-grid');
   if (listingsGrid) {
-    let { data: listData, error: listErr } = await supabase
-      .from('listings')
-      .select('*')
-      .eq('status', 'sold')
-      .order('created_at', { ascending: false })
-      .limit(6);
+    let listData = listingsRes.data;
+    const listErr = listingsRes.error;
 
-    // Fallback if no sold listings are in the database yet
     if (listErr || !listData || listData.length === 0) {
       const fallback = await supabase
         .from('listings')
@@ -435,12 +460,8 @@ export async function loadHomepage() {
   const track = document.getElementById('slider-track');
   const dotsContainer = document.getElementById('slider-dots');
   if (track && dotsContainer) {
-    const { data: testData, error: testErr } = await supabase
-      .from('content_blocks')
-      .select('*')
-      .eq('section', 'testimonials')
-      .eq('status', 'published')
-      .order('position');
+    const testData = testimonialsRes.data;
+    const testErr = testimonialsRes.error;
 
     if (!testErr && testData && testData.length > 0) {
       track.innerHTML = testData.map(item => `
@@ -469,18 +490,21 @@ export async function loadHomepage() {
 
 // Load dynamic data on Sold Portfolio Page
 export async function loadSoldPage() {
-  await fetchSiteContent();
+  const [contentRes, listingsRes] = await Promise.all([
+    fetchSiteContent(),
+    supabase
+      .from('listings')
+      .select('*')
+      .eq('status', 'sold')
+      .order('created_at', { ascending: false })
+  ]);
+
   applySiteContent();
 
   const grid = document.getElementById('sold-portfolio-grid');
-  const tabsContainer = document.getElementById('sold-city-tabs');
   if (!grid) return;
 
-  const { data, error } = await supabase
-    .from('listings')
-    .select('*')
-    .eq('status', 'sold')
-    .order('created_at', { ascending: false });
+  const { data, error } = listingsRes;
 
   if (error || !data) {
     console.error('Error fetching sold listings:', error);
@@ -493,117 +517,40 @@ export async function loadSoldPage() {
     return;
   }
 
-  // Extract unique cities (e.g. Houston, Sugar Land, Missouri City, Richmond, Katy)
-  const cities = ['All', ...new Set(data.map(item => item.city).filter(Boolean))];
+  grid.innerHTML = data.map(item => {
+    return `
+      <article class="sold-card reveal" id="sold-${item.id}">
+        <div class="sold-card__image-wrap">
+          <img src="${item.hero_image}" alt="${item.address}" loading="lazy" />
+          <div class="sold-card__badge" style="background: #3f8f5f; color: #fff;">Sold</div>
+        </div>
+        <div class="sold-card__info">
+          <h3 class="sold-card__title" style="font-size: 15px; font-weight: 500; font-family: 'Inter', sans-serif; color: #bdb8af; line-height: 1.5; margin-top: 8px;">${item.address}</h3>
+        </div>
+      </article>
+    `;
+  }).join('');
 
-  let activeCity = 'All';
-  let isFirstRender = true;
-
-  // Function to render the grid filtered by city and sorted
-  function renderGrid() {
-    if (isFirstRender) {
-      isFirstRender = false;
-      let filtered = activeCity === 'All' 
-        ? [...data] 
-        : data.filter(item => item.city === activeCity);
-
-      // Default sort by newest sales
-      filtered.sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
-
-      if (filtered.length === 0) {
-        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: var(--color-muted); padding: 50px;">No sold properties in this city.</div>';
-      } else {
-        grid.innerHTML = filtered.map(item => {
-          return `
-            <article class="sold-card reveal" id="sold-${item.id}">
-              <div class="sold-card__image-wrap">
-                <img src="${item.hero_image}" alt="${item.address}" loading="lazy" />
-                <div class="sold-card__badge" style="background: #3f8f5f; color: #fff;">Sold</div>
-              </div>
-              <div class="sold-card__info">
-                <h3 class="sold-card__title" style="font-size: 15px; font-weight: 500; font-family: 'Inter', sans-serif; color: #bdb8af; line-height: 1.5; margin-top: 8px;">${item.address}</h3>
-              </div>
-            </article>
-          `;
-        }).join('');
-      }
-
-      initRevealAnimations(grid);
-      return;
-    }
-
-    grid.classList.add('filtering');
-
-    setTimeout(() => {
-      let filtered = activeCity === 'All' 
-        ? [...data] 
-        : data.filter(item => item.city === activeCity);
-
-      // Default sort by newest sales
-      filtered.sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
-
-      if (filtered.length === 0) {
-        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: var(--color-muted); padding: 50px;">No sold properties in this city.</div>';
-      } else {
-        grid.innerHTML = filtered.map(item => {
-          return `
-            <article class="sold-card reveal" id="sold-${item.id}">
-              <div class="sold-card__image-wrap">
-                <img src="${item.hero_image}" alt="${item.address}" loading="lazy" />
-                <div class="sold-card__badge" style="background: #3f8f5f; color: #fff;">Sold</div>
-              </div>
-              <div class="sold-card__info">
-                <h3 class="sold-card__title" style="font-size: 15px; font-weight: 500; font-family: 'Inter', sans-serif; color: #bdb8af; line-height: 1.5; margin-top: 8px;">${item.address}</h3>
-              </div>
-            </article>
-          `;
-        }).join('');
-      }
-
-      initRevealAnimations(grid);
-
-      requestAnimationFrame(() => {
-        grid.classList.remove('filtering');
-      });
-    }, 200);
-  }
-
-  // Render city filter tabs
-  if (tabsContainer) {
-    tabsContainer.innerHTML = cities.map((city, idx) => `
-      <button class="filter-tab ${idx === 0 ? 'active' : ''}" data-city="${city}">${city}</button>
-    `).join('');
-
-    const tabs = tabsContainer.querySelectorAll('.filter-tab');
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        tabs.forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        activeCity = tab.dataset.city;
-        renderGrid();
-      });
-    });
-  }
-
-
-  // Initial render
-  renderGrid();
+  initRevealAnimations(grid);
 }
-
 
 // Load dynamic data on About Page
 export async function loadAboutPage() {
-  await fetchSiteContent();
-  applySiteContent();
-
-  const statsRow = document.querySelector('.stats-row');
-  if (statsRow) {
-    const { data, error } = await supabase
+  const [contentRes, blocksRes] = await Promise.all([
+    fetchSiteContent(),
+    supabase
       .from('content_blocks')
       .select('*')
       .eq('section', 'stats')
       .eq('status', 'published')
-      .order('position');
+      .order('position')
+  ]);
+
+  applySiteContent();
+
+  const statsRow = document.querySelector('.stats-row');
+  if (statsRow) {
+    const { data, error } = blocksRes;
 
     if (!error && data && data.length > 0) {
       statsRow.innerHTML = data.map(item => `
@@ -621,17 +568,21 @@ export async function loadAboutPage() {
 
 // Load dynamic data on Buy Page
 export async function loadBuyPage() {
-  await fetchSiteContent();
-  applySiteContent();
-
-  const stepsContainer = document.querySelector('.sticky-process-steps');
-  if (stepsContainer) {
-    const { data, error } = await supabase
+  const [contentRes, blocksRes] = await Promise.all([
+    fetchSiteContent(),
+    supabase
       .from('content_blocks')
       .select('*')
       .eq('section', 'buyer_steps')
       .eq('status', 'published')
-      .order('position');
+      .order('position')
+  ]);
+
+  applySiteContent();
+
+  const stepsContainer = document.querySelector('.sticky-process-steps');
+  if (stepsContainer) {
+    const { data, error } = blocksRes;
 
     if (!error && data && data.length > 0) {
       stepsContainer.innerHTML = data.map((item, idx) => `
@@ -659,17 +610,21 @@ export async function loadBuyPage() {
 
 // Load dynamic data on Sell Page
 export async function loadSellPage() {
-  await fetchSiteContent();
-  applySiteContent();
-
-  const stepsContainer = document.querySelector('.sticky-process-steps');
-  if (stepsContainer) {
-    const { data, error } = await supabase
+  const [contentRes, blocksRes] = await Promise.all([
+    fetchSiteContent(),
+    supabase
       .from('content_blocks')
       .select('*')
       .eq('section', 'seller_steps')
       .eq('status', 'published')
-      .order('position');
+      .order('position')
+  ]);
+
+  applySiteContent();
+
+  const stepsContainer = document.querySelector('.sticky-process-steps');
+  if (stepsContainer) {
+    const { data, error } = blocksRes;
 
     if (!error && data && data.length > 0) {
       stepsContainer.innerHTML = data.map((item, idx) => `
@@ -697,16 +652,20 @@ export async function loadSellPage() {
 
 // Load dynamic data on Communities Page
 export async function loadCommunitiesPage() {
-  await fetchSiteContent();
+  const [contentRes, communitiesRes] = await Promise.all([
+    fetchSiteContent(),
+    supabase
+      .from('communities')
+      .select('*')
+      .eq('status', 'published')
+      .order('name')
+  ]);
+
   applySiteContent();
 
   const grid = document.querySelector('.community-grid');
   if (grid) {
-    const { data, error } = await supabase
-      .from('communities')
-      .select('*')
-      .eq('status', 'published')
-      .order('name');
+    const { data, error } = communitiesRes;
 
     if (!error && data && data.length > 0) {
       grid.innerHTML = data.map(item => `
@@ -727,17 +686,21 @@ export async function loadCommunitiesPage() {
 
 // Load dynamic data on Listings Page
 export async function loadListingsPage() {
-  await fetchSiteContent();
-  applySiteContent();
-
-  const grid = document.querySelector('.listings-grid');
-  if (grid) {
-    const { data, error } = await supabase
+  const [contentRes, listingsRes] = await Promise.all([
+    fetchSiteContent(),
+    supabase
       .from('listings')
       .select('*')
       .eq('status', 'published')
       .order('featured', { ascending: false })
-      .order('created_at', { ascending: false });
+      .order('created_at', { ascending: false })
+  ]);
+
+  applySiteContent();
+
+  const grid = document.querySelector('.listings-grid');
+  if (grid) {
+    const { data, error } = listingsRes;
 
     if (!error && data && data.length > 0) {
       grid.innerHTML = data.map(item => `
@@ -767,16 +730,20 @@ export async function loadListingsPage() {
 
 // Load dynamic data on Blog Page
 export async function loadBlogPage() {
-  await fetchSiteContent();
+  const [contentRes, postsRes] = await Promise.all([
+    fetchSiteContent(),
+    supabase
+      .from('blog_posts')
+      .select('*')
+      .eq('status', 'published')
+      .order('published_at', { ascending: false })
+  ]);
+
   applySiteContent();
 
   const grid = document.querySelector('.blog-grid');
   if (grid) {
-    const { data, error } = await supabase
-      .from('blog_posts')
-      .select('*')
-      .eq('status', 'published')
-      .order('published_at', { ascending: false });
+    const { data, error } = postsRes;
 
     if (!error && data && data.length > 0) {
       grid.innerHTML = data.map(item => `

@@ -6,7 +6,7 @@ document.fonts.ready.then(async () => {
   initNavigation();
   initSmoothScroll();
   initHeroVideo();
-  initGoldDust();
   
   await loadHomepage();
+  initGoldDust();
 });
