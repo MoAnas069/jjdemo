@@ -15,6 +15,7 @@ export default defineConfig({
         contact: resolve(__dirname, 'contact.html'),
         hero: resolve(__dirname, 'hero.html'),
         'significant-sales': resolve(__dirname, 'significant-sales.html'),
+        backroom: resolve(__dirname, 'backroom.html'),
       },
     },
   },
