@@ -779,34 +779,7 @@
         </div>
       </section>
 
-      <!-- TRACK RECORD (Sold properties) -->
-      <section class="section section--sold-portfolio">
-        <div class="section-home-header">
-          <span class="stage-label" style="color: var(--color-brass);">Our Track Record</span>
-          <h2 class="stage-headline">Significant Sales</h2>
-        </div>
-        <div class="sold-portfolio-grid">
-          ${soldListings.map(item => {
-            return `
-              <article class="sold-card" style="position:relative; display:block;">
-                <div class="card-edit-controls">
-                  <button class="btn-edit-badge" onclick="deleteInlineRecord('listings', '${item.id}')">✕ Delete</button>
-                </div>
-                <div class="sold-card__image-wrap edit-img-wrap" data-img-field="hero_image" data-row-id="${item.id}" data-table="listings">
-                  <img src="${escapeHtml(item.hero_image)}" />
-                  <div class="sold-card__badge" style="background: #3f8f5f; color: #fff;">Sold</div>
-                </div>
-                <div class="sold-card__info">
-                  <h3 class="sold-card__title" contenteditable="true" data-field="address" data-row-id="${item.id}" data-table="listings" style="font-size: 15px; font-weight: 500; font-family: 'Inter', sans-serif; color: #bdb8af; line-height: 1.5; margin-top: 8px;">${escapeHtml(item.address)}</h3>
-                </div>
-              </article>
-            `;
-          }).join('')}
-          <div class="admin-add-card" onclick="createNewInlineListing(false, true)">
-            + Add New Sold Estate
-          </div>
-        </div>
-      </section>
+
 
       <!-- CREDIBILITY (About) -->
       <section class="section section--about-home">
