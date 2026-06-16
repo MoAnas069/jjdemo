@@ -245,6 +245,124 @@ const modalStyles = `
   background: transparent;
   color: #B08D57;
 }
+
+/* Blog Modal Specific Styles */
+.blog-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 8, 7, 0.75);
+  backdrop-filter: blur(10px);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  padding: 24px;
+}
+.blog-modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+.blog-modal-card {
+  background: #14110F;
+  border: 1px solid rgba(176, 141, 87, 0.4);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 800px;
+  max-height: 88vh;
+  overflow-y: auto;
+  position: relative;
+  transform: translateY(20px) scale(0.97);
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.7);
+  color: #F5F6F7;
+}
+.blog-modal-overlay.active .blog-modal-card {
+  transform: translateY(0) scale(1);
+}
+.blog-modal-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  background: rgba(20, 17, 15, 0.75);
+  border: 1px solid #B08D57;
+  color: #fff;
+  font-size: 18px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+.blog-modal-close:hover {
+  background: #B08D57;
+  color: #14110F;
+  transform: rotate(90deg);
+}
+.blog-modal-hero {
+  position: relative;
+  height: 380px;
+  width: 100%;
+  overflow: hidden;
+}
+@media (max-width: 768px) {
+  .blog-modal-hero {
+    height: 240px;
+  }
+}
+.blog-modal-hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.blog-modal-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 40%, rgba(20, 17, 15, 0.95));
+}
+.blog-modal-body {
+  padding: 32px 36px 48px;
+}
+@media (max-width: 600px) {
+  .blog-modal-body {
+    padding: 24px 20px;
+  }
+}
+.blog-modal-meta {
+  font-size: 12px;
+  color: #B08D57;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+}
+.blog-modal-title {
+  font-family: 'Bodoni Moda', serif;
+  font-size: 32px;
+  color: #fff;
+  margin-bottom: 16px;
+  line-height: 1.25;
+}
+.blog-modal-date-author {
+  font-size: 13.5px;
+  color: #8a857d;
+  margin-bottom: 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 16px;
+}
+.blog-modal-content {
+  line-height: 1.8;
+  color: #cfcabf;
+  font-size: 15.5px;
+}
+.blog-modal-content p {
+  margin-bottom: 1.5rem;
+}
 `;
 
 const styleEl = document.createElement('style');
@@ -747,7 +865,7 @@ export async function loadBlogPage() {
 
     if (!error && data && data.length > 0) {
       grid.innerHTML = data.map(item => `
-        <article class="blog-card reveal" id="blog-${item.id}">
+        <article class="blog-card reveal" id="blog-${item.id}" style="cursor:pointer;" onclick="openBlogDetailModal('${item.id}')">
           <div class="blog-card__image"><img src="${item.cover_image}" alt="${item.title}" loading="lazy" /></div>
           <div class="blog-card__content">
             <span class="blog-card__category">${item.tags && item.tags[0] ? item.tags[0] : 'Insight'}</span>
@@ -941,4 +1059,85 @@ window.submitPropertyInquiry = async function(event, propertyTitle) {
       btn.disabled = false;
     }, 3000);
   }
+}
+
+// =========================================================================
+// BLOG DETAIL MODAL SYSTEM
+// =========================================================================
+
+export async function openBlogDetailModal(id) {
+  const { data, error } = await supabase.from('blog_posts').select('*').eq('id', id).single();
+  if (error || !data) {
+    console.error('Error fetching blog details:', error);
+    return;
+  }
+
+  let existing = document.getElementById('blog-modal');
+  if (existing) existing.remove();
+
+  const modal = document.createElement('div');
+  modal.id = 'blog-modal';
+  modal.className = 'blog-modal-overlay';
+  
+  // Format date
+  const formattedDate = new Date(data.published_at || data.created_at).toLocaleDateString(undefined, {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric'
+  });
+
+  // Check if body content has HTML tags, otherwise wrap linebreaks in paragraphs
+  let contentHtml = '';
+  if (data.body) {
+    if (data.body.includes('<p>') || data.body.includes('<br')) {
+      contentHtml = data.body;
+    } else {
+      contentHtml = data.body
+        .split('\n')
+        .filter(Boolean)
+        .map(para => `<p>${para}</p>`)
+        .join('');
+    }
+  } else {
+    contentHtml = '<p>No content available for this post.</p>';
+  }
+
+  modal.innerHTML = `
+    <div class="blog-modal-card">
+      <button class="blog-modal-close" onclick="closeBlogDetailModal()">✕</button>
+      <div class="blog-modal-hero">
+        <img src="${data.cover_image || '/images/1.webp'}" alt="${data.title}" />
+        <div class="blog-modal-hero-overlay"></div>
+      </div>
+      <div class="blog-modal-body">
+        <div class="blog-modal-meta">${Array.isArray(data.tags) ? data.tags.join(', ') : 'Insight'}</div>
+        <h2 class="blog-modal-title">${data.title}</h2>
+        <div class="blog-modal-date-author">
+          Published on ${formattedDate} ${data.author ? `by ${data.author}` : ''}
+        </div>
+        <div class="blog-modal-content">
+          ${contentHtml}
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+  
+  // Show it with transition
+  setTimeout(() => modal.classList.add('active'), 10);
+  
+  // Lock body scroll
+  document.body.style.overflow = 'hidden';
+}
+
+window.openBlogDetailModal = openBlogDetailModal;
+
+window.closeBlogDetailModal = function() {
+  const modal = document.getElementById('blog-modal');
+  if (modal) {
+    modal.classList.remove('active');
+    setTimeout(() => modal.remove(), 400);
+  }
+  document.body.style.overflow = '';
 }

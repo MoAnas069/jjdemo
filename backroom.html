@@ -764,6 +764,18 @@
               <p class="service-card__description" contenteditable="true" data-cms="service_invest_desc">${escapeHtml(siteContent.service_invest_desc || 'Build long-term portfolios.')}</p>
             </div>
           </article>
+          <!-- Recent Sales -->
+          <article class="service-card">
+            <div class="service-card__image-wrap edit-img-wrap" data-img-cms="service_recent_image">
+              <img src="${escapeHtml(siteContent.service_recent_image || '/images/service_recent.webp')}" />
+              <div class="service-card__overlay"></div>
+            </div>
+            <div class="service-card__content">
+              <span class="service-card__tag" contenteditable="true" data-cms="service_recent_tag">${escapeHtml(siteContent.service_recent_tag || 'Track Record')}</span>
+              <h3 class="service-card__title" contenteditable="true" data-cms="service_recent_title">${escapeHtml(siteContent.service_recent_title || 'Recent Sales')}</h3>
+              <p class="service-card__description" contenteditable="true" data-cms="service_recent_desc">${escapeHtml(siteContent.service_recent_desc || 'View our portfolio of successfully closed estates.')}</p>
+            </div>
+          </article>
         </div>
       </section>
 
