@@ -497,44 +497,75 @@ export async function loadSoldPage() {
   const cities = ['All', ...new Set(data.map(item => item.city).filter(Boolean))];
 
   let activeCity = 'All';
-  let activeSort = 'newest';
+  let isFirstRender = true;
 
   // Function to render the grid filtered by city and sorted
   function renderGrid() {
-    let filtered = activeCity === 'All' 
-      ? [...data] 
-      : data.filter(item => item.city === activeCity);
+    if (isFirstRender) {
+      isFirstRender = false;
+      let filtered = activeCity === 'All' 
+        ? [...data] 
+        : data.filter(item => item.city === activeCity);
 
-    // Apply sorting
-    if (activeSort === 'newest') {
+      // Default sort by newest sales
       filtered.sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
-    } else if (activeSort === 'oldest') {
-      filtered.sort((a, b) => new Date(a.created_at || 0) - new Date(b.created_at || 0));
-    } else if (activeSort === 'city-az') {
-      filtered.sort((a, b) => (a.city || '').localeCompare(b.city || ''));
-    }
 
-    if (filtered.length === 0) {
-      grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: var(--color-muted); padding: 50px;">No sold properties in this city.</div>';
+      if (filtered.length === 0) {
+        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: var(--color-muted); padding: 50px;">No sold properties in this city.</div>';
+      } else {
+        grid.innerHTML = filtered.map(item => {
+          return `
+            <article class="sold-card reveal" id="sold-${item.id}">
+              <div class="sold-card__image-wrap">
+                <img src="${item.hero_image}" alt="${item.address}" loading="lazy" />
+                <div class="sold-card__badge" style="background: #3f8f5f; color: #fff;">Sold</div>
+              </div>
+              <div class="sold-card__info">
+                <h3 class="sold-card__title" style="font-size: 15px; font-weight: 500; font-family: 'Inter', sans-serif; color: #bdb8af; line-height: 1.5; margin-top: 8px;">${item.address}</h3>
+              </div>
+            </article>
+          `;
+        }).join('');
+      }
+
+      initRevealAnimations(grid);
       return;
     }
 
-    grid.innerHTML = filtered.map(item => {
-      return `
-        <article class="sold-card reveal" id="sold-${item.id}">
-          <div class="sold-card__image-wrap">
-            <img src="${item.hero_image}" alt="${item.address}" loading="lazy" />
-            <div class="sold-card__badge" style="background: #3f8f5f; color: #fff;">Sold</div>
-          </div>
-          <div class="sold-card__info">
-            <h3 class="sold-card__title" style="font-size: 15px; font-weight: 500; font-family: 'Inter', sans-serif; color: #bdb8af; line-height: 1.5; margin-top: 8px;">${item.address}</h3>
-          </div>
-        </article>
-      `;
-    }).join('');
+    grid.classList.add('filtering');
 
-    // Re-init reveal animations for the newly created cards
-    initRevealAnimations();
+    setTimeout(() => {
+      let filtered = activeCity === 'All' 
+        ? [...data] 
+        : data.filter(item => item.city === activeCity);
+
+      // Default sort by newest sales
+      filtered.sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: var(--color-muted); padding: 50px;">No sold properties in this city.</div>';
+      } else {
+        grid.innerHTML = filtered.map(item => {
+          return `
+            <article class="sold-card reveal" id="sold-${item.id}">
+              <div class="sold-card__image-wrap">
+                <img src="${item.hero_image}" alt="${item.address}" loading="lazy" />
+                <div class="sold-card__badge" style="background: #3f8f5f; color: #fff;">Sold</div>
+              </div>
+              <div class="sold-card__info">
+                <h3 class="sold-card__title" style="font-size: 15px; font-weight: 500; font-family: 'Inter', sans-serif; color: #bdb8af; line-height: 1.5; margin-top: 8px;">${item.address}</h3>
+              </div>
+            </article>
+          `;
+        }).join('');
+      }
+
+      initRevealAnimations(grid);
+
+      requestAnimationFrame(() => {
+        grid.classList.remove('filtering');
+      });
+    }, 200);
   }
 
   // Render city filter tabs
@@ -554,14 +585,6 @@ export async function loadSoldPage() {
     });
   }
 
-  // Listen to sorting changes
-  const sortSelect = document.getElementById('sold-sort-select');
-  if (sortSelect) {
-    sortSelect.addEventListener('change', (e) => {
-      activeSort = e.target.value;
-      renderGrid();
-    });
-  }
 
   // Initial render
   renderGrid();

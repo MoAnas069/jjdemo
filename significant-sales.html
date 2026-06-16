@@ -13,27 +13,58 @@
     .filter-tabs {
       display: flex;
       justify-content: center;
-      gap: 12px;
+      gap: 24px;
       flex-wrap: wrap;
-      margin-bottom: 40px;
-      padding: 0 24px;
+      margin-bottom: 0;
+      padding: 0;
     }
     .filter-tab {
       background: transparent;
-      border: 1px solid rgba(176, 141, 87, 0.3);
-      color: #bdb8af;
-      padding: 8px 20px;
-      border-radius: 30px;
+      border: none;
+      color: #8a857d;
+      padding: 8px 0;
       font-size: 13px;
       font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
       cursor: pointer;
-      transition: all 0.3s ease;
+      position: relative;
+      transition: color 0.3s ease;
       font-family: 'Inter', sans-serif;
     }
-    .filter-tab:hover, .filter-tab.active {
-      border-color: #B08D57;
+    .filter-tab:hover {
       color: #fff;
-      background: rgba(176, 141, 87, 0.1);
+    }
+    .filter-tab.active {
+      color: #B08D57;
+    }
+    .filter-tab::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: #B08D57;
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .filter-tab.active::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+
+
+    /* Grid Fade Transition */
+    #sold-portfolio-grid {
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      will-change: opacity, transform;
+    }
+    #sold-portfolio-grid.filtering {
+      opacity: 0;
+      transform: translateY(10px);
     }
   </style>
 </head>
@@ -71,19 +102,11 @@
     </div>
   </section>
 
-  <!-- City Filters & Sorting -->
+  <!-- City Filters -->
   <section class="section" style="padding: 0 24px; max-width: 1100px; margin: 0 auto; padding-bottom: 20px;">
-    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 24px; margin-bottom: 30px;">
+    <div style="display: flex; justify-content: center; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 24px; margin-bottom: 30px;">
       <div class="filter-tabs" id="sold-city-tabs" style="margin-bottom: 0; padding: 0;">
         <!-- Loaded dynamically -->
-      </div>
-      <div style="display: flex; align-items: center; gap: 8px;">
-        <span style="color: #8a857d; font-size: 13px; font-family: 'Inter', sans-serif;">Sort by:</span>
-        <select id="sold-sort-select" style="background: #181512; border: 1px solid rgba(176, 141, 87, 0.3); color: #bdb8af; padding: 8px 16px; border-radius: 6px; font-size: 13px; outline: none; cursor: pointer; transition: all 0.3s; font-family: 'Inter', sans-serif;">
-          <option value="newest">Newest Sales</option>
-          <option value="oldest">Oldest Sales</option>
-          <option value="city-az">City (A-Z)</option>
-        </select>
       </div>
     </div>
   </section>
