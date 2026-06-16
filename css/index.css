@@ -3452,6 +3452,290 @@ textarea {
   transform: scale(1.06);
 }
 
+/* --- HERO SCROLL INDICATOR --- */
+.hero__scroll-indicator {
+  position: absolute;
+  bottom: 2.2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--color-brass);
+  text-decoration: none;
+  font-family: var(--ff-body);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 1.6s cubic-bezier(0.22, 1, 0.36, 1), color 0.3s;
+}
+
+.hero__scroll-indicator:hover {
+  color: var(--gold);
+}
+
+.hero__scroll-indicator svg {
+  animation: scroll-bounce 2s infinite ease-in-out;
+  stroke: currentColor;
+}
+
+@keyframes scroll-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+
+/* --- SERVICES CTA SECTION --- */
+.section--services-home {
+  background: var(--bg-ink);
+  padding: var(--section-py) 2rem;
+  position: relative;
+}
+
+.services-home-grid {
+  max-width: var(--content-mx);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.5rem;
+}
+
+.service-card {
+  position: relative;
+  height: 480px;
+  overflow: hidden;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
+              border-color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.service-card__image-wrap {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.service-card__image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.service-card__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.service-card__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(20, 17, 15, 0.1) 0%, rgba(20, 17, 15, 0.9) 100%);
+  z-index: 1;
+}
+
+.service-card__content {
+  position: relative;
+  z-index: 2;
+  padding: 2.2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  text-align: left;
+}
+
+.service-card__tag {
+  color: var(--color-brass);
+  font-family: var(--ff-body);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 0.2rem;
+}
+
+.service-card__title {
+  font-family: var(--ff-display);
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: var(--color-bone);
+}
+
+.service-card__description {
+  font-family: var(--ff-body);
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--white-dim);
+  margin-bottom: 1rem;
+}
+
+.service-card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--gold);
+  text-decoration: none;
+  font-family: var(--ff-body);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  transition: color 0.3s;
+}
+
+.service-card__link svg {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Service Card Hover States */
+.service-card:hover {
+  transform: translateY(-8px);
+  border-color: var(--gold);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 20px var(--gold-soft);
+}
+
+.service-card:hover .service-card__image-wrap img {
+  transform: scale(1.08);
+}
+
+.service-card:hover .service-card__video {
+  opacity: 1;
+}
+
+.service-card:hover .service-card__link {
+  color: var(--white);
+}
+
+.service-card:hover .service-card__link svg {
+  transform: translateX(6px);
+}
+
+/* --- SUCCESSFULLY SOLD PORTFOLIO --- */
+.section--sold-portfolio {
+  background: var(--bg-ink);
+  padding: 0 2rem var(--section-py);
+  position: relative;
+}
+
+.sold-portfolio-grid {
+  max-width: var(--content-mx);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.sold-card {
+  border: 1px solid #2b2620;
+  border-radius: var(--radius);
+  background: rgba(28, 24, 19, 0.3);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.5s ease, transform 0.5s ease;
+}
+
+.sold-card__image-wrap {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  width: 100%;
+}
+
+.sold-card__image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: grayscale(20%);
+}
+
+.sold-card__badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 2;
+  background: rgba(176, 141, 87, 0.9);
+  color: var(--bg-ink);
+  font-family: var(--ff-body);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 4px;
+}
+
+.sold-card__info {
+  padding: 1.8rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.sold-card__location {
+  color: var(--color-brass);
+  font-family: var(--ff-body);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+
+.sold-card__title {
+  font-family: var(--ff-display);
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--color-bone);
+  margin-bottom: 0.4rem;
+}
+
+.sold-card__price {
+  font-family: var(--ff-body);
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--color-muted);
+  margin-bottom: 1.2rem;
+}
+
+.sold-card__meta {
+  font-family: var(--ff-body);
+  font-size: 0.78rem;
+  color: var(--color-brass);
+  border-top: 1px solid rgba(176, 141, 87, 0.1);
+  padding-top: 0.8rem;
+  margin-top: auto;
+}
+
+/* Sold Card Hover States */
+.sold-card:hover {
+  border-color: var(--color-brass);
+  transform: translateY(-4px);
+}
+
+.sold-card:hover .sold-card__image-wrap img {
+  transform: scale(1.06);
+}
+
 /* Hairline Divider */
 .hairline-divider-wrapper {
   background: var(--bg-ink);
@@ -3779,9 +4063,27 @@ textarea {
 
 /* Media Query Stack overrides for the new section system */
 @media (max-width: 768px) {
-  .listings-home-grid {
+  .listings-home-grid,
+  .services-home-grid,
+  .sold-portfolio-grid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
+  }
+
+  .service-card {
+    height: 420px;
+  }
+
+  @media (max-width: 480px) {
+    .slider-dots {
+      gap: 0.5rem;
+    }
+    .slider-dot {
+      width: 18px;
+    }
+    .slider-dot.active {
+      width: 32px;
+    }
   }
 
   .about-home-container {

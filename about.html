@@ -23,6 +23,7 @@
         <li><a href="/sell.html">Sell</a></li>
         <li><a href="/communities.html">Communities</a></li>
         <li><a href="/listings.html">Listings</a></li>
+        <li><a href="/significant-sales.html">Significant Sales</a></li>
         <li><a href="/blog.html">Blog</a></li>
         <li><a href="/contact.html">Contact</a></li>
       </ul>
@@ -52,23 +53,23 @@
         <img src="/images/joel-portrait.webp" alt="Joel Joy — Real Estate Advisor" loading="lazy" />
       </div>
       <div class="editorial-text reveal">
-        <h2 class="editorial-heading">
+        <h2 class="editorial-heading" data-sc="about_title">
           Your trusted advisor.<br/><em>Your strongest advocate.</em>
         </h2>
-        <p>
+        <p data-sc="about_bio1">
           Joel Joy is more than a real estate agent — he's a trusted advisor who has spent decades
           navigating the Texas luxury real estate market. With a deep understanding of the state's
           most prestigious areas — from the exclusive neighborhoods of Houston and the high-end
           enclaves of Austin, to the vibrant districts of Dallas-Fort Worth and San Antonio — Joel
           brings insider knowledge that gives his clients a decisive edge in every transaction.
         </p>
-        <p>
+        <p data-sc="about_bio2">
           What sets Joel apart is his commitment to transparency and directness. He doesn't sugarcoat
           market conditions or push clients toward decisions that don't serve their best interests.
           Every conversation is honest, every strategy is data-driven, and every negotiation is
           fought with the tenacity of someone who genuinely cares about the outcome.
         </p>
-        <p>
+        <p data-sc="about_bio3">
           Joel understands that real estate is both a financial decision and an emotional journey.
           Whether you're a first-time buyer navigating mortgage complexities or a seasoned investor
           looking for your next portfolio addition, Joel's strong negotiation skills and deep market
@@ -81,9 +82,9 @@
   <!-- PHILOSOPHY -->
   <section class="section section--content-block">
     <div class="content-block reveal">
-      <span class="stage-label">Philosophy</span>
-      <h2 class="stage-headline">Transparency first.<br/><em>Results always.</em></h2>
-      <p class="stage-body">
+      <span class="stage-label" data-sc="about_phil_label">Philosophy</span>
+      <h2 class="stage-headline" data-sc="about_phil_heading">Transparency first.<br/><em>Results always.</em></h2>
+      <p class="stage-body" data-sc="about_phil_body">
         Joel believes that the foundation of every successful real estate transaction is trust.
         That's why he prioritizes clear communication, honest market analysis, and strategies
         built around your unique goals — not his commission. His clients consistently describe
@@ -96,9 +97,9 @@
   <!-- EXPERTISE -->
   <section class="section section--content-block">
     <div class="content-block reveal">
-      <span class="stage-label">Expertise</span>
-      <h2 class="stage-headline">Decades of experience.<br/><em>Texas market mastery.</em></h2>
-      <p class="stage-body">
+      <span class="stage-label" data-sc="about_exp_label">Expertise</span>
+      <h2 class="stage-headline" data-sc="about_exp_heading">Decades of experience.<br/><em>Texas market mastery.</em></h2>
+      <p class="stage-body" data-sc="about_exp_body">
         Joel's market knowledge runs deep. From the sprawling estates of Houston and the premier
         communities of Sugar Land, to the historic charm of Richmond, the dynamic neighborhoods
         of Austin, and the exclusive enclaves of Dallas — Joel has helped hundreds of clients find
@@ -108,22 +109,7 @@
       </p>
     </div>
     <div class="stats-row reveal">
-      <div class="trust-stat">
-        <span class="trust-stat__number" data-count="500" data-suffix="+">0</span>
-        <span class="trust-stat__label">Homes Sold</span>
-      </div>
-      <div class="trust-stat">
-        <span class="trust-stat__number" data-count="250" data-prefix="$" data-suffix="M+">0</span>
-        <span class="trust-stat__label">Sales Volume</span>
-      </div>
-      <div class="trust-stat">
-        <span class="trust-stat__number" data-count="98" data-suffix="%">0</span>
-        <span class="trust-stat__label">Client Satisfaction</span>
-      </div>
-      <div class="trust-stat">
-        <span class="trust-stat__number" data-count="15" data-suffix="+">0</span>
-        <span class="trust-stat__label">Years in Texas</span>
-      </div>
+      <!-- Loaded dynamically from Supabase content_blocks table -->
     </div>
   </section>
 
@@ -145,20 +131,20 @@
         <p>Joel Joy | JR Group</p>
       </div>
       <div class="footer__links">
-        <div class="footer__col"><h4>Properties</h4><a href="/listings.html">Featured Listings</a><a href="/communities.html">Communities</a></div>
+        <div class="footer__col"><h4>Properties</h4><a href="/listings.html">Featured Listings</a><a href="/significant-sales.html">Significant Sales</a><a href="/communities.html">Communities</a></div>
         <div class="footer__col"><h4>Services</h4><a href="/buy.html">Buy</a><a href="/sell.html">Sell</a><a href="/contact.html">Home Valuation</a></div>
-        <div class="footer__col"><h4>Connect</h4><a href="tel:+17135551234">(713) 555-1234</a><a href="mailto:joel@joeljoyrealestate.com">joel@joeljoyrealestate.com</a></div>
+        <div class="footer__col"><h4>Connect</h4><a href="tel:+17135551234" data-sc="footer_phone">(713) 555-1234</a><a href="mailto:joel@joeljoyrealestate.com" data-sc="footer_email">joel@joeljoyrealestate.com</a></div>
       </div>
       <div class="footer__bottom"><p>&copy; 2026 JR Group. All rights reserved.</p><p>Licensed in Texas · Equal Housing Opportunity</p></div>
     </div>
   </footer>
 
   <script type="module">
-    import { initNavigation, initRevealAnimations, initCountUp, initGoldDust } from '/js/nav.js';
+    import { initNavigation, initGoldDust } from '/js/nav.js';
+    import { loadAboutPage } from '/js/dynamic-content.js';
     initNavigation();
-    initRevealAnimations();
     initGoldDust();
-    initCountUp();
+    loadAboutPage();
   </script>
 </body>
 </html>

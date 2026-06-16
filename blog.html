@@ -26,6 +26,7 @@
         <li><a href="/sell.html">Sell</a></li>
         <li><a href="/communities.html">Communities</a></li>
         <li><a href="/listings.html">Listings</a></li>
+        <li><a href="/significant-sales.html">Significant Sales</a></li>
         <li><a href="/blog.html" class="active">Blog</a></li>
         <li><a href="/contact.html">Contact</a></li>
       </ul>
@@ -44,58 +45,7 @@
 
   <section class="section section--blog">
     <div class="blog-grid">
-      <article class="blog-card reveal" id="blog-1">
-        <div class="blog-card__image"><img src="/images/community-houston.webp" alt="Texas Market Update"
-            loading="lazy" /></div>
-        <div class="blog-card__content">
-          <span class="blog-card__category">Market Update</span>
-          <h3>Texas Luxury Markets: Q1 2026 Trends & Forecast</h3>
-          <p>An in-depth analysis of Texas' primary luxury markets including Houston, Austin, and Dallas — performance,
-            pricing trends, and what buyers and sellers should expect.</p>
-          <span class="blog-card__date">March 5, 2026</span>
-        </div>
-      </article>
-      <article class="blog-card reveal" id="blog-2">
-        <div class="blog-card__image"><img src="/images/property1.webp" alt="Home Staging Tips" loading="lazy" /></div>
-        <div class="blog-card__content">
-          <span class="blog-card__category">Selling Tips</span>
-          <h3>The Art of Luxury Staging: How to Present Your Home Like a Million-Dollar Listing</h3>
-          <p>Professional staging can increase your home's perceived value by up to 20%. Here's how to do it right.</p>
-          <span class="blog-card__date">February 22, 2026</span>
-        </div>
-      </article>
-      <article class="blog-card reveal" id="blog-3">
-        <div class="blog-card__image"><img src="/images/community-sugar-land.webp" alt="Sugar Land Guide"
-            loading="lazy" /></div>
-        <div class="blog-card__content">
-          <span class="blog-card__category">Community Guide</span>
-          <h3>Sugar Land Living: The Complete Guide to Houston's Most Sought-After Suburb</h3>
-          <p>Everything you need to know about relocating to Sugar Land — schools, dining, recreation, and the best
-            neighborhoods.</p>
-          <span class="blog-card__date">February 10, 2026</span>
-        </div>
-      </article>
-      <article class="blog-card reveal" id="blog-4">
-        <div class="blog-card__image"><img src="/images/property2.webp" alt="Investment Strategy" loading="lazy" /></div>
-        <div class="blog-card__content">
-          <span class="blog-card__category">Investment</span>
-          <h3>Why Texas Luxury Real Estate Remains One of America's Best Investments</h3>
-          <p>No state income tax, strong job growth, and relative affordability make Texas a standout for luxury
-            property investment.</p>
-          <span class="blog-card__date">January 28, 2026</span>
-        </div>
-      </article>
-      <article class="blog-card reveal" id="blog-5">
-        <div class="blog-card__image"><img src="/images/community-katy.webp" alt="Katy Neighborhoods" loading="lazy" />
-        </div>
-        <div class="blog-card__content">
-          <span class="blog-card__category">Buying Tips</span>
-          <h3>First-Time Luxury Buyer? Here's What Nobody Tells You</h3>
-          <p>From inspection pitfalls to negotiation psychology — essential knowledge for navigating your first high-end
-            purchase.</p>
-          <span class="blog-card__date">January 15, 2026</span>
-        </div>
-      </article>
+      <!-- Loaded dynamically from Supabase blog_posts table -->
     </div>
   </section>
 
@@ -106,15 +56,15 @@
       </div>
       <div class="footer__links">
         <div class="footer__col">
-          <h4>Properties</h4><a href="/listings.html">Featured Listings</a><a href="/communities.html">Communities</a>
+          <h4>Properties</h4><a href="/listings.html">Featured Listings</a><a href="/significant-sales.html">Significant Sales</a><a href="/communities.html">Communities</a>
         </div>
         <div class="footer__col">
           <h4>Services</h4><a href="/buy.html">Buy</a><a href="/sell.html">Sell</a><a href="/contact.html">Home
             Valuation</a>
         </div>
         <div class="footer__col">
-          <h4>Connect</h4><a href="tel:+17135551234">(713) 555-1234</a><a
-            href="mailto:info@jrgroup.com">info@jrgroup.com</a>
+          <h4>Connect</h4><a href="tel:+17135551234" data-sc="footer_phone">(713) 555-1234</a><a
+            href="mailto:info@jrgroup.com" data-sc="footer_email">info@jrgroup.com</a>
         </div>
       </div>
       <div class="footer__bottom">
@@ -125,9 +75,11 @@
   </footer>
 
   <script type="module">
-    import { initNavigation, initRevealAnimations } from '/js/nav.js';
+    import { initNavigation, initGoldDust } from '/js/nav.js';
+    import { loadBlogPage } from '/js/dynamic-content.js';
     initNavigation();
-    initRevealAnimations();
+    initGoldDust();
+    loadBlogPage();
   </script>
 </body>
 

@@ -30,6 +30,7 @@
         <li><a href="/sell.html">Sell</a></li>
         <li><a href="/communities.html">Communities</a></li>
         <li><a href="/listings.html">Listings</a></li>
+        <li><a href="/significant-sales.html">Significant Sales</a></li>
         <li><a href="/blog.html">Blog</a></li>
         <li><a href="/contact.html">Contact</a></li>
       </ul>
@@ -54,8 +55,8 @@
     </div>
     <div class="hero__content">
       <div class="hero__slogan-container">
-        <h1 class="hero__headline">Where your real estate<br class="desktop-br"><em>journey begins</em></h1>
-        <p class="hero__subhead">Helping clients buy and sell exceptional homes.</p>
+        <h1 class="hero__headline" data-sc="hero_headline">Where your real estate<br class="desktop-br"><em>journey begins</em></h1>
+        <p class="hero__subhead" data-sc="hero_subhead">Helping clients buy and sell exceptional homes.</p>
       </div>
       <div class="hero__buttons-new">
         <a href="/contact.html" class="btn-frame btn-frame--primary" id="cta-consultation" aria-label="Schedule free consultation">
@@ -92,6 +93,14 @@
         </div>
       </div>
     </div>
+    <!-- Scroll Down Indicator -->
+    <a href="#services-cta" class="hero__scroll-indicator" id="hero-scroll" aria-label="Scroll down">
+      <span class="scroll-indicator__text">Scroll</span>
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 5v14"/>
+        <path d="m19 12-7 7-7-7"/>
+      </svg>
+    </a>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════════ -->
@@ -103,79 +112,96 @@
   </div>
 
   <!-- ═══════════════════════════════════════════════════════════ -->
-  <!-- SECTION DIVIDER — Ornamental                               -->
+  <!-- SECTION 1 — SERVICES (Ink)                                 -->
   <!-- ═══════════════════════════════════════════════════════════ -->
-  <div class="section-ornament" aria-hidden="true">
-    <span class="section-ornament__line"></span>
-    <span class="section-ornament__diamond"></span>
-    <span class="section-ornament__line"></span>
-  </div>
-
-  <!-- ═══════════════════════════════════════════════════════════ -->
-  <!-- SECTION 1 — FEATURED LISTINGS (Ink)                         -->
-  <!-- ═══════════════════════════════════════════════════════════ -->
-  <section id="listings" class="section section--listings-home">
+  <section id="services-cta" class="section section--services-home">
     <div class="section-home-header reveal">
-      <span class="stage-label" style="color: var(--color-brass);">Featured Listings</span>
-      <h2 class="stage-headline" style="color: var(--color-bone);">Curated Collection</h2>
+      <span class="stage-label" style="color: var(--color-brass);">Our Services</span>
+      <h2 class="stage-headline" style="color: var(--color-bone);">Bespoke Real Estate Services</h2>
     </div>
-    <div class="listings-home-grid">
-      <!-- Card 1 -->
-      <article class="listing-home-card reveal" id="list-home-1">
-        <div class="listing-home-card__image">
-          <img src="/images/property1.webp" alt="Modern Luxury Estate in River Oaks" loading="lazy" />
-          <div class="listing-home-card__overlay"><span class="listing-home-card__tag">Featured</span></div>
+    <div class="services-home-grid">
+      <!-- Card 1: Buy a Home -->
+      <article class="service-card reveal" id="service-buy">
+        <div class="service-card__image-wrap">
+          <img src="/images/service_buy.webp" alt="Buy a Home" loading="lazy" />
+          <video class="service-card__video" autoplay muted loop playsinline preload="auto">
+            <source src="/videos/service_buy.webm" type="video/webm" />
+          </video>
+          <div class="service-card__overlay"></div>
         </div>
-        <div class="listing-home-card__info">
-          <h3 class="listing-home-card__title">River Oaks Contemporary</h3>
-          <p class="listing-home-card__price">$4,250,000</p>
-          <div class="listing-home-card__details">
-            <span>5 Beds</span>
-            <span class="divider">•</span>
-            <span>6 Baths</span>
-            <span class="divider">•</span>
-            <span>7,200 Sq Ft</span>
-          </div>
-        </div>
-      </article>
-
-      <!-- Card 2 -->
-      <article class="listing-home-card reveal" id="list-home-2">
-        <div class="listing-home-card__image">
-          <img src="/images/property2.webp" alt="Austin Downtown Penthouse with Skyline Views" loading="lazy" />
-          <div class="listing-home-card__overlay"><span class="listing-home-card__tag">New</span></div>
-        </div>
-        <div class="listing-home-card__info">
-          <h3 class="listing-home-card__title">Austin Skyline Penthouse</h3>
-          <p class="listing-home-card__price">$2,890,000</p>
-          <div class="listing-home-card__details">
-            <span>3 Beds</span>
-            <span class="divider">•</span>
-            <span>4 Baths</span>
-            <span class="divider">•</span>
-            <span>4,100 Sq Ft</span>
-          </div>
+        <div class="service-card__content">
+          <span class="service-card__tag" data-sc="service_buy_tag">Acquisition</span>
+          <h3 class="service-card__title" data-sc="service_buy_title">Buy a Home</h3>
+          <p class="service-card__description" data-sc="service_buy_desc">Find your next architectural masterpiece. Access off-market luxury estates and curated listings tailored to your lifestyle.</p>
+          <a href="/buy.html" class="service-card__link">
+            <span>Explore Properties</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
         </div>
       </article>
 
-      <!-- Card 3 -->
-      <article class="listing-home-card reveal" id="list-home-3">
-        <div class="listing-home-card__image">
-          <img src="/images/property3.webp" alt="Mediterranean Estate in Highland Park" loading="lazy" />
-          <div class="listing-home-card__overlay"><span class="listing-home-card__tag">Exclusive</span></div>
+      <!-- Card 2: Sell a Home -->
+      <article class="service-card reveal" id="service-sell">
+        <div class="service-card__image-wrap">
+          <img src="/images/service_sell.webp" alt="Sell a Home" loading="lazy" />
+          <video class="service-card__video" autoplay muted loop playsinline preload="auto">
+            <source src="/videos/service_sell.webm" type="video/webm" />
+          </video>
+          <div class="service-card__overlay"></div>
         </div>
-        <div class="listing-home-card__info">
-          <h3 class="listing-home-card__title">Highland Park Mediterranean</h3>
-          <p class="listing-home-card__price">$3,750,000</p>
-          <div class="listing-home-card__details">
-            <span>6 Beds</span>
-            <span class="divider">•</span>
-            <span>7 Baths</span>
-            <span class="divider">•</span>
-            <span>8,500 Sq Ft</span>
-          </div>
+        <div class="service-card__content">
+          <span class="service-card__tag" data-sc="service_sell_tag">Representation</span>
+          <h3 class="service-card__title" data-sc="service_sell_title">Sell a Home</h3>
+          <p class="service-card__description" data-sc="service_sell_desc">Maximize the value of your property. Utilize our bespoke digital marketing strategy and elite representation to secure premium offers.</p>
+          <a href="/sell.html" class="service-card__link">
+            <span>Get Valuation</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
         </div>
       </article>
+
+      <!-- Card 3: Become an Investor -->
+      <article class="service-card reveal" id="service-invest">
+        <div class="service-card__image-wrap">
+          <img src="/images/service_invest.webp" alt="Become an Investor" loading="lazy" />
+          <video class="service-card__video" autoplay muted loop playsinline preload="auto">
+            <source src="/videos/service_invest.webm" type="video/webm" />
+          </video>
+          <div class="service-card__overlay"></div>
+        </div>
+        <div class="service-card__content">
+          <span class="service-card__tag" data-sc="service_invest_tag">Wealth Creation</span>
+          <h3 class="service-card__title" data-sc="service_invest_title">Become an Investor</h3>
+          <p class="service-card__description" data-sc="service_invest_desc">Build long-term real estate portfolios. Partner with Joel Joy to analyze markets, secure commercial assets, and scale investments.</p>
+          <a href="/contact.html" class="service-card__link">
+            <span>Partner With Us</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 1B — SUCCESSFULLY Significant Sales (Ink)             -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <section id="sold-portfolio" class="section section--sold-portfolio">
+    <div class="section-home-header reveal">
+      <span class="stage-label" style="color: var(--color-brass);">Our Track Record</span>
+      <h2 class="stage-headline" style="color: var(--color-bone);">Significant Sales</h2>
+    </div>
+    <div class="sold-portfolio-grid">
+      <!-- Loaded dynamically from Supabase listings table -->
+    </div>
+    <div style="text-align: center; margin-top: 50px;" class="reveal">
+      <a href="/significant-sales.html" class="btn-frame btn-frame--primary" style="min-width: 240px;">
+        <span>View All Significant Sales</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        <span class="c c1"></span>
+        <span class="c c2"></span>
+        <span class="c c3"></span>
+        <span class="c c4"></span>
+      </a>
     </div>
   </section>
 
@@ -190,9 +216,9 @@
   <section id="about-credibility" class="section section--about-home">
     <div class="about-home-container reveal">
       <div class="about-home-content">
-        <span class="stage-label" style="color: var(--color-brass);">The Architect of Journeys</span>
-        <h2 class="stage-headline-ink">A premium approach to Texas <br/><em>luxury real estate.</em></h2>
-        <p class="stage-body-ink">
+        <span class="stage-label" style="color: var(--color-brass);" data-sc="about_home_label">The Architect of Journeys</span>
+        <h2 class="stage-headline-ink" data-sc="about_home_heading">A premium approach to Texas <br/><em>luxury real estate.</em></h2>
+        <p class="stage-body-ink" data-sc="about_home_body">
           Joel and the JR Group team bring a sophisticated, analytical perspective to buying and selling homes. 
           Through meticulous market research, discrete representation, and custom-tailored marketing campaigns, 
           we ensure your real estate transaction feels less like a process and more like an achievement.
@@ -203,7 +229,7 @@
       </div>
       <div class="about-home-portrait">
         <div class="about-home-portrait__wrapper">
-          <img src="/images/joel-portrait.webp" alt="Joel, Founder of JR Group" loading="lazy" />
+          <img src="/images/joel-portrait.webp" alt="Joel, Founder of JR Group" loading="lazy" data-sc="about_home_image" />
         </div>
       </div>
     </div>
@@ -216,7 +242,7 @@
     <div class="photo-band-overlay"></div>
     <div class="photo-band-content reveal">
       <span class="stage-label" style="color: var(--color-brass);">Texas Luxury</span>
-      <h2 class="photo-band-title">"Real estate is not just about space. It is about how you live, <br/><em>how you celebrate, and how you thrive.</em>"</h2>
+      <h2 class="photo-band-title" data-sc="parallax_quote">"Real estate is not just about space. It is about how you live, <br/><em>how you celebrate, and how you thrive.</em>"</h2>
     </div>
   </section>
 
@@ -233,50 +259,12 @@
       <div class="testimonials-slider" id="testimonials-slider">
         <div class="slider-track-wrapper">
           <div class="slider-track" id="slider-track">
-            <!-- Testimonial 1 -->
-            <div class="testimonial-card" id="testimonial-1">
-              <span class="quote-mark">“</span>
-              <blockquote class="testimonial-card__quote">
-                "Our home had been on the market for months with another agent and no results. JR Group took over and sold it
-                in just 5 days — above asking price. Their marketing strategy and negotiation skills are unmatched."
-              </blockquote>
-              <div class="testimonial-card__author">
-                <span class="testimonial-card__name" style="color: var(--color-brass);">The Martinez Family</span>
-                <span class="testimonial-card__detail">Sugar Land, TX — Sold in 5 days</span>
-              </div>
-            </div>
-            <!-- Testimonial 2 -->
-            <div class="testimonial-card" id="testimonial-2">
-              <span class="quote-mark">“</span>
-              <blockquote class="testimonial-card__quote">
-                "JR Group's communication throughout our buying process was exceptional. They responded to every question
-                within minutes and made us feel like their only client. We found our dream home in Katy thanks to their
-                expertise."
-              </blockquote>
-              <div class="testimonial-card__author">
-                <span class="testimonial-card__name" style="color: var(--color-brass);">David &amp; Sarah Chen</span>
-                <span class="testimonial-card__detail">Katy, TX — First-time luxury buyers</span>
-              </div>
-            </div>
-            <!-- Testimonial 3 -->
-            <div class="testimonial-card" id="testimonial-3">
-              <span class="quote-mark">“</span>
-              <blockquote class="testimonial-card__quote">
-                "Professional, reliable, and genuinely invested in our success. JR Group guided us through both selling our
-                old home and purchasing our new one simultaneously — with zero stress. Truly a rare find in real estate."
-              </blockquote>
-              <div class="testimonial-card__author">
-                <span class="testimonial-card__name" style="color: var(--color-brass);">Michael &amp; Angela Brooks</span>
-                <span class="testimonial-card__detail">Cypress, TX — Simultaneous buy &amp; sell</span>
-              </div>
-            </div>
+            <!-- Loaded dynamically from Supabase content_blocks table -->
           </div>
         </div>
       </div>
       <div class="slider-dots" id="slider-dots">
-        <button class="slider-dot active" data-index="0" aria-label="Go to review 1"></button>
-        <button class="slider-dot" data-index="1" aria-label="Go to review 2"></button>
-        <button class="slider-dot" data-index="2" aria-label="Go to review 3"></button>
+        <!-- Loaded dynamically from Supabase content_blocks table -->
       </div>
     </div>
   </section>
@@ -287,8 +275,8 @@
   <section class="section section--final-cta" style="background-image: url('/images/3.webp');">
     <div class="photo-band-overlay" style="background: rgba(20, 17, 15, 0.55);"></div>
     <div class="final-cta-content reveal">
-      <h2 class="final-cta-title">Unlock the true value <br/><em>of your real estate legacy.</em></h2>
-      <p class="final-cta-subtitle">Let's coordinate a custom strategy for your next acquisition or sale.</p>
+      <h2 class="final-cta-title" data-sc="cta_heading">Unlock the true value <br/><em>of your real estate legacy.</em></h2>
+      <p class="final-cta-subtitle" data-sc="cta_subhead">Let's coordinate a custom strategy for your next acquisition or sale.</p>
       <div class="final-cta-button-row">
         <a href="/contact.html" class="btn-frame btn-frame--primary" aria-label="Schedule free consultation">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar" aria-hidden="true">
@@ -320,8 +308,8 @@
         <div class="footer__col">
           <h4>Properties</h4>
           <a href="/listings.html">Featured Listings</a>
-          <a href="/listings.html">New Construction</a>
-          <a href="/listings.html">Luxury Condos</a>
+          <a href="/significant-sales.html">Significant Sales</a>
+          <a href="/communities.html">Communities</a>
         </div>
         <div class="footer__col">
           <h4>Services</h4>
@@ -331,8 +319,8 @@
         </div>
         <div class="footer__col">
           <h4>Connect</h4>
-          <a href="tel:+17135551234">(713) 555-1234</a>
-          <a href="mailto:info@jrgroup.com">info@jrgroup.com</a>
+          <a href="tel:+17135551234" data-sc="footer_phone">(713) 555-1234</a>
+          <a href="mailto:info@jrgroup.com" data-sc="footer_email">info@jrgroup.com</a>
           <a href="#">Instagram</a>
           <a href="#">LinkedIn</a>
         </div>

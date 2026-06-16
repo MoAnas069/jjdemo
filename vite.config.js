@@ -14,6 +14,7 @@ export default defineConfig({
         blog: resolve(__dirname, 'blog.html'),
         contact: resolve(__dirname, 'contact.html'),
         hero: resolve(__dirname, 'hero.html'),
+        'significant-sales': resolve(__dirname, 'significant-sales.html'),
       },
     },
   },

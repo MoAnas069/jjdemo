@@ -8,6 +8,59 @@ export function initHeroVideo() {
   const video = document.getElementById('hero-video');
   if (!video) return;
 
+  const nav = document.getElementById('main-nav');
+  const content = document.querySelector('.hero__content');
+  const slogan = document.querySelector('.hero__slogan-container');
+  const primaryCta = document.getElementById('cta-consultation');
+  const secondaryRow = document.querySelector('.hero__button-row');
+  const scrollIndicator = document.getElementById('hero-scroll');
+
+  // ── Track if sequence has already fired ─────────────────────
+  let sequenceComplete = false;
+
+  // ── Check if video has played in this session ───────────────
+  const hasPlayed = sessionStorage.getItem('heroVideoPlayed') === 'true';
+
+  if (hasPlayed) {
+    sequenceComplete = true;
+    
+    // Hide video instantly
+    video.style.display = 'none';
+
+    // Start slideshow immediately
+    const slideshow = document.getElementById('hero-slideshow');
+    if (slideshow) {
+      slideshow.classList.add('active');
+      startSlideshow(slideshow);
+    }
+
+    // Instantly reveal all UI elements without any transitions/delays
+    if (nav) {
+      nav.style.opacity = '1';
+      nav.style.transform = 'translateY(0)';
+    }
+    if (content) {
+      content.style.opacity = '1';
+      content.style.transform = 'translateY(0)';
+    }
+    if (slogan) {
+      slogan.style.opacity = '1';
+      slogan.style.transform = 'translateY(0)';
+    }
+    if (primaryCta) {
+      primaryCta.style.opacity = '1';
+      primaryCta.style.transform = 'translateY(0)';
+    }
+    if (secondaryRow) {
+      secondaryRow.style.opacity = '1';
+      secondaryRow.style.transform = 'translateY(0)';
+    }
+    if (scrollIndicator) {
+      scrollIndicator.style.opacity = '0.75';
+    }
+    return;
+  }
+
   // ── Select and load responsive video sources based on viewport width ──
   const isMobile = window.innerWidth <= 768;
   video.innerHTML = ''; // Clear default fallback contents
@@ -31,12 +84,6 @@ export function initHeroVideo() {
   video.appendChild(mp4Source);
   video.load();
 
-  const nav = document.getElementById('main-nav');
-  const content = document.querySelector('.hero__content');
-  const slogan = document.querySelector('.hero__slogan-container');
-  const primaryCta = document.getElementById('cta-consultation');
-  const secondaryRow = document.querySelector('.hero__button-row');
-
   // ── Hide UI initially ──────────────────────────────────────
   if (nav) {
     nav.style.opacity = '0';
@@ -48,9 +95,10 @@ export function initHeroVideo() {
     content.style.transform = 'translateY(28px)';
     content.style.transition = 'none';
   }
-
-  // ── Track if sequence has already fired ─────────────────────
-  let sequenceComplete = false;
+  if (scrollIndicator) {
+    scrollIndicator.style.opacity = '0';
+    scrollIndicator.style.transition = 'none';
+  }
 
   // ── Playback: detect final frame & pause ────────────────────
   function onTimeUpdate() {
@@ -75,15 +123,18 @@ export function initHeroVideo() {
     }
   }, { once: true });
 
-  // ── Settle sequence: slideshow activation + staggered UI reveal (simultaneous) ─
+  // ── Settle sequence: slideshow activation + staggered UI reveal ─
   function beginSettleSequence() {
     if (sequenceComplete) return;
     sequenceComplete = true;
 
+    // Set played flag in sessionStorage
+    sessionStorage.setItem('heroVideoPlayed', 'true');
+
     const LUXURY_EASE = 'cubic-bezier(0.22, 1, 0.36, 1)';
     const DURATION = '1.6s';
 
-    // Fade out video and start slideshow — starts WITH the UI entrance
+    // Fade out video and start slideshow
     video.classList.add('hero__video--settled');
     const slideshow = document.getElementById('hero-slideshow');
     if (slideshow) {
@@ -91,7 +142,7 @@ export function initHeroVideo() {
       startSlideshow(slideshow);
     }
 
-    // Nav entrance — immediate (same moment as blur)
+    // Nav entrance — immediate
     if (nav) {
       nav.style.transition = `opacity ${DURATION} ${LUXURY_EASE}, transform ${DURATION} ${LUXURY_EASE}`;
       nav.style.opacity = '1';
@@ -141,6 +192,14 @@ export function initHeroVideo() {
         secondaryRow.style.opacity = '1';
         secondaryRow.style.transform = 'translateY(0)';
       }, 650);
+    }
+
+    // Scroll Indicator — 850ms stagger
+    if (scrollIndicator) {
+      setTimeout(() => {
+        scrollIndicator.style.transition = `opacity 1.4s ${LUXURY_EASE}`;
+        scrollIndicator.style.opacity = '0.75';
+      }, 850);
     }
   }
 
