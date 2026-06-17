@@ -893,77 +893,77 @@ const staticList = [
     slug: 'houston',
     description: 'Texas\' largest metropolis and a hub for world-class dining, arts, and upscale urban living.',
     body: 'Houston is a dynamic city offering a diverse cultural scene, renowned medical center, and historic luxury neighborhoods like River Oaks and Memorial.',
-    hero_image: '/images/communities/houston.png'
+    hero_image: '/images/communities/houston.webp'
   },
   {
     name: 'Richmond',
     slug: 'richmond',
     description: 'Historic charm meets modern suburban convenience in this tree-lined, family-friendly enclave.',
     body: 'Richmond combines tree-lined streets, excellent schools, and premium suburban properties, making it one of the most desirable family enclaves.',
-    hero_image: '/images/communities/richmond.png'
+    hero_image: '/images/communities/richmond.webp'
   },
   {
     name: 'Sugar Land',
     slug: 'sugarland',
     description: 'An upscale, highly-rated community known for manicured parks, shopping, and beautiful lakes.',
     body: 'Sugar Land offers manicured parks, master-planned neighborhoods, upscale shopping districts, and pristine lakes for high-end suburban living.',
-    hero_image: '/images/communities/sugarland.png'
+    hero_image: '/images/communities/sugarland.webp'
   },
   {
     name: 'Cypress',
     slug: 'cypress',
     description: 'Sprawling master-planned communities featuring resort-style pools, scenic trails, and top-tier schools.',
     body: 'Cypress features spacious master-planned developments, scenic running trails, premier golf courses, and highly rated school districts.',
-    hero_image: '/images/communities/cypress.png'
+    hero_image: '/images/communities/cypress.webp'
   },
   {
     name: 'Katy',
     slug: 'katy',
     description: 'Charming suburban living offering master-planned tranquility, open spaces, and premium school districts.',
     body: 'Katy is celebrated for its historic charm, master-planned neighborhoods, abundant green spaces, and top-ranking educational institutions.',
-    hero_image: '/images/communities/katy.png'
+    hero_image: '/images/communities/katy.webp'
   },
   {
     name: 'Pearland',
     slug: 'pearland',
     description: 'A rapidly growing suburban center south of Houston with parks, peace, and close proximity to the city.',
     body: 'Pearland offers a relaxed pace of life, abundant city parks, and close proximity to the Houston Medical Center and downtown.',
-    hero_image: '/images/communities/pearland.png'
+    hero_image: '/images/communities/pearland.webp'
   },
   {
     name: 'Humble',
     slug: 'humble',
     description: 'Tranquil residential neighborhoods set amidst a lush, wooded landscape with a warm community feel.',
     body: 'Humble is nestled within a lush, wooded landscape, offering quiet residential neighborhoods and a welcoming, close-knit community atmosphere.',
-    hero_image: '/images/communities/humble.png'
+    hero_image: '/images/communities/humble.webp'
   },
   {
     name: 'Rosenberg',
     slug: 'rosenberg',
     description: 'Charming and historic community under wide Texas skies, offering a relaxed pace of life.',
     body: 'Rosenberg stands out for its rich history, historic downtown shopping, and relaxed, wide-open country feel under the Texas sky.',
-    hero_image: '/images/communities/rosenberg.png'
+    hero_image: '/images/communities/rosenberg.webp'
   },
   {
     name: 'Rosharon',
     slug: 'rosharon',
     description: 'Lush rural spaces and new residential developments offering peaceful country living close to urban hubs.',
     body: 'Rosharon provides vast rural acreage alongside new master-planned communities, ideal for those seeking country living near Houston.',
-    hero_image: '/images/communities/rosharon.png'
+    hero_image: '/images/communities/rosharon.webp'
   },
   {
     name: 'Fulshear',
     slug: 'fulshear',
     description: 'One of Texas\' fastest-growing luxury communities, featuring sparkling lakes and premium estates.',
     body: 'Fulshear is one of Texas’ premier luxury enclaves, boasting multi-acre equestrian properties, pristine lakes, and custom architectural estates.',
-    hero_image: '/images/communities/fulshear.png'
+    hero_image: '/images/communities/fulshear.webp'
   },
   {
     name: 'Spring & Alvin',
     slug: 'spring-alvin',
     description: 'Established tree-lined neighborhoods north and south of Houston, rich in character and community spirit.',
     body: 'Spring & Alvin encompass historic family neighborhoods with mature trees, local boutiques, and a strong sense of community pride.',
-    hero_image: '/images/communities/spring_alvin.png'
+    hero_image: '/images/communities/spring_alvin.webp'
   }
 ];
 

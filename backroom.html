@@ -582,8 +582,7 @@
             <option value="buy">Page: Buy</option>
             <option value="sell">Page: Sell</option>
             <option value="communities">Page: Communities</option>
-            <option value="listings">Page: Listings</option>
-            <option value="sold">Page: Significant Sales</option>
+            <option value="sold">Page: Sold Portfolio</option>
             <option value="blog">Page: Blog</option>
             <option value="contact_settings">Page: Contacts & Socials</option>
           </select>
@@ -632,8 +631,7 @@
             <li><a class="${activePage === 'buy'?'active':''}" onclick="setPageNav('buy')">Buy</a></li>
             <li><a class="${activePage === 'sell'?'active':''}" onclick="setPageNav('sell')">Sell</a></li>
             <li><a class="${activePage === 'communities'?'active':''}" onclick="setPageNav('communities')">Communities</a></li>
-            <li><a class="${activePage === 'listings'?'active':''}" onclick="setPageNav('listings')">Listings</a></li>
-            <li><a class="${activePage === 'sold'?'active':''}" onclick="setPageNav('sold')">Significant Sales</a></li>
+            <li><a class="${activePage === 'sold'?'active':''}" onclick="setPageNav('sold')">Sold Portfolio</a></li>
             <li><a class="${activePage === 'blog'?'active':''}" onclick="setPageNav('blog')">Blog</a></li>
           </ul>
           <a class="run-light" href="#"><span class="face">Free home valuation</span></a>
@@ -646,7 +644,6 @@
     else if (activePage === 'buy') pageHtml += getBuypageHtml();
     else if (activePage === 'sell') pageHtml += getSellpageHtml();
     else if (activePage === 'communities') pageHtml += getCommunitiespageHtml();
-    else if (activePage === 'listings') pageHtml += getListingspageHtml();
     else if (activePage === 'sold') pageHtml += getSoldpageHtml();
     else if (activePage === 'blog') pageHtml += getBlogpageHtml();
     else if (activePage === 'contact_settings') pageHtml += getContactSettingspageHtml();
@@ -662,9 +659,8 @@
           <div class="footer__links">
             <div class="footer__col">
               <h4>Properties</h4>
-              <a href="#">Featured Listings</a>
-              <a href="#">Significant Sales</a>
-              <a href="#">Communities</a>
+              <a href="/sold-portfolio.html">Sold Portfolio</a>
+              <a href="/communities.html">Communities</a>
             </div>
             <div class="footer__col">
               <h4>Services</h4>
@@ -1157,55 +1153,6 @@
           `).join('')}
           <div class="admin-add-card" onclick="createNewInlineCommunity()">
             + Add New Community Guide
-          </div>
-        </div>
-      </section>
-    `;
-  }
-
-  function getListingspageHtml() {
-    const list = dbListings.filter(x => x.status === 'published');
-
-    return `
-      <section class="section section--page-hero">
-        <div class="page-hero__content">
-          <span class="stage-label">Properties</span>
-          <h1 class="page-hero__title">Our Active Listings</h1>
-        </div>
-      </section>
-
-      <section class="section" style="padding:0 24px 80px 24px; max-width:1100px; margin:0 auto;">
-        <div class="listings-grid">
-          ${list.map(item => `
-            <article class="listing-card" style="position:relative; display:block;">
-              <div class="card-edit-controls">
-                <button class="btn-edit-badge" onclick="deleteInlineRecord('listings', '${item.id}')">✕ Delete</button>
-                <button class="btn-feat-badge" onclick="toggleFeaturedInline('${item.id}', ${!item.featured})">${item.featured ? 'Unfeature' : 'Feature'}</button>
-              </div>
-              <div class="listing-card__image edit-img-wrap" data-img-field="hero_image" data-row-id="${item.id}" data-table="listings">
-                <img src="${escapeHtml(item.hero_image)}" />
-                <div class="listing-card__overlay">
-                  <span class="listing-card__tag">${item.featured ? 'Featured' : 'Active'}</span>
-                </div>
-              </div>
-              <div class="listing-card__info">
-                <h3 class="listing-card__price">$<span contenteditable="true" data-field="price" data-row-id="${item.id}" data-table="listings" data-type="number">${Number(item.price).toLocaleString()}</span></h3>
-                <p class="listing-card__address" style="display:flex;gap:4px;">
-                  <span contenteditable="true" data-field="address" data-row-id="${item.id}" data-table="listings">${escapeHtml(item.address || '')}</span>, 
-                  <span contenteditable="true" data-field="city" data-row-id="${item.id}" data-table="listings">${escapeHtml(item.city || '')}</span>
-                </p>
-                <div style="font-size:12.5px;color:#bdb8af;margin-bottom:8px;" contenteditable="true" data-field="title" data-row-id="${item.id}" data-table="listings">${escapeHtml(item.title)}</div>
-                <div class="listing-card__details">
-                  <span><strong contenteditable="true" data-field="beds" data-row-id="${item.id}" data-table="listings" data-type="number">${item.beds}</strong> Beds</span>
-                  <span><strong contenteditable="true" data-field="baths" data-row-id="${item.id}" data-table="listings" data-type="number">${item.baths}</strong> Baths</span>
-                  <span><strong contenteditable="true" data-field="sqft" data-row-id="${item.id}" data-table="listings" data-type="number">${item.sqft}</strong> Sq Ft</span>
-                </div>
-                <p style="font-size:12px;color:var(--text-muted);margin-top:10px;line-height:1.5;border-top:1px solid rgba(255,255,255,0.05);padding-top:8px;" contenteditable="true" data-field="description" data-row-id="${item.id}" data-table="listings">${escapeHtml(item.description || 'Enter description...')}</p>
-              </div>
-            </article>
-          `).join('')}
-          <div class="admin-add-card" onclick="createNewInlineListing(false)">
-            + Add New Property Listing
           </div>
         </div>
       </section>
