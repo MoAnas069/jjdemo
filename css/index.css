@@ -1598,6 +1598,147 @@ textarea {
   gap: 1.8rem;
 }
 
+@media (min-width: 769px) {
+  .community-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-auto-rows: 240px;
+    gap: 1.5rem;
+  }
+
+  /* Define bento grid layout for each of the 11 items */
+  /* Houston (item 1) - Large Featured Hero */
+  .community-card:nth-child(11n+1) {
+    grid-column: span 8;
+    grid-row: span 2;
+    display: flex;
+    flex-direction: column;
+  }
+  .community-card:nth-child(11n+1) .community-card__image {
+    height: 65%;
+  }
+
+  /* Richmond (item 2) - Tall side card */
+  .community-card:nth-child(11n+2) {
+    grid-column: span 4;
+    grid-row: span 2;
+    display: flex;
+    flex-direction: column;
+  }
+  .community-card:nth-child(11n+2) .community-card__image {
+    height: 65%;
+  }
+
+  /* Sugar Land (item 3) - Split card */
+  .community-card:nth-child(11n+3) {
+    grid-column: span 6;
+    grid-row: span 1;
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+  }
+
+  /* Cypress (item 4) - Split card */
+  .community-card:nth-child(11n+4) {
+    grid-column: span 6;
+    grid-row: span 1;
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+  }
+
+  /* Katy (item 5) - Vertical card */
+  .community-card:nth-child(11n+5) {
+    grid-column: span 4;
+    grid-row: span 2;
+    display: flex;
+    flex-direction: column;
+  }
+  .community-card:nth-child(11n+5) .community-card__image {
+    height: 65%;
+  }
+
+  /* Pearland (item 6) - Large landscape card */
+  .community-card:nth-child(11n+6) {
+    grid-column: span 8;
+    grid-row: span 2;
+    display: flex;
+    flex-direction: column;
+  }
+  .community-card:nth-child(11n+6) .community-card__image {
+    height: 65%;
+  }
+
+  /* Humble (item 7) - Split card */
+  .community-card:nth-child(11n+7) {
+    grid-column: span 6;
+    grid-row: span 1;
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+  }
+
+  /* Rosenberg (item 8) - Split card */
+  .community-card:nth-child(11n+8) {
+    grid-column: span 6;
+    grid-row: span 1;
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+  }
+
+  /* Rosharon (item 9) - Tall vertical card */
+  .community-card:nth-child(11n+9) {
+    grid-column: span 4;
+    grid-row: span 2;
+    display: flex;
+    flex-direction: column;
+  }
+  .community-card:nth-child(11n+9) .community-card__image {
+    height: 65%;
+  }
+
+  /* Fulshear (item 10) - Tall vertical card */
+  .community-card:nth-child(11n+10) {
+    grid-column: span 4;
+    grid-row: span 2;
+    display: flex;
+    flex-direction: column;
+  }
+  .community-card:nth-child(11n+10) .community-card__image {
+    height: 65%;
+  }
+
+  /* Spring & Alvin (item 11) - Wide landscape card */
+  .community-card:nth-child(11n+11) {
+    grid-column: span 4;
+    grid-row: span 2;
+    display: flex;
+    flex-direction: column;
+  }
+  .community-card:nth-child(11n+11) .community-card__image {
+    height: 65%;
+  }
+
+  /* Reduce padding on split cards to avoid vertical text overflow in 240px tall rows */
+  .community-card:nth-child(11n+3) .community-card__content,
+  .community-card:nth-child(11n+4) .community-card__content,
+  .community-card:nth-child(11n+7) .community-card__content,
+  .community-card:nth-child(11n+8) .community-card__content {
+    padding: 1.8rem;
+  }
+  .community-card:nth-child(11n+3) .community-card__content h3,
+  .community-card:nth-child(11n+4) .community-card__content h3,
+  .community-card:nth-child(11n+7) .community-card__content h3,
+  .community-card:nth-child(11n+8) .community-card__content h3 {
+    margin-bottom: 0.5rem;
+  }
+  .community-card:nth-child(11n+3) .community-card__content p,
+  .community-card:nth-child(11n+4) .community-card__content p,
+  .community-card:nth-child(11n+7) .community-card__content p,
+  .community-card:nth-child(11n+8) .community-card__content p {
+    margin-bottom: 0.8rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+}
+
 .community-card {
   display: grid;
   grid-template-columns: 1fr 1.3fr;

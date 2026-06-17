@@ -1,49 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Texas Communities | THE J — Luxury Real Estate</title>
-  <meta name="description" content="Explore Texas' finest luxury neighborhoods with JR Group — from Austin's Westlake Hills to Dallas' Highland Park and Houston's River Oaks." />
+  <title>Communities | THE J — Luxury Real Estate</title>
+  <meta name="description"
+    content="Explore the finest luxury neighborhoods with JR Group — from local hotspots to premier estate districts." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;0,6..96,700;0,6..96,800;0,6..96,900;1,6..96,400;1,6..96,500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;0,6..96,700;0,6..96,800;0,6..96,900;1,6..96,400;1,6..96,500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
   <link rel="stylesheet" href="/css/index.css" />
 </head>
+
 <body>
   <div class="page-shimmer"></div>
   <nav id="main-nav" class="nav">
     <div class="nav__inner">
-      <a href="/" class="nav__logo"><img src="/jr-mark.webp" alt="JR" class="nav__logo-mark" /><span class="nav__logo-text">Group</span></a>
+      <a href="/" class="nav__logo"><img src="/jr-mark.webp" alt="JR" class="nav__logo-mark" /><span
+          class="nav__logo-text">Group</span></a>
       <ul class="nav__links" id="nav-links">
         <li><a href="/">Home</a></li>
         <li><a href="/about.html">About Joel</a></li>
         <li><a href="/buy.html">Buy</a></li>
         <li><a href="/sell.html">Sell</a></li>
         <li><a href="/communities.html" class="active">Communities</a></li>
-        <li><a href="/listings.html">Listings</a></li>
-        <li><a href="/significant-sales.html">Significant Sales</a></li>
+        <li><a href="/sold-portfolio.html">Sold Portfolio</a></li>
         <li><a href="/blog.html">Blog</a></li>
         <li><a href="/contact.html">Contact</a></li>
       </ul>
-      <a class="run-light" href="/contact.html" aria-label="Free home valuation"><span class="face">Free home valuation</span></a>
-      <button class="nav__burger" id="nav-burger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+      <a class="run-light" href="/contact.html" aria-label="Free home valuation"><span class="face">Free home
+          valuation</span></a>
+      <button class="nav__burger" id="nav-burger"
+        aria-label="Toggle menu"><span></span><span></span><span></span></button>
     </div>
   </nav>
 
-  <section class="section section--page-hero">
+  <!-- AMBIENT BACKGROUND -->
+  <div class="ambient-bg" aria-hidden="true">
+    <canvas id="ambient-canvas" class="ambient-canvas"></canvas>
+    <div class="ambient-grain"></div>
+  </div>
+
+  <section class="section section--page-hero" style="background-image: url('/images/3.webp');">
     <div class="page-hero__content reveal">
-      <span class="stage-label">Discover Texas</span>
-      <h1 class="page-hero__title">Texas Communities</h1>
+      <span class="stage-label">Discover</span>
+      <h1 class="page-hero__title">Communities</h1>
     </div>
   </section>
 
   <section class="section section--content-block">
     <div class="content-block reveal">
-      <h2 class="stage-headline" data-sc="comm_intro_headline">Every neighborhood<br/><em>tells a story.</em></h2>
-      <p class="stage-body" data-sc="comm_intro_body">
-        Texas is home to some of the nation's most prestigious markets. JR Group knows every community intimately —
-        from the hills of Austin and the estate districts of Dallas to Houston's premier neighborhoods.
+      <h2 class="stage-headline">Every neighborhood<br /><em>tells a story.</em></h2>
+      <p class="stage-body">
+        We know every community intimately — from local hotspots to premier residential enclaves.
         Explore the locations where our clients find their perfect luxury homes.
       </p>
     </div>
@@ -54,11 +66,10 @@
       <!-- Loaded dynamically from Supabase communities table -->
     </div>
   </section>
-  </section>
 
   <section class="section section--cta">
     <div class="cta-block reveal">
-      <h2 class="stage-headline">Not sure which<br/><em>community is right?</em></h2>
+      <h2 class="stage-headline">Not sure which<br /><em>community is right?</em></h2>
       <p class="stage-body">JR Group can help you find the perfect neighborhood for your lifestyle.</p>
       <div class="cta-buttons">
         <a href="/contact.html" class="btn btn--gold">Ask JR Group</a>
@@ -68,21 +79,42 @@
 
   <footer class="footer">
     <div class="footer__inner">
-      <div class="footer__brand"><span class="footer__logo"><img src="/jr-mark.webp" alt="JR" class="footer__logo-mark" /><span class="footer__logo-text">Group</span></span><p>JR Group</p></div>
-      <div class="footer__links">
-        <div class="footer__col"><h4>Properties</h4><a href="/listings.html">Featured Listings</a><a href="/significant-sales.html">Significant Sales</a><a href="/communities.html">Communities</a></div>
-        <div class="footer__col"><h4>Services</h4><a href="/buy.html">Buy</a><a href="/sell.html">Sell</a><a href="/contact.html">Home Valuation</a></div>
-        <div class="footer__col"><h4>Connect</h4><a href="tel:+17138255281" data-sc="footer_phone">(713) 825-5281</a><a href="mailto:info@jrgroup.com" data-sc="footer_email">info@jrgroup.com</a></div>
+      <div class="footer__brand"><span class="footer__logo"><img src="/jr-mark.webp" alt="JR"
+            class="footer__logo-mark" /><span class="footer__logo-text">Group</span></span>
+        <p>JR Group</p>
       </div>
-      <div class="footer__bottom"><p>&copy; 2026 JR Group.</p><p>Licensed in Texas · Equal Housing Opportunity</p></div>
+      <div class="footer__links">
+        <div class="footer__col">
+          <h4>Properties</h4><a href="/sold-portfolio.html">Sold Portfolio</a><a
+            href="/communities.html">Communities</a>
+        </div>
+        <div class="footer__col">
+          <h4>Services</h4><a href="/buy.html">Buy</a><a href="/sell.html">Sell</a><a href="/contact.html">Home
+            Valuation</a>
+        </div>
+        <div class="footer__col">
+          <h4>Connect</h4>
+          <a href="tel:+17138255281" data-sc="footer_phone">(713) 825-5281</a>
+          <a href="mailto:info@jrgroup.com" data-sc="footer_email">info@jrgroup.com</a>
+          <a href="#" data-sc="social_instagram">Instagram</a>
+          <a href="#" data-sc="social_linkedin">LinkedIn</a>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>&copy; 2026 JR Group.</p>
+        <p>Licensed in Texas · Equal Housing Opportunity</p>
+      </div>
     </div>
   </footer>
 
   <script type="module">
-    import { initNavigation } from '/js/nav.js';
+    import { initNavigation, initGoldDust } from '/js/nav.js';
     import { loadCommunitiesPage } from '/js/dynamic-content.js';
     initNavigation();
-    loadCommunitiesPage();
+    loadCommunitiesPage().then(() => {
+      initGoldDust();
+    });
   </script>
 </body>
+
 </html>

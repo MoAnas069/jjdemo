@@ -1,5 +1,6 @@
 import { supabase } from './supabase-client.js';
 import { initRevealAnimations, initCountUp, initStickyProcess } from './nav.js';
+import { sendLeadNotification, checkRateLimit } from './email-service.js';
 
 let siteContent = {};
 
@@ -363,6 +364,118 @@ const modalStyles = `
 .blog-modal-content p {
   margin-bottom: 1.5rem;
 }
+
+/* Community Modal Specific Styles */
+.community-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 8, 7, 0.75);
+  backdrop-filter: blur(10px);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  padding: 24px;
+}
+.community-modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+.community-modal-card {
+  background: #14110F;
+  border: 1px solid rgba(176, 141, 87, 0.4);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 800px;
+  max-height: 88vh;
+  overflow-y: auto;
+  position: relative;
+  transform: translateY(20px) scale(0.97);
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.7);
+  color: #F5F6F7;
+}
+.community-modal-overlay.active .community-modal-card {
+  transform: translateY(0) scale(1);
+}
+.community-modal-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  background: rgba(20, 17, 15, 0.75);
+  border: 1px solid #B08D57;
+  color: #fff;
+  font-size: 18px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+.community-modal-close:hover {
+  background: #B08D57;
+  color: #14110F;
+  transform: rotate(90deg);
+}
+.community-modal-hero {
+  position: relative;
+  height: 380px;
+  width: 100%;
+  overflow: hidden;
+}
+@media (max-width: 768px) {
+  .community-modal-hero {
+    height: 240px;
+  }
+}
+.community-modal-hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.community-modal-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 40%, rgba(20, 17, 15, 0.95));
+}
+.community-modal-body {
+  padding: 32px 36px 48px;
+}
+@media (max-width: 600px) {
+  .community-modal-body {
+    padding: 24px 20px;
+  }
+}
+.community-modal-title {
+  font-family: 'Bodoni Moda', serif;
+  font-size: 32px;
+  color: #fff;
+  margin-bottom: 16px;
+  line-height: 1.25;
+}
+.community-modal-content {
+  line-height: 1.8;
+  color: #cfcabf;
+  font-size: 15.5px;
+  margin-bottom: 32px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 24px;
+}
+.community-modal-content p {
+  margin-bottom: 1.5rem;
+}
+.btn--whatsapp:hover {
+  background: transparent !important;
+  color: #25D366 !important;
+  border-color: #25D366 !important;
+}
 `;
 
 const styleEl = document.createElement('style');
@@ -411,10 +524,15 @@ export function applySiteContent() {
       } else if (el.tagName === 'A') {
         if (key.includes('phone')) {
           el.href = 'tel:' + val.replace(/[^0-9+]/g, '');
+          el.innerHTML = val;
         } else if (key.includes('email')) {
           el.href = 'mailto:' + val;
+          el.innerHTML = val;
+        } else if (key.startsWith('social_')) {
+          el.href = val;
+        } else {
+          el.innerHTML = val;
         }
-        el.innerHTML = val;
       } else {
         el.innerHTML = val;
       }
@@ -649,7 +767,7 @@ export async function loadSoldPage() {
     `;
   }).join('');
 
-  initRevealAnimations(grid);
+  initRevealAnimations();
 }
 
 // Load dynamic data on About Page
@@ -768,6 +886,87 @@ export async function loadSellPage() {
   initRevealAnimations();
 }
 
+// Static fallback list with body descriptions for detail modals
+const staticList = [
+  {
+    name: 'Houston',
+    slug: 'houston',
+    description: 'Texas\' largest metropolis and a hub for world-class dining, arts, and upscale urban living.',
+    body: 'Houston is a dynamic city offering a diverse cultural scene, renowned medical center, and historic luxury neighborhoods like River Oaks and Memorial.',
+    hero_image: '/images/communities/houston.png'
+  },
+  {
+    name: 'Richmond',
+    slug: 'richmond',
+    description: 'Historic charm meets modern suburban convenience in this tree-lined, family-friendly enclave.',
+    body: 'Richmond combines tree-lined streets, excellent schools, and premium suburban properties, making it one of the most desirable family enclaves.',
+    hero_image: '/images/communities/richmond.png'
+  },
+  {
+    name: 'Sugar Land',
+    slug: 'sugarland',
+    description: 'An upscale, highly-rated community known for manicured parks, shopping, and beautiful lakes.',
+    body: 'Sugar Land offers manicured parks, master-planned neighborhoods, upscale shopping districts, and pristine lakes for high-end suburban living.',
+    hero_image: '/images/communities/sugarland.png'
+  },
+  {
+    name: 'Cypress',
+    slug: 'cypress',
+    description: 'Sprawling master-planned communities featuring resort-style pools, scenic trails, and top-tier schools.',
+    body: 'Cypress features spacious master-planned developments, scenic running trails, premier golf courses, and highly rated school districts.',
+    hero_image: '/images/communities/cypress.png'
+  },
+  {
+    name: 'Katy',
+    slug: 'katy',
+    description: 'Charming suburban living offering master-planned tranquility, open spaces, and premium school districts.',
+    body: 'Katy is celebrated for its historic charm, master-planned neighborhoods, abundant green spaces, and top-ranking educational institutions.',
+    hero_image: '/images/communities/katy.png'
+  },
+  {
+    name: 'Pearland',
+    slug: 'pearland',
+    description: 'A rapidly growing suburban center south of Houston with parks, peace, and close proximity to the city.',
+    body: 'Pearland offers a relaxed pace of life, abundant city parks, and close proximity to the Houston Medical Center and downtown.',
+    hero_image: '/images/communities/pearland.png'
+  },
+  {
+    name: 'Humble',
+    slug: 'humble',
+    description: 'Tranquil residential neighborhoods set amidst a lush, wooded landscape with a warm community feel.',
+    body: 'Humble is nestled within a lush, wooded landscape, offering quiet residential neighborhoods and a welcoming, close-knit community atmosphere.',
+    hero_image: '/images/communities/humble.png'
+  },
+  {
+    name: 'Rosenberg',
+    slug: 'rosenberg',
+    description: 'Charming and historic community under wide Texas skies, offering a relaxed pace of life.',
+    body: 'Rosenberg stands out for its rich history, historic downtown shopping, and relaxed, wide-open country feel under the Texas sky.',
+    hero_image: '/images/communities/rosenberg.png'
+  },
+  {
+    name: 'Rosharon',
+    slug: 'rosharon',
+    description: 'Lush rural spaces and new residential developments offering peaceful country living close to urban hubs.',
+    body: 'Rosharon provides vast rural acreage alongside new master-planned communities, ideal for those seeking country living near Houston.',
+    hero_image: '/images/communities/rosharon.png'
+  },
+  {
+    name: 'Fulshear',
+    slug: 'fulshear',
+    description: 'One of Texas\' fastest-growing luxury communities, featuring sparkling lakes and premium estates.',
+    body: 'Fulshear is one of Texas’ premier luxury enclaves, boasting multi-acre equestrian properties, pristine lakes, and custom architectural estates.',
+    hero_image: '/images/communities/fulshear.png'
+  },
+  {
+    name: 'Spring & Alvin',
+    slug: 'spring-alvin',
+    description: 'Established tree-lined neighborhoods north and south of Houston, rich in character and community spirit.',
+    body: 'Spring & Alvin encompass historic family neighborhoods with mature trees, local boutiques, and a strong sense of community pride.',
+    hero_image: '/images/communities/spring_alvin.png'
+  }
+];
+
 // Load dynamic data on Communities Page
 export async function loadCommunitiesPage() {
   const [contentRes, communitiesRes] = await Promise.all([
@@ -776,7 +975,7 @@ export async function loadCommunitiesPage() {
       .from('communities')
       .select('*')
       .eq('status', 'published')
-      .order('name')
+      .order('name', { ascending: true })
   ]);
 
   applySiteContent();
@@ -785,62 +984,35 @@ export async function loadCommunitiesPage() {
   if (grid) {
     const { data, error } = communitiesRes;
 
+    let communitiesData = [];
     if (!error && data && data.length > 0) {
-      grid.innerHTML = data.map(item => `
-        <a href="/listings.html" class="community-card reveal" id="comm-${item.slug}">
-          <div class="community-card__image"><img src="${item.hero_image}" alt="${item.name}" loading="lazy" /></div>
-          <div class="community-card__content">
-            <h3>${item.name}</h3>
-            <p>${item.description}</p>
-            <span class="community-card__link">Explore listings →</span>
-          </div>
-        </a>
-      `).join('');
+      // Filter out Austin and Dallas
+      const dbFiltered = data.filter(item => {
+        const nameLower = (item.name || '').toLowerCase();
+        return nameLower !== 'austin' && nameLower !== 'dallas';
+      });
+      // Merge db data and static list
+      communitiesData = [...dbFiltered];
+      staticList.forEach(item => {
+        if (!communitiesData.some(dbItem => dbItem.slug === item.slug)) {
+          communitiesData.push(item);
+        }
+      });
+    } else {
+      console.warn('Error fetching communities, using static fallback:', error);
+      communitiesData = staticList;
     }
-  }
 
-  initRevealAnimations();
-}
-
-// Load dynamic data on Listings Page
-export async function loadListingsPage() {
-  const [contentRes, listingsRes] = await Promise.all([
-    fetchSiteContent(),
-    supabase
-      .from('listings')
-      .select('*')
-      .eq('status', 'published')
-      .order('featured', { ascending: false })
-      .order('created_at', { ascending: false })
-  ]);
-
-  applySiteContent();
-
-  const grid = document.querySelector('.listings-grid');
-  if (grid) {
-    const { data, error } = listingsRes;
-
-    if (!error && data && data.length > 0) {
-      grid.innerHTML = data.map(item => `
-        <article class="listing-card reveal" style="cursor:pointer;" onclick="openListingDetailModal('${item.id}')">
-          <div class="listing-card__image">
-            <img src="${item.hero_image}" alt="${item.title}" loading="lazy" />
-            <div class="listing-card__overlay"><span class="listing-card__tag">${item.featured ? 'Featured' : 'Active'}</span></div>
-          </div>
-          <div class="listing-card__info">
-            <h3 class="listing-card__price">$${Number(item.price).toLocaleString()}</h3>
-            <p class="listing-card__address">${item.address}, ${item.city}</p>
-            <div class="listing-card__details">
-              <span><strong>${item.beds}</strong> Beds</span>
-              <span><strong>${item.baths}</strong> Baths</span>
-              <span><strong>${Number(item.sqft).toLocaleString()}</strong> Sq Ft</span>
-            </div>
-          </div>
-        </article>
-      `).join('');
-    } else if (data && data.length === 0) {
-      grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: var(--color-muted); padding: 50px;">No properties match your search criteria. Check back soon.</div>';
-    }
+    grid.innerHTML = communitiesData.map(item => `
+      <div class="community-card reveal" id="comm-${item.slug}" style="cursor:pointer;" onclick="openCommunityDetailModal('${item.id || item.slug}')">
+        <div class="community-card__image"><img src="${item.hero_image}" alt="${item.name}" loading="lazy" /></div>
+        <div class="community-card__content">
+          <h3>${item.name}</h3>
+          <p>${item.description}</p>
+          <span class="community-card__link">Explore details →</span>
+        </div>
+      </div>
+    `).join('');
   }
 
   initRevealAnimations();
@@ -1014,6 +1186,25 @@ window.submitPropertyInquiry = async function(event, propertyTitle) {
   const btn = document.getElementById('pi-submit');
   const originalText = btn.textContent;
   
+  // Rate Limiting
+  const limit = checkRateLimit();
+  if (!limit.allowed) {
+    const errorMsg = limit.reason === 'cooldown' 
+      ? 'Please wait 30s between submissions.' 
+      : 'Submission limit reached. Try again later.';
+    btn.textContent = errorMsg;
+    btn.style.background = '#c0473b';
+    btn.style.color = '#fff';
+    btn.style.borderColor = '#c0473b';
+    setTimeout(() => {
+      btn.textContent = originalText;
+      btn.style.background = '';
+      btn.style.color = '';
+      btn.style.borderColor = '';
+    }, 4000);
+    return;
+  }
+
   btn.textContent = 'Sending...';
   btn.disabled = true;
 
@@ -1034,6 +1225,16 @@ window.submitPropertyInquiry = async function(event, propertyTitle) {
     }]);
 
     if (error) throw error;
+
+    // Send email notification via Resend
+    sendLeadNotification({
+      firstName: first,
+      lastName: last,
+      email: email,
+      phone: phone,
+      interest: propertyTitle,
+      message: msg
+    });
 
     btn.textContent = 'Inquiry Sent ✓';
     btn.style.background = '#3f8f5f';
@@ -1140,4 +1341,183 @@ window.closeBlogDetailModal = function() {
     setTimeout(() => modal.remove(), 400);
   }
   document.body.style.overflow = '';
+}
+
+// Load dynamic data on Contact Page
+export async function loadContactPage() {
+  await fetchSiteContent();
+  applySiteContent();
+}
+
+// =========================================================================
+// COMMUNITY DETAIL MODAL SYSTEM & INQUIRY FLOW
+// =========================================================================
+
+export async function openCommunityDetailModal(idOrSlug) {
+  let community = staticList.find(c => c.slug === idOrSlug);
+  
+  if (!community) {
+    // Check if it's in Supabase
+    const { data, error } = await supabase.from('communities').select('*').eq('id', idOrSlug).single();
+    if (error || !data) {
+      console.error('Error fetching community details:', error);
+      return;
+    }
+    community = data;
+  }
+
+  let existing = document.getElementById('community-modal');
+  if (existing) existing.remove();
+
+  const modal = document.createElement('div');
+  modal.id = 'community-modal';
+  modal.className = 'community-modal-overlay';
+
+  // Format body paragraphs
+  let contentHtml = '';
+  if (community.body) {
+    if (community.body.includes('<p>') || community.body.includes('<br')) {
+      contentHtml = community.body;
+    } else {
+      contentHtml = community.body
+        .split('\n')
+        .filter(Boolean)
+        .map(para => `<p>${para}</p>`)
+        .join('');
+    }
+  } else {
+    contentHtml = `<p>${community.description || 'No description available for this community.'}</p>`;
+  }
+
+  modal.innerHTML = `
+    <div class="community-modal-card">
+      <button class="community-modal-close" onclick="closeCommunityDetailModal()">✕</button>
+      <div class="community-modal-hero">
+        <img src="${community.hero_image || '/images/3.webp'}" alt="${community.name}" />
+        <div class="community-modal-hero-overlay"></div>
+      </div>
+      <div class="community-modal-body">
+        <h2 class="community-modal-title">${community.name}</h2>
+        <div class="community-modal-content">
+          ${contentHtml}
+        </div>
+        
+        <div class="prop-modal-inquiry-box">
+          <h3>Inquire About ${community.name}</h3>
+          <form id="community-inquiry-form" onsubmit="submitCommunityInquiry(event, '${community.name}')">
+            <div class="prop-modal-grid-flds">
+              <input type="text" id="ci-firstname" placeholder="First Name *" required />
+              <input type="text" id="ci-lastname" placeholder="Last Name *" required />
+            </div>
+            <div class="prop-modal-grid-flds">
+              <input type="email" id="ci-email" placeholder="Email Address *" required />
+              <input type="tel" id="ci-phone" placeholder="Phone Number" />
+            </div>
+            <textarea id="ci-message" rows="3" placeholder="Message ...">I am interested in learning more about the ${community.name} community. Please contact me with details.</textarea>
+            <button type="submit" id="ci-submit">Send Inquiry</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+  
+  // Show it with transition
+  setTimeout(() => modal.classList.add('active'), 10);
+  
+  // Lock body scroll
+  document.body.style.overflow = 'hidden';
+}
+
+window.openCommunityDetailModal = openCommunityDetailModal;
+
+window.closeCommunityDetailModal = function() {
+  const modal = document.getElementById('community-modal');
+  if (modal) {
+    modal.classList.remove('active');
+    setTimeout(() => modal.remove(), 400);
+  }
+  document.body.style.overflow = '';
+}
+
+window.submitCommunityInquiry = async function(event, communityName) {
+  event.preventDefault();
+  const btn = document.getElementById('ci-submit');
+  const originalText = btn.textContent;
+  
+  // Rate Limiting
+  const limit = checkRateLimit();
+  if (!limit.allowed) {
+    const errorMsg = limit.reason === 'cooldown' 
+      ? 'Please wait 30s between submissions.' 
+      : 'Submission limit reached. Try again later.';
+    btn.textContent = errorMsg;
+    btn.style.background = '#c0473b';
+    btn.style.color = '#fff';
+    btn.style.borderColor = '#c0473b';
+    setTimeout(() => {
+      btn.textContent = originalText;
+      btn.style.background = '';
+      btn.style.color = '';
+      btn.style.borderColor = '';
+    }, 4000);
+    return;
+  }
+
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+
+  const first = document.getElementById('ci-firstname').value.trim();
+  const last = document.getElementById('ci-lastname').value.trim();
+  const email = document.getElementById('ci-email').value.trim();
+  const phone = document.getElementById('ci-phone').value.trim();
+  const msg = document.getElementById('ci-message').value.trim();
+
+  try {
+    const { error } = await supabase.from('contact_inquiries').insert([{
+      first_name: first,
+      last_name: last,
+      email: email,
+      phone: phone || null,
+      interest: 'Community: ' + communityName,
+      message: msg || null
+    }]);
+
+    if (error) throw error;
+
+    // Send email notification via Resend
+    sendLeadNotification({
+      firstName: first,
+      lastName: last,
+      email: email,
+      phone: phone,
+      interest: 'Community: ' + communityName,
+      message: msg
+    });
+
+    btn.textContent = 'Inquiry Sent ✓';
+    btn.style.background = '#3f8f5f';
+    btn.style.color = '#fff';
+    btn.style.borderColor = '#3f8f5f';
+    document.getElementById('community-inquiry-form').reset();
+    
+    setTimeout(() => {
+      window.closeCommunityDetailModal();
+    }, 2000);
+  } catch (err) {
+    console.error('Inquiry submission failed:', err);
+    btn.textContent = 'Failed to Send';
+    btn.style.background = '#c0473b';
+    btn.style.color = '#fff';
+    btn.style.borderColor = '#c0473b';
+    
+    setTimeout(() => {
+      btn.textContent = originalText;
+      btn.style.background = '';
+      btn.style.color = '';
+      btn.style.borderColor = '';
+      btn.disabled = false;
+    }, 3000);
+  }
 }

@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Successfully Significant Sales | THE J — Texas Luxury Real Estate</title>
-  <meta name="description" content="Explore JR Group's record of Successfully represented and transitioned luxury properties across Texas." />
+  <title>Recent Sales | THE J - Luxury Real Estate</title>
+  <meta name="description"
+    content="Explore JR Group's record of Successfully represented and transitioned luxury properties across Texas." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;0,6..96,700;0,6..96,800;0,6..96,900;1,6..96,400;1,6..96,500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;0,6..96,700;0,6..96,800;0,6..96,900;1,6..96,400;1,6..96,500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
   <link rel="stylesheet" href="/css/index.css" />
   <style>
     .filter-tabs {
@@ -18,6 +22,7 @@
       margin-bottom: 0;
       padding: 0;
     }
+
     .filter-tab {
       background: transparent;
       border: none;
@@ -32,12 +37,15 @@
       transition: color 0.3s ease;
       font-family: 'Inter', sans-serif;
     }
+
     .filter-tab:hover {
       color: #fff;
     }
+
     .filter-tab.active {
       color: #B08D57;
     }
+
     .filter-tab::after {
       content: '';
       position: absolute;
@@ -50,6 +58,7 @@
       transform-origin: right;
       transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
     }
+
     .filter-tab.active::after {
       transform: scaleX(1);
       transform-origin: left;
@@ -62,30 +71,34 @@
       transition: opacity 0.2s ease, transform 0.2s ease;
       will-change: opacity, transform;
     }
+
     #sold-portfolio-grid.filtering {
       opacity: 0;
       transform: translateY(10px);
     }
   </style>
 </head>
+
 <body>
   <div class="page-shimmer"></div>
   <nav id="main-nav" class="nav">
     <div class="nav__inner">
-      <a href="/" class="nav__logo"><img src="/jr-mark.webp" alt="JR" class="nav__logo-mark" /><span class="nav__logo-text">Group</span></a>
+      <a href="/" class="nav__logo"><img src="/jr-mark.webp" alt="JR" class="nav__logo-mark" /><span
+          class="nav__logo-text">Group</span></a>
       <ul class="nav__links" id="nav-links">
         <li><a href="/">Home</a></li>
         <li><a href="/about.html">About Joel</a></li>
         <li><a href="/buy.html">Buy</a></li>
         <li><a href="/sell.html">Sell</a></li>
         <li><a href="/communities.html">Communities</a></li>
-        <li><a href="/listings.html">Listings</a></li>
-        <li><a href="/significant-sales.html" class="active">Significant Sales</a></li>
+        <li><a href="/sold-portfolio.html" class="active">Sold Portfolio</a></li>
         <li><a href="/blog.html">Blog</a></li>
         <li><a href="/contact.html">Contact</a></li>
       </ul>
-      <a class="run-light" href="/contact.html" aria-label="Free home valuation"><span class="face">Free home valuation</span></a>
-      <button class="nav__burger" id="nav-burger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+      <a class="run-light" href="/contact.html" aria-label="Free home valuation"><span class="face">Free home
+          valuation</span></a>
+      <button class="nav__burger" id="nav-burger"
+        aria-label="Toggle menu"><span></span><span></span><span></span></button>
     </div>
   </nav>
 
@@ -98,7 +111,7 @@
   <section class="section section--page-hero">
     <div class="page-hero__content reveal">
       <span class="stage-label" data-sc="sold_blueprint_label">Track Record</span>
-      <h1 class="page-hero__title" data-sc="sold_intro_headline">Significant Sales</h1>
+      <h1 class="page-hero__title" data-sc="sold_intro_headline">Recent Sales</h1>
     </div>
   </section>
 
@@ -112,7 +125,7 @@
 
   <section class="section section--cta">
     <div class="cta-block reveal">
-      <h2 class="stage-headline">Interested in listing<br/><em>your property?</em></h2>
+      <h2 class="stage-headline">Interested in listing<br /><em>your property?</em></h2>
       <p class="stage-body">Coordinate with Joel Joy to secure elite representation and maximize your sale value.</p>
       <div class="cta-buttons">
         <a href="/contact.html" class="btn btn--gold">Schedule Consultation</a>
@@ -122,12 +135,14 @@
 
   <footer class="footer">
     <div class="footer__inner">
-      <div class="footer__brand"><span class="footer__logo"><img src="/jr-mark.webp" alt="JR" class="footer__logo-mark" /><span class="footer__logo-text">Group</span></span><p>JR Group</p></div>
+      <div class="footer__brand"><span class="footer__logo"><img src="/jr-mark.webp" alt="JR"
+            class="footer__logo-mark" /><span class="footer__logo-text">Group</span></span>
+        <p>JR Group</p>
+      </div>
       <div class="footer__links">
         <div class="footer__col">
           <h4>Properties</h4>
-          <a href="/listings.html">Featured Listings</a>
-          <a href="/significant-sales.html">Significant Sales</a>
+          <a href="/sold-portfolio.html">Sold Portfolio</a>
           <a href="/communities.html">Communities</a>
         </div>
         <div class="footer__col">
@@ -140,9 +155,14 @@
           <h4>Connect</h4>
           <a href="tel:+17138255281" data-sc="footer_phone">(713) 825-5281</a>
           <a href="mailto:info@jrgroup.com" data-sc="footer_email">info@jrgroup.com</a>
+          <a href="#" data-sc="social_instagram">Instagram</a>
+          <a href="#" data-sc="social_linkedin">LinkedIn</a>
         </div>
       </div>
-      <div class="footer__bottom"><p>&copy; 2026 JR Group.</p><p>Licensed in Texas · Equal Housing Opportunity</p></div>
+      <div class="footer__bottom">
+        <p>&copy; 2026 JR Group.</p>
+        <p>Licensed in Texas · Equal Housing Opportunity</p>
+      </div>
     </div>
   </footer>
 
@@ -154,4 +174,5 @@
     loadSoldPage();
   </script>
 </body>
+
 </html>

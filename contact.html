@@ -21,8 +21,7 @@
         <li><a href="/buy.html">Buy</a></li>
         <li><a href="/sell.html">Sell</a></li>
         <li><a href="/communities.html">Communities</a></li>
-        <li><a href="/listings.html">Listings</a></li>
-        <li><a href="/significant-sales.html">Significant Sales</a></li>
+        <li><a href="/sold-portfolio.html">Sold Portfolio</a></li>
         <li><a href="/blog.html">Blog</a></li>
         <li><a href="/contact.html" class="active">Contact</a></li>
       </ul>
@@ -108,23 +107,23 @@
       <div class="contact-info reveal">
         <div class="contact-info__block">
           <h4>Office</h4>
-          <p>JR Group Real Estate</p>
-          <p>1234 Westheimer Road, Suite 500</p>
-          <p>Houston, TX 77006</p>
+          <p data-sc="contact_office_name">JR Group Real Estate</p>
+          <p data-sc="contact_address_street">1234 Westheimer Road, Suite 500</p>
+          <p data-sc="contact_address_city">Houston, TX 77006</p>
         </div>
         <div class="contact-info__block">
           <h4>Direct</h4>
-          <p><a href="tel:+17138255281">(713) 825-5281</a></p>
-          <p><a href="mailto:info@jrgroup.com">info@jrgroup.com</a></p>
+          <p><a href="tel:+17138255281" data-sc="contact_phone">(713) 825-5281</a></p>
+          <p><a href="mailto:info@jrgroup.com" data-sc="contact_email">info@jrgroup.com</a></p>
         </div>
 
         <div class="contact-info__block">
           <h4>Follow</h4>
           <div class="contact-socials">
-            <a href="#">Instagram</a>
-            <a href="#">LinkedIn</a>
-            <a href="#">Facebook</a>
-            <a href="#">YouTube</a>
+            <a href="#" data-sc="social_instagram">Instagram</a>
+            <a href="#" data-sc="social_linkedin">LinkedIn</a>
+            <a href="#" data-sc="social_facebook">Facebook</a>
+            <a href="#" data-sc="social_youtube">YouTube</a>
           </div>
         </div>
       </div>
@@ -135,9 +134,15 @@
     <div class="footer__inner">
       <div class="footer__brand"><span class="footer__logo"><img src="/jr-mark.webp" alt="JR" class="footer__logo-mark" /><span class="footer__logo-text">Group</span></span><p>JR Group</p></div>
       <div class="footer__links">
-        <div class="footer__col"><h4>Properties</h4><a href="/listings.html">Featured Listings</a><a href="/significant-sales.html">Significant Sales</a><a href="/communities.html">Communities</a></div>
+        <div class="footer__col"><h4>Properties</h4><a href="/sold-portfolio.html">Sold Portfolio</a><a href="/communities.html">Communities</a></div>
         <div class="footer__col"><h4>Services</h4><a href="/buy.html">Buy</a><a href="/sell.html">Sell</a><a href="/contact.html">Home Valuation</a></div>
-        <div class="footer__col"><h4>Connect</h4><a href="tel:+17138255281">(713) 825-5281</a><a href="mailto:info@jrgroup.com">info@jrgroup.com</a></div>
+        <div class="footer__col">
+          <h4>Connect</h4>
+          <a href="tel:+17138255281" data-sc="footer_phone">(713) 825-5281</a>
+          <a href="mailto:info@jrgroup.com" data-sc="footer_email">info@jrgroup.com</a>
+          <a href="#" data-sc="social_instagram">Instagram</a>
+          <a href="#" data-sc="social_linkedin">LinkedIn</a>
+        </div>
       </div>
       <div class="footer__bottom"><p>&copy; 2026 JR Group.</p><p>Licensed in Texas · Equal Housing Opportunity</p></div>
     </div>
@@ -146,10 +151,13 @@
   <script type="module">
     import { initNavigation, initRevealAnimations, initGoldDust } from '/js/nav.js';
     import { supabase } from '/js/supabase-client.js';
+    import { loadContactPage } from '/js/dynamic-content.js';
+    import { sendLeadNotification, checkRateLimit } from '/js/email-service.js';
     
     initNavigation();
     initRevealAnimations();
     initGoldDust();
+    loadContactPage();
 
     const form = document.getElementById('contact-form');
     const checkbox = document.getElementById('consent-checkbox');
@@ -192,6 +200,24 @@
 
       const btn = e.target.querySelector('button[type="submit"]');
       const originalText = btn.textContent;
+
+      // Rate Limiting
+      const limit = checkRateLimit();
+      if (!limit.allowed) {
+        const errorMsg = limit.reason === 'cooldown' 
+          ? 'Please wait 30s.' 
+          : 'Limit reached. Try later.';
+        btn.textContent = errorMsg;
+        btn.style.background = '#e74c3c';
+        btn.style.borderColor = '#e74c3c';
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.style.background = '';
+          btn.style.borderColor = '';
+          btn.removeAttribute('disabled');
+        }, 4000);
+        return;
+      }
       
       // Set loading state
       btn.textContent = 'Sending...';
@@ -217,6 +243,16 @@
           }]);
 
         if (error) throw error;
+
+        // Send email notification via Resend
+        sendLeadNotification({
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          phone: phone,
+          interest: interest ? 'Contact Interest: ' + interest : 'General Contact',
+          message: message
+        });
 
         // Success state
         btn.textContent = 'Message Sent ✓';

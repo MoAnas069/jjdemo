@@ -585,6 +585,7 @@
             <option value="listings">Page: Listings</option>
             <option value="sold">Page: Significant Sales</option>
             <option value="blog">Page: Blog</option>
+            <option value="contact_settings">Page: Contacts & Socials</option>
           </select>
           <button class="admin-bar__btn admin-bar__btn--primary" id="save-page-btn" onclick="savePageChanges()">Save Page Changes</button>
           <button class="admin-bar__btn admin-bar__btn--danger" onclick="doSignOut()">Sign Out</button>
@@ -648,6 +649,7 @@
     else if (activePage === 'listings') pageHtml += getListingspageHtml();
     else if (activePage === 'sold') pageHtml += getSoldpageHtml();
     else if (activePage === 'blog') pageHtml += getBlogpageHtml();
+    else if (activePage === 'contact_settings') pageHtml += getContactSettingspageHtml();
 
     // Footer
     pageHtml += `
@@ -673,6 +675,8 @@
               <h4>Connect</h4>
               <a contenteditable="true" data-cms="footer_phone">${escapeHtml(siteContent.footer_phone || '(713) 555-1234')}</a>
               <a contenteditable="true" data-cms="footer_email">${escapeHtml(siteContent.footer_email || 'info@jrgroup.com')}</a>
+              <a href="${escapeHtml(siteContent.social_instagram || '#')}" target="_blank">Instagram</a>
+              <a href="${escapeHtml(siteContent.social_linkedin || '#')}" target="_blank">LinkedIn</a>
             </div>
           </div>
           <div class="footer__bottom">
@@ -697,6 +701,85 @@
   // ==========================================
   // PAGE TEMPLATES DEFINITIONS
   // ==========================================
+
+  function getContactSettingspageHtml() {
+    return `
+      <!-- HERO -->
+      <section class="section section--page-hero">
+        <div class="page-hero__content">
+          <span class="stage-label">Portal Settings</span>
+          <h1 class="page-hero__title">Contacts &amp; Socials</h1>
+        </div>
+      </section>
+
+      <!-- SETTINGS FIELDS -->
+      <section class="section" style="max-width: 900px; margin: 0 auto; padding: 40px 24px 80px 24px; font-family: 'Inter', sans-serif;">
+        <div style="background: #151210; border: 1px solid var(--admin-border); padding: 40px; border-radius: 12px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6); color: #fff;">
+          <h2 style="font-family: 'Bodoni Moda', serif; font-size: 26px; color: #fff; margin-bottom: 24px; border-bottom: 1px solid rgba(176, 141, 87, 0.2); padding-bottom: 12px; margin-top: 0;">Direct &amp; Footer Contacts</h2>
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px;">
+            <div>
+              <label style="display: block; font-size: 12px; text-transform: uppercase; color: #a39e95; margin-bottom: 8px; letter-spacing: 0.05em;">Direct Phone Number</label>
+              <div contenteditable="true" data-cms="contact_phone" style="background: #1b1715; border: 1px solid var(--admin-border); padding: 12px; border-radius: 8px; color: #fff; outline: none; min-height: 44px;">${escapeHtml(siteContent.contact_phone || '(713) 825-5281')}</div>
+            </div>
+            <div>
+              <label style="display: block; font-size: 12px; text-transform: uppercase; color: #a39e95; margin-bottom: 8px; letter-spacing: 0.05em;">Direct Email Address</label>
+              <div contenteditable="true" data-cms="contact_email" style="background: #1b1715; border: 1px solid var(--admin-border); padding: 12px; border-radius: 8px; color: #fff; outline: none; min-height: 44px;">${escapeHtml(siteContent.contact_email || 'info@jrgroup.com')}</div>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px;">
+            <div>
+              <label style="display: block; font-size: 12px; text-transform: uppercase; color: #a39e95; margin-bottom: 8px; letter-spacing: 0.05em;">Footer Phone Number</label>
+              <div contenteditable="true" data-cms="footer_phone" style="background: #1b1715; border: 1px solid var(--admin-border); padding: 12px; border-radius: 8px; color: #fff; outline: none; min-height: 44px;">${escapeHtml(siteContent.footer_phone || '(713) 555-1234')}</div>
+            </div>
+            <div>
+              <label style="display: block; font-size: 12px; text-transform: uppercase; color: #a39e95; margin-bottom: 8px; letter-spacing: 0.05em;">Footer Email Address</label>
+              <div contenteditable="true" data-cms="footer_email" style="background: #1b1715; border: 1px solid var(--admin-border); padding: 12px; border-radius: 8px; color: #fff; outline: none; min-height: 44px;">${escapeHtml(siteContent.footer_email || 'info@jrgroup.com')}</div>
+            </div>
+          </div>
+
+          <h2 style="font-family: 'Bodoni Moda', serif; font-size: 26px; color: #fff; margin-bottom: 24px; border-bottom: 1px solid rgba(176, 141, 87, 0.2); padding-bottom: 12px; margin-top: 40px;">Office Address</h2>
+          
+          <div style="display: grid; grid-template-columns: 1fr; gap: 24px; margin-bottom: 32px;">
+            <div>
+              <label style="display: block; font-size: 12px; text-transform: uppercase; color: #a39e95; margin-bottom: 8px; letter-spacing: 0.05em;">Office Name</label>
+              <div contenteditable="true" data-cms="contact_office_name" style="background: #1b1715; border: 1px solid var(--admin-border); padding: 12px; border-radius: 8px; color: #fff; outline: none; min-height: 44px;">${escapeHtml(siteContent.contact_office_name || 'JR Group Real Estate')}</div>
+            </div>
+            <div>
+              <label style="display: block; font-size: 12px; text-transform: uppercase; color: #a39e95; margin-bottom: 8px; letter-spacing: 0.05em;">Street Address</label>
+              <div contenteditable="true" data-cms="contact_address_street" style="background: #1b1715; border: 1px solid var(--admin-border); padding: 12px; border-radius: 8px; color: #fff; outline: none; min-height: 44px;">${escapeHtml(siteContent.contact_address_street || '1234 Westheimer Road, Suite 500')}</div>
+            </div>
+            <div>
+              <label style="display: block; font-size: 12px; text-transform: uppercase; color: #a39e95; margin-bottom: 8px; letter-spacing: 0.05em;">City, State, Zip Code</label>
+              <div contenteditable="true" data-cms="contact_address_city" style="background: #1b1715; border: 1px solid var(--admin-border); padding: 12px; border-radius: 8px; color: #fff; outline: none; min-height: 44px;">${escapeHtml(siteContent.contact_address_city || 'Houston, TX 77006')}</div>
+            </div>
+          </div>
+
+          <h2 style="font-family: 'Bodoni Moda', serif; font-size: 26px; color: #fff; margin-bottom: 24px; border-bottom: 1px solid rgba(176, 141, 87, 0.2); padding-bottom: 12px; margin-top: 40px;">Social Media Links</h2>
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 8px;">
+            <div>
+              <label style="display: block; font-size: 12px; text-transform: uppercase; color: #a39e95; margin-bottom: 8px; letter-spacing: 0.05em;">Instagram Link</label>
+              <div contenteditable="true" data-cms="social_instagram" style="background: #1b1715; border: 1px solid var(--admin-border); padding: 12px; border-radius: 8px; color: #fff; outline: none; min-height: 44px; word-break: break-all;">${escapeHtml(siteContent.social_instagram || 'https://instagram.com/')}</div>
+            </div>
+            <div>
+              <label style="display: block; font-size: 12px; text-transform: uppercase; color: #a39e95; margin-bottom: 8px; letter-spacing: 0.05em;">LinkedIn Link</label>
+              <div contenteditable="true" data-cms="social_linkedin" style="background: #1b1715; border: 1px solid var(--admin-border); padding: 12px; border-radius: 8px; color: #fff; outline: none; min-height: 44px; word-break: break-all;">${escapeHtml(siteContent.social_linkedin || 'https://linkedin.com/')}</div>
+            </div>
+            <div>
+              <label style="display: block; font-size: 12px; text-transform: uppercase; color: #a39e95; margin-bottom: 8px; letter-spacing: 0.05em;">Facebook Link</label>
+              <div contenteditable="true" data-cms="social_facebook" style="background: #1b1715; border: 1px solid var(--admin-border); padding: 12px; border-radius: 8px; color: #fff; outline: none; min-height: 44px; word-break: break-all;">${escapeHtml(siteContent.social_facebook || 'https://facebook.com/')}</div>
+            </div>
+            <div>
+              <label style="display: block; font-size: 12px; text-transform: uppercase; color: #a39e95; margin-bottom: 8px; letter-spacing: 0.05em;">YouTube Link</label>
+              <div contenteditable="true" data-cms="social_youtube" style="background: #1b1715; border: 1px solid var(--admin-border); padding: 12px; border-radius: 8px; color: #fff; outline: none; min-height: 44px; word-break: break-all;">${escapeHtml(siteContent.social_youtube || 'https://youtube.com/')}</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    `;
+  }
 
   function getHomepageHtml() {
     const testimonials = dbBlocks.filter(x => x.section === 'testimonials' && x.status === 'published').sort((a,b)=>a.position-b.position);
@@ -852,7 +935,7 @@
       <section class="section section--page-hero">
         <div class="page-hero__content">
           <span class="stage-label" contenteditable="true" data-cms="sold_blueprint_label">${escapeHtml(siteContent.sold_blueprint_label || 'Track Record')}</span>
-          <h1 class="page-hero__title" contenteditable="true" data-cms="sold_intro_headline">${siteContent.sold_intro_headline || 'Successfully Sold'}</h1>
+          <h1 class="page-hero__title" contenteditable="true" data-cms="sold_intro_headline">${siteContent.sold_intro_headline || 'Recent Sales'}</h1>
         </div>
       </section>
 
