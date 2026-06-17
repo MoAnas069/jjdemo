@@ -1124,17 +1124,28 @@
   }
 
   function getCommunitiespageHtml() {
-    const list = dbCommunities.filter(x => x.status === 'published');
+    const list = dbCommunities.filter(x => {
+      if (x.status !== 'published') return false;
+      const nameLower = (x.name || '').toLowerCase();
+      return nameLower !== 'austin' && nameLower !== 'dallas';
+    });
 
     return `
-      <section class="section section--page-hero">
+      <section class="section section--page-hero" style="background-image: url('${escapeHtml(siteContent.about_home_image || '/images/3.webp')}');">
         <div class="page-hero__content">
-          <span class="stage-label">Neighborhoods</span>
+          <span class="stage-label">Discover</span>
           <h1 class="page-hero__title" contenteditable="true" data-cms="comm_intro_headline">${siteContent.comm_intro_headline || 'Communities'}</h1>
         </div>
       </section>
 
-      <section class="section" style="padding:0 24px 80px 24px; max-width:1100px; margin:0 auto;">
+      <section class="section section--content-block">
+        <div class="content-block">
+          <h2 class="stage-headline" contenteditable="true" data-cms="comm_intro_heading">${siteContent.comm_intro_heading || 'Every neighborhood<br /><em>tells a story.</em>'}</h2>
+          <p class="stage-body" contenteditable="true" data-cms="comm_intro_body">${escapeHtml(siteContent.comm_intro_body || 'We know every community intimately — from local hotspots to premier residential enclaves. Explore the locations where our clients find their perfect luxury homes.')}</p>
+        </div>
+      </section>
+
+      <section class="section section--communities">
         <div class="community-grid">
           ${list.map(item => `
             <div class="community-card" style="position:relative; display:block;">
