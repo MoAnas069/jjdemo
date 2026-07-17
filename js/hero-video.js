@@ -65,20 +65,19 @@ export function initHeroVideo() {
   const isMobile = window.innerWidth <= 768;
   video.innerHTML = ''; // Clear default fallback contents
 
+  if (isMobile) {
+    video.style.display = 'none';
+    beginSettleSequence();
+    return;
+  }
+
   const webmSource = document.createElement('source');
   const mp4Source = document.createElement('source');
 
-  if (isMobile) {
-    webmSource.src = '/joelphone_clean.webm';
-    webmSource.type = 'video/webm';
-    mp4Source.src = '/joelphone_clean.mp4';
-    mp4Source.type = 'video/mp4';
-  } else {
-    webmSource.src = '/joeldesk_clean.webm';
-    webmSource.type = 'video/webm';
-    mp4Source.src = '/joeldesk_clean.mp4';
-    mp4Source.type = 'video/mp4';
-  }
+  webmSource.src = '/joeldesk_clean.webm';
+  webmSource.type = 'video/webm';
+  mp4Source.src = '/joeldesk_clean.mp4';
+  mp4Source.type = 'video/mp4';
 
   video.appendChild(webmSource);
   video.appendChild(mp4Source);
