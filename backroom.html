@@ -337,6 +337,21 @@
     }
 
     @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Inquiries Premium Table Styling */
+    .inquiry-row-hover:hover {
+      background: rgba(176, 141, 87, 0.04) !important;
+    }
+    .inquiry-table-wrapper::-webkit-scrollbar {
+      height: 8px;
+    }
+    .inquiry-table-wrapper::-webkit-scrollbar-track {
+      background: #151210;
+    }
+    .inquiry-table-wrapper::-webkit-scrollbar-thumb {
+      background: var(--admin-gold);
+      border-radius: 4px;
+    }
   </style>
 </head>
 <body>
@@ -363,6 +378,7 @@
   let dbBlogs = [];
   let dbCommunities = [];
   let dbBlocks = [];
+  let dbInquiries = [];
 
   const $ = (s) => document.querySelector(s);
 
@@ -585,6 +601,7 @@
             <option value="sold">Page: Sold Portfolio</option>
             <option value="blog">Page: Blog</option>
             <option value="contact_settings">Page: Contacts & Socials</option>
+            <option value="inquiries">Form Submissions</option>
           </select>
           <button class="admin-bar__btn admin-bar__btn--primary" id="save-page-btn" onclick="savePageChanges()">Save Page Changes</button>
           <button class="admin-bar__btn admin-bar__btn--danger" onclick="doSignOut()">Sign Out</button>
@@ -614,12 +631,27 @@
     dbBlogs = blogRes.data || [];
     dbCommunities = commRes.data || [];
     dbBlocks = blockRes.data || [];
+
+    try {
+      const { data, error } = await sb.from('contact_inquiries').select('*');
+      if (error) throw error;
+      dbInquiries = data || [];
+      dbInquiries.sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
+    } catch (e) {
+      console.warn("Failed to load contact inquiries:", e);
+      dbInquiries = [];
+    }
   }
 
   // 4. Render Active Replicated Web Page
   function renderActivePage() {
     const root = $('#page-editor-root');
     
+    const saveBtn = $('#save-page-btn');
+    if (saveBtn) {
+      saveBtn.style.display = (activePage === 'inquiries') ? 'none' : 'inline-block';
+    }
+
     // Inject replicated navbar and base styling
     let pageHtml = `
       <nav id="main-nav" class="nav" style="position: absolute; top: 64px;">
@@ -647,6 +679,7 @@
     else if (activePage === 'sold') pageHtml += getSoldpageHtml();
     else if (activePage === 'blog') pageHtml += getBlogpageHtml();
     else if (activePage === 'contact_settings') pageHtml += getContactSettingspageHtml();
+    else if (activePage === 'inquiries') pageHtml += getInquiriesPageHtml();
 
     // Footer
     pageHtml += `
@@ -687,6 +720,10 @@
     
     // Connect visual images triggers
     setupImageChangeHandlers();
+
+    if (activePage === 'inquiries') {
+      filterInquiries();
+    }
   }
 
   window.setPageNav = function(p) {
@@ -697,6 +734,181 @@
   // ==========================================
   // PAGE TEMPLATES DEFINITIONS
   // ==========================================
+
+  function getInquiriesPageHtml() {
+    return `
+      <!-- HERO -->
+      <section class="section section--page-hero">
+        <div class="page-hero__content">
+          <span class="stage-label">Portal Data</span>
+          <h1 class="page-hero__title">Form Submissions</h1>
+        </div>
+      </section>
+
+      <!-- SUBMISSIONS TABLE -->
+      <section class="section" style="max-width: 1200px; margin: 0 auto; padding: 40px 24px 80px 24px; font-family: 'Inter', sans-serif;">
+        <div style="background: #151210; border: 1px solid var(--admin-border); padding: 32px; border-radius: 12px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6); color: #fff;">
+          
+          <!-- Controls Bar -->
+          <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 24px; border-bottom: 1px solid rgba(176, 141, 87, 0.2); padding-bottom: 20px;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <h2 style="font-family: 'Bodoni Moda', serif; font-size: 24px; color: #fff; margin: 0;">Inquiry Database</h2>
+              <span id="inquiry-count" style="background: var(--admin-gold); color: #000; font-size: 12px; font-weight: bold; padding: 2px 8px; border-radius: 20px;">0 Entries</span>
+            </div>
+            
+            <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
+              <!-- Refresh -->
+              <button onclick="refreshInquiries()" class="admin-bar__btn" style="display: flex; align-items: center; gap: 6px; background: transparent; border: 1px solid var(--admin-border); color: #fff;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--admin-gold);"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                Refresh
+              </button>
+              
+              <!-- Search -->
+              <input type="text" id="inquiry-search" placeholder="Search inquiries..." style="background: #1b1715; border: 1px solid var(--admin-border); color: #fff; padding: 8px 16px; border-radius: 6px; font-size: 13px; outline: none; width: 220px; transition: border 0.2s;" oninput="filterInquiries()" />
+              
+              <!-- Filter Dropdown -->
+              <select id="inquiry-filter" style="background: #1b1715; border: 1px solid var(--admin-border); color: #fff; padding: 8px 12px; border-radius: 6px; font-size: 13px; outline: none; cursor: pointer;" onchange="filterInquiries()">
+                <option value="all">All Interests</option>
+                <option value="buy">Buy / Acquisition</option>
+                <option value="sell">Sell / Valuation</option>
+                <option value="community">Communities</option>
+                <option value="general">General & Other</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Table Container -->
+          <div class="inquiry-table-wrapper" style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 13.5px; line-height: 1.5;">
+              <thead>
+                <tr style="border-bottom: 2px solid rgba(176, 141, 87, 0.3); color: #a39e95; text-transform: uppercase; font-size: 11px; letter-spacing: 0.05em;">
+                  <th style="padding: 12px 16px;">Date</th>
+                  <th style="padding: 12px 16px;">Name</th>
+                  <th style="padding: 12px 16px;">Contact Details</th>
+                  <th style="padding: 12px 16px;">Interest</th>
+                  <th style="padding: 12px 16px;">Message</th>
+                  <th style="padding: 12px 16px; text-align: right;">Action</th>
+                </tr>
+              </thead>
+              <tbody id="inquiries-tbody">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </section>
+    `;
+  }
+
+  window.filterInquiries = function() {
+    const searchInput = $('#inquiry-search');
+    const filterSelect = $('#inquiry-filter');
+    const searchVal = searchInput ? searchInput.value.toLowerCase() : '';
+    const filterVal = filterSelect ? filterSelect.value : 'all';
+    
+    const filtered = dbInquiries.filter(item => {
+      const name = `${item.first_name || ''} ${item.last_name || ''}`.toLowerCase();
+      const email = (item.email || '').toLowerCase();
+      const phone = (item.phone || '').toLowerCase();
+      const msg = (item.message || '').toLowerCase();
+      const interest = (item.interest || '').toLowerCase();
+      
+      const matchesSearch = name.includes(searchVal) || email.includes(searchVal) || phone.includes(searchVal) || msg.includes(searchVal) || interest.includes(searchVal);
+      
+      let matchesFilter = true;
+      if (filterVal === 'buy') {
+        matchesFilter = interest.includes('buy') || interest.includes('acquisition') || interest.includes('purchase');
+      } else if (filterVal === 'sell') {
+        matchesFilter = interest.includes('sell') || interest.includes('valuation') || interest.includes('representation');
+      } else if (filterVal === 'community') {
+        matchesFilter = interest.includes('community');
+      } else if (filterVal === 'general') {
+        matchesFilter = !interest.includes('buy') && !interest.includes('sell') && !interest.includes('community') && !interest.includes('acquisition') && !interest.includes('purchase') && !interest.includes('valuation') && !interest.includes('representation');
+      }
+      
+      return matchesSearch && matchesFilter;
+    });
+
+    renderInquiryRows(filtered);
+  };
+
+  function renderInquiryRows(items) {
+    const tbody = $('#inquiries-tbody');
+    const countBadge = $('#inquiry-count');
+    if (countBadge) countBadge.textContent = `${items.length} ${items.length === 1 ? 'Entry' : 'Entries'}`;
+    if (!tbody) return;
+
+    if (items.length === 0) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="6" style="padding: 40px; text-align: center; color: #a39e95; font-style: italic;">
+            No form submissions found.
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
+    tbody.innerHTML = items.map(item => {
+      const dateStr = item.created_at ? new Date(item.created_at).toLocaleString() : 'N/A';
+      return `
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.05); transition: background 0.2s;" class="inquiry-row-hover">
+          <td style="padding: 16px; color: #cfcabf; white-space: nowrap;">${escapeHtml(dateStr)}</td>
+          <td style="padding: 16px; font-weight: 500; color: #fff;">${escapeHtml(item.first_name || '')} ${escapeHtml(item.last_name || '')}</td>
+          <td style="padding: 16px;">
+            <div style="display: flex; flex-direction: column; gap: 4px;">
+              <a href="mailto:${escapeHtml(item.email)}" style="color: var(--admin-gold); text-decoration: none;">${escapeHtml(item.email)}</a>
+              ${item.phone ? `<a href="tel:${escapeHtml(item.phone)}" style="color: #a39e95; text-decoration: none;">${escapeHtml(item.phone)}</a>` : ''}
+            </div>
+          </td>
+          <td style="padding: 16px;">
+            <span style="background: rgba(176, 141, 87, 0.1); color: var(--admin-gold); border: 1px solid var(--admin-border); padding: 4px 10px; border-radius: 4px; font-size: 11.5px; font-weight: 500; display: inline-block;">
+              ${escapeHtml(item.interest || 'General Inquiry')}
+            </span>
+          </td>
+          <td style="padding: 16px; max-width: 320px; color: #cfcabf; word-break: break-word;">
+            ${escapeHtml(item.message || '—')}
+          </td>
+          <td style="padding: 16px; text-align: right;">
+            <button class="btn-edit-badge" onclick="deleteInquiryRecord('${item.id}')" style="background: #d9534f; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; transition: background 0.2s;">
+              Delete
+            </button>
+          </td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  window.deleteInquiryRecord = function(id) {
+    customConfirm('Are you sure you want to delete this submission record? This cannot be undone.', async () => {
+      toast('Deleting submission...', 'info');
+      try {
+        const { error } = await sb.from('contact_inquiries').delete().eq('id', id);
+        if (error) throw error;
+        toast('Submission deleted successfully.', 'success');
+        
+        dbInquiries = dbInquiries.filter(x => x.id !== id);
+        filterInquiries();
+      } catch (err) {
+        toast(err.message, 'error');
+      }
+    });
+  };
+
+  window.refreshInquiries = async function() {
+    toast('Refreshing inquiries...', 'info');
+    try {
+      const { data, error } = await sb.from('contact_inquiries').select('*');
+      if (error) throw error;
+      dbInquiries = data || [];
+      dbInquiries.sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
+      filterInquiries();
+      toast('Inquiries updated.', 'success');
+    } catch (e) {
+      toast('Failed to refresh: ' + e.message, 'error');
+    }
+  };
 
   function getContactSettingspageHtml() {
     return `
