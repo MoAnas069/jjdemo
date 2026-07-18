@@ -320,6 +320,7 @@ textarea {
   inset: 0;
   width: 100%;
   height: 100%;
+  background-image: var(--bg-image);
   background-size: cover;
   background-position: center;
   opacity: 0;
@@ -4211,6 +4212,10 @@ textarea {
 
 /* Media Query Stack overrides for the new section system */
 @media (max-width: 768px) {
+  .hero__slide {
+    background-image: var(--bg-image-mobile);
+  }
+
   .listings-home-grid,
   .services-home-grid,
   .sold-portfolio-grid {
@@ -4220,6 +4225,10 @@ textarea {
 
   .service-card {
     height: 420px;
+  }
+
+  .service-card__video {
+    display: none !important;
   }
 
   @media (max-width: 480px) {

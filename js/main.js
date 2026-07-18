@@ -3,7 +3,19 @@ import { initHeroVideo } from './hero-video.js';
 import { loadHomepage } from './dynamic-content.js';
 
 function initServiceCardVideos() {
+  const isMobile = window.innerWidth <= 768;
   const cards = document.querySelectorAll('.service-card');
+  
+  if (isMobile) {
+    cards.forEach(card => {
+      const video = card.querySelector('.service-card__video');
+      if (video) {
+        video.remove();
+      }
+    });
+    return;
+  }
+
   cards.forEach(card => {
     const video = card.querySelector('.service-card__video');
     if (!video) return;
