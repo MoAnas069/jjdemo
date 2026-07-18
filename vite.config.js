@@ -15,6 +15,8 @@ export default defineConfig({
         hero: resolve(__dirname, 'hero.html'),
         'sold-portfolio': resolve(__dirname, 'sold-portfolio.html'),
         backroom: resolve(__dirname, 'backroom.html'),
+        privacy: resolve(__dirname, 'privacy.html'),
+        terms: resolve(__dirname, 'terms.html'),
       },
     },
   },
