@@ -1141,7 +1141,15 @@ export async function openListingDetailModal(id) {
               <input type="tel" id="pi-phone" placeholder="Phone Number" />
             </div>
             <textarea id="pi-message" rows="3" placeholder="Message ...">I am interested in scheduling a private showing for ${data.title}. Please contact me to coordinate.</textarea>
-            <button type="submit" id="pi-submit">Send Inquiry</button>
+            <div class="form-group form-group--consent" style="margin-top: 14px; text-align: left;">
+              <label class="consent-checkbox-label" style="display: flex; gap: 10px; align-items: flex-start; cursor: pointer;">
+                <input type="checkbox" id="pi-consent-checkbox" name="consent" required style="margin-top: 4px;" />
+                <span class="consent-text" style="font-size: 0.8rem; color: #a39e95; line-height: 1.45;">
+                  By checking this box, you agree to receive text messages related to real estate updates and customer care from Texas Gold Realty. Reply STOP to opt out anytime. Text HELP to <a href="tel:+17138255281" style="color: var(--gold); text-decoration: underline;">(713) 825-5281</a> for support. Message/data rates may apply. Frequency may vary. View our <a href="/privacy.html" style="color: var(--gold); text-decoration: underline;">Privacy Policy</a> and <a href="/sms-terms.html" style="color: var(--gold); text-decoration: underline;">SMS Terms &amp; Conditions</a> for details.
+                </span>
+              </label>
+            </div>
+            <button type="submit" id="pi-submit" style="margin-top: 14px;">Send Inquiry</button>
           </form>
         </div>
       </div>
@@ -1414,7 +1422,15 @@ export async function openCommunityDetailModal(idOrSlug) {
               <input type="tel" id="ci-phone" placeholder="Phone Number" />
             </div>
             <textarea id="ci-message" rows="3" placeholder="Message ...">I am interested in learning more about the ${community.name} community. Please contact me with details.</textarea>
-            <button type="submit" id="ci-submit">Send Inquiry</button>
+            <div class="form-group form-group--consent" style="margin-top: 14px; text-align: left;">
+              <label class="consent-checkbox-label" style="display: flex; gap: 10px; align-items: flex-start; cursor: pointer;">
+                <input type="checkbox" id="ci-consent-checkbox" name="consent" required style="margin-top: 4px;" />
+                <span class="consent-text" style="font-size: 0.8rem; color: #a39e95; line-height: 1.45;">
+                  By checking this box, you agree to receive text messages related to real estate updates and customer care from Texas Gold Realty. Reply STOP to opt out anytime. Text HELP to <a href="tel:+17138255281" style="color: var(--gold); text-decoration: underline;">(713) 825-5281</a> for support. Message/data rates may apply. Frequency may vary. View our <a href="/privacy.html" style="color: var(--gold); text-decoration: underline;">Privacy Policy</a> and <a href="/sms-terms.html" style="color: var(--gold); text-decoration: underline;">SMS Terms &amp; Conditions</a> for details.
+                </span>
+              </label>
+            </div>
+            <button type="submit" id="ci-submit" style="margin-top: 14px;">Send Inquiry</button>
           </form>
         </div>
       </div>

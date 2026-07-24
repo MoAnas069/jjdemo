@@ -17,6 +17,7 @@ export default defineConfig({
         backroom: resolve(__dirname, 'backroom.html'),
         privacy: resolve(__dirname, 'privacy.html'),
         terms: resolve(__dirname, 'terms.html'),
+        'sms-terms': resolve(__dirname, 'sms-terms.html'),
       },
     },
   },
